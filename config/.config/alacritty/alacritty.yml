@@ -1,0 +1,77 @@
+# Alacritty Configuration
+window:
+  # Window dimensions
+  dimensions:
+    columns: 60
+    lines: 30
+  
+  # Minimal padding like GNOME Console
+  padding:
+    x: 6
+    y: 6
+  
+  # Window opacity (0.0 - 1.0)
+  opacity: 0.95
+  
+  # Window decorations
+  decorations: none
+
+# Font configuration
+font:
+  normal:
+    family: "Ubuntu Mono"
+    style: Regular
+  bold:
+    family: "Ubuntu Mono"
+    style: Bold
+  italic:
+    family: "Ubuntu Mono"
+    style: Italic
+  
+  # Font size
+  size: 12.5
+  
+  # Better line spacing
+  offset:
+    x: 0
+    y: 1
+
+# Colors (Nord-inspired stylish theme with soft blue/cyan)
+colors:
+  primary:
+    background: '#0d1117'
+    foreground: '#a7c7e7'  # Changed from white to soft blue
+  
+  normal:
+    black:   '#0d1117'
+    red:     '#ff7b72'
+    green:   '#7dd3fc'     # Changed from bright green to soft cyan
+    yellow:  '#d29922'
+    blue:    '#7A6FED'
+    magenta: '#bc8cff'
+    cyan:    '#39c5cf'
+    white:   '#a7c7e7'     # Changed to soft blue
+  
+  bright:
+    black:   '#0d1117'
+    red:     '#ffa198'
+    green:   '#93c5fd'     # Changed from bright green to soft blue
+    yellow:  '#e3b341'
+    blue:    '#7A6FED'
+    magenta: '#d2a8ff'
+    cyan:    '#56d4dd'
+    white:   '#dbeafe'     # Changed to very soft blue
+
+# Key bindings
+key_bindings:
+  - { key: V, mods: Control|Shift, action: Paste }
+  - { key: C, mods: Control|Shift, action: Copy }
+  - { key: Plus, mods: Control, action: IncreaseFontSize }
+  - { key: Minus, mods: Control, action: DecreaseFontSize }
+  - { key: Key0, mods: Control, action: ResetFontSize }
+
+# Shell
+shell:
+  program: /bin/bash
+  args:
+    - --login
