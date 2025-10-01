@@ -40,24 +40,24 @@ strip_dot() {
 find_in_filesystem() {
     local name="$1"
     local stripped=$(strip_dot "$name")
-    
-    # Check .config first (without dot)
-    if [[ -e "$HOME/.config/$stripped" ]]; then
+
+    # Check .config first (without dot) - include broken symlinks
+    if [[ -e "$HOME/.config/$stripped" ]] || [[ -L "$HOME/.config/$stripped" ]]; then
         echo "config:$stripped"
         return
     fi
-    
-    # Check home (try with original name, then stripped)
-    if [[ -e "$HOME/$name" ]]; then
+
+    # Check home (try with original name, then stripped) - include broken symlinks
+    if [[ -e "$HOME/$name" ]] || [[ -L "$HOME/$name" ]]; then
         echo "home:$name"
         return
     fi
-    
-    if [[ "$name" != "$stripped" ]] && [[ -e "$HOME/$stripped" ]]; then
+
+    if [[ "$name" != "$stripped" ]] && ([[ -e "$HOME/$stripped" ]] || [[ -L "$HOME/$stripped" ]]); then
         echo "home:$stripped"
         return
     fi
-    
+
     echo "none"
 }
 
@@ -278,45 +278,53 @@ cmd_link() {
     done
 }
 
-cmd_rm() {
+# Remove a single config (internal helper)
+rm_single() {
     local name="$1"
-    [[ -z "$name" ]] && error "Usage: dots rm <config-name>"
-    
+
     # Find in filesystem
     local location=$(find_in_filesystem "$name")
     [[ "$location" == "none" ]] && error "Config '$name' not found in ~/.config or ~/"
-    
+
     local type="${location%%:*}"
     local found_name="${location##*:}"
     local target_path
-    
+
     if [[ "$type" == "config" ]]; then
         target_path="$HOME/.config/$found_name"
     else
         target_path="$HOME/$found_name"
     fi
-    
+
     # If it's a symlink, just remove it (no trash needed)
     if [[ -L "$target_path" ]]; then
-        info "Removing symlink $target_path"
         rm "$target_path"
         success "Removed symlink $found_name"
         return
     fi
-    
+
     # It's a real file/folder - move to trash for safety
     mkdir -p "$TRASH"
-    
+
     # Generate unique trash name if needed
     local trash_path="$TRASH/$found_name"
     if [[ -e "$trash_path" ]]; then
         trash_path="$TRASH/${found_name}.$(date +%s)"
     fi
-    
+
     info "Moving $target_path → $trash_path"
     mv "$target_path" "$trash_path"
-    
+
     success "Moved $found_name to trash"
+}
+
+cmd_rm() {
+    [[ -z "$1" ]] && error "Usage: dots rm <config-name> [<config-name>...]"
+
+    # Batch mode: remove multiple configs
+    for name in "$@"; do
+        rm_single "$name"
+    done
 }
 
 # Unlink a single config (internal helper)
@@ -369,11 +377,22 @@ cmd_unlink() {
             local name=$(basename "$config_path")
             local target="$HOME/.config/$name"
 
-            # Only unlink if it's a symlink pointing to dots
-            if [[ -L "$target" ]] && [[ "$(readlink "$target")" == "$config_path" ]]; then
-                rm "$target"
-                echo -e "${PURPLE}  Unlinked $name${NC}"
-                ((unlinked++)) || true
+            # Unlink if it's a symlink pointing to dots or if it's broken
+            if [[ -L "$target" ]]; then
+                if [[ "$(readlink "$target")" == "$config_path" ]]; then
+                    # Points to dots - remove it
+                    rm "$target"
+                    echo -e "${PURPLE}  Unlinked $name${NC}"
+                    ((unlinked++)) || true
+                elif [[ ! -e "$target" ]]; then
+                    # Broken symlink - remove it
+                    rm "$target"
+                    echo -e "${PURPLE}  Unlinked $name (broken)${NC}"
+                    ((unlinked++)) || true
+                else
+                    # Symlink pointing elsewhere - skip
+                    ((skipped++)) || true
+                fi
             else
                 ((skipped++)) || true
             fi
@@ -385,11 +404,22 @@ cmd_unlink() {
             local name=$(basename "$home_path")
             local target="$HOME/$name"
 
-            # Only unlink if it's a symlink pointing to dots
-            if [[ -L "$target" ]] && [[ "$(readlink "$target")" == "$home_path" ]]; then
-                rm "$target"
-                echo -e "${PURPLE}  Unlinked $name${NC}"
-                ((unlinked++)) || true
+            # Unlink if it's a symlink pointing to dots or if it's broken
+            if [[ -L "$target" ]]; then
+                if [[ "$(readlink "$target")" == "$home_path" ]]; then
+                    # Points to dots - remove it
+                    rm "$target"
+                    echo -e "${PURPLE}  Unlinked $name${NC}"
+                    ((unlinked++)) || true
+                elif [[ ! -e "$target" ]]; then
+                    # Broken symlink - remove it
+                    rm "$target"
+                    echo -e "${PURPLE}  Unlinked $name (broken)${NC}"
+                    ((unlinked++)) || true
+                else
+                    # Symlink pointing elsewhere - skip
+                    ((skipped++)) || true
+                fi
             else
                 ((skipped++)) || true
             fi
@@ -421,43 +451,39 @@ cmd_sync() {
 cmd_status() {
     check_dotfiles_repo
 
-    
-    echo "(~/.config):"
     for config_path in "$DOTFILES/config"/*; do
         [[ -e "$config_path" ]] || continue
         local name=$(basename "$config_path")
         local target="$HOME/.config/$name"
-        
+
         if [[ -L "$target" ]] && [[ "$(readlink "$target")" == "$config_path" ]]; then
-            echo -e "  ${GREEN}✓ $name${NC}"
+            echo -e "${GREEN}✓ $name${NC}"
         elif [[ -L "$target" ]]; then
-            echo -e "  ${YELLOW}! $name${NC}"
+            echo -e "${YELLOW}! $name${NC}"
         elif [[ -d "$target" ]]; then
-            echo -e "  ${YELLOW}! $name ${YELLOW}[DIR]${NC} (directory exists, not linked)"
+            echo -e "${YELLOW}! $name ${YELLOW}[DIR]${NC} (directory exists, not linked)"
         elif [[ -f "$target" ]]; then
-            echo -e "  ${YELLOW}! $name ${YELLOW}[FILE]${NC} (file exists, not linked)"
+            echo -e "${YELLOW}! $name ${YELLOW}[FILE]${NC} (file exists, not linked)"
         else
-            echo -e "  ${PURPLE}✗ $name${NC}"
+            echo -e "${PURPLE}✗ $name${NC}"
         fi
     done
-    
-    echo ""
-    echo "(~):"
+
     for home_path in "$DOTFILES/home"/*; do
         [[ -e "$home_path" ]] || continue
         local name=$(basename "$home_path")
         local target="$HOME/$name"
-        
+
         if [[ -L "$target" ]] && [[ "$(readlink "$target")" == "$home_path" ]]; then
-            echo -e "  ${GREEN}✓ $name ${NC}"
+            echo -e "${GREEN}✓ $name${NC}"
         elif [[ -L "$target" ]]; then
-            echo -e "  ${YELLOW}! $name ${NC}"
+            echo -e "${YELLOW}! $name${NC}"
         elif [[ -d "$target" ]]; then
-            echo -e "  ${YELLOW}! $name →[DIR]${NC} (directory exists, not linked)"
+            echo -e "${YELLOW}! $name [DIR]${NC} (directory exists, not linked)"
         elif [[ -f "$target" ]]; then
-            echo -e "  ${YELLOW}! $name →[FILE]${NC} (file exists, not linked)"
+            echo -e "${YELLOW}! $name [FILE]${NC} (file exists, not linked)"
         else
-            echo -e "  ${PURPLE}✗ $name${NC}"
+            echo -e "${PURPLE}✗ $name${NC}"
         fi
     done
 }
@@ -495,7 +521,7 @@ case "$1" in
     snatch) cmd_snatch "$2" ;;
     link) shift; cmd_link "$@" ;;
     unlink) shift; cmd_unlink "$@" ;;
-    rm) cmd_rm "$2" ;;
+    rm) shift; cmd_rm "$@" ;;
     sync) cmd_sync ;;
     status) cmd_status ;;
     help|--help|-h|"") cmd_help ;;
