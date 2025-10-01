@@ -16,7 +16,7 @@ PURPLE='\033[0;35m'
 NC='\033[0m'
 
 error() { echo -e "${RED}Error: $1${NC}" >&2; exit 1; }
-success() { echo -e "${GREEN}✓ $1${NC}"; }
+success() { echo -e "${GREEN}→ $1${NC}"; }
 warn() { echo -e "${YELLOW}! $1${NC}"; }
 info() { echo -e "${BLUE}→ $1${NC}"; }
 
@@ -125,22 +125,19 @@ cmd_snatch() {
     
     # Determine destination in dotfiles
     local dest_path="$DOTFILES/$type/$found_name"
-    
-    info "Snatching $source_path → $dest_path"
-    
+
     # Move to dotfiles
     mv "$source_path" "$dest_path"
-    
+
     # Create symlink
     ln -s "$dest_path" "$source_path"
-    
+
     # Auto-commit
     cd "$DOTFILES"
-    git add "$dest_path"
-    git commit -m "snatch: add $found_name"
-    
-    success "Snatched $found_name and created symlink"
-    warn "Don't forget to 'git push' from $DOTFILES"
+    git add "$dest_path" >/dev/null 2>&1
+    git commit -m "snatch: add $found_name" >/dev/null 2>&1
+
+    info "snatched $found_name"
 }
 
 # Link a single config (internal helper)
@@ -327,6 +324,72 @@ cmd_rm() {
     done
 }
 
+# Eject a single config (internal helper)
+eject_single() {
+    local name="$1"
+
+    # Block ejecting bash
+    local stripped=$(strip_dot "$name")
+    [[ "$stripped" == "bash" ]] && error "Cannot eject bash - it's your system bootstrap"
+
+    # Find in dotfiles repo
+    local dots_location=$(find_in_dotfiles "$name")
+    [[ "$dots_location" == "none" ]] && error "'$name' not found in dots repo"
+
+    local type="${dots_location%%:*}"
+    local found_name="${dots_location##*:}"
+    local dots_path="$DOTFILES/$type/$found_name"
+
+    # Determine target path
+    local target_path
+    if [[ "$type" == "config" ]]; then
+        target_path="$HOME/.config/$found_name"
+    else
+        target_path="$HOME/$found_name"
+    fi
+
+    # If symlink exists pointing to dots, remove it
+    if [[ -L "$target_path" ]]; then
+        local link_target=$(readlink "$target_path")
+        if [[ "$link_target" == "$dots_path" ]]; then
+            rm "$target_path"
+        else
+            warn "Symlink exists but doesn't point to dots - leaving it alone"
+        fi
+    fi
+
+    # Check if target already has a real file/dir (conflict)
+    if [[ -e "$target_path" ]]; then
+        local file_type="file"
+        [[ -d "$target_path" ]] && file_type="directory"
+        error "Target '$target_path' already exists as a $file_type\nCannot eject - conflict at destination"
+    fi
+
+    # Create parent directory if needed
+    mkdir -p "$(dirname "$target_path")"
+
+    # Move from dots to target location
+    mv "$dots_path" "$target_path"
+
+    # Remove from git and commit
+    cd "$DOTFILES"
+    git rm -r "$type/$found_name" >/dev/null 2>&1
+    git commit -m "eject: remove $found_name" >/dev/null 2>&1
+
+    echo -e "${PURPLE}→ ejected $found_name${NC}"
+}
+
+cmd_eject() {
+    [[ -z "$1" ]] && error "Usage: dots eject <config-name> [<config-name>...]"
+
+    check_dotfiles_repo
+
+    # Batch mode: eject multiple configs
+    for name in "$@"; do
+        eject_single "$name"
+    done
+}
+
 # Unlink a single config (internal helper)
 unlink_single() {
     local name="$1"
@@ -359,7 +422,7 @@ unlink_single() {
 
     # Safe to remove
     rm "$target_path"
-    echo -e "${PURPLE}✓ Unlinked $found_name${NC}"
+    echo -e "${PURPLE}→ Unlinked $found_name${NC}"
 }
 
 cmd_unlink() {
@@ -382,12 +445,12 @@ cmd_unlink() {
                 if [[ "$(readlink "$target")" == "$config_path" ]]; then
                     # Points to dots - remove it
                     rm "$target"
-                    echo -e "${PURPLE}  Unlinked $name${NC}"
+                    echo -e "${PURPLE}  → Unlinked $name${NC}"
                     ((unlinked++)) || true
                 elif [[ ! -e "$target" ]]; then
                     # Broken symlink - remove it
                     rm "$target"
-                    echo -e "${PURPLE}  Unlinked $name (broken)${NC}"
+                    echo -e "${PURPLE}  → Unlinked $name (broken)${NC}"
                     ((unlinked++)) || true
                 else
                     # Symlink pointing elsewhere - skip
@@ -409,12 +472,12 @@ cmd_unlink() {
                 if [[ "$(readlink "$target")" == "$home_path" ]]; then
                     # Points to dots - remove it
                     rm "$target"
-                    echo -e "${PURPLE}  Unlinked $name${NC}"
+                    echo -e "${PURPLE}  → Unlinked $name${NC}"
                     ((unlinked++)) || true
                 elif [[ ! -e "$target" ]]; then
                     # Broken symlink - remove it
                     rm "$target"
-                    echo -e "${PURPLE}  Unlinked $name (broken)${NC}"
+                    echo -e "${PURPLE}  → Unlinked $name (broken)${NC}"
                     ((unlinked++)) || true
                 else
                     # Symlink pointing elsewhere - skip
@@ -425,7 +488,7 @@ cmd_unlink() {
             fi
         done
 
-        echo -e "${PURPLE}✓ Unlinked $unlinked configs ($skipped not linked or not symlinks)${NC}"
+        echo -e "${PURPLE}→ Unlinked $unlinked configs ($skipped not linked or not symlinks)${NC}"
         return
     fi
 
@@ -441,11 +504,23 @@ cmd_unlink() {
 cmd_sync() {
     check_dotfiles_repo
 
-    info "Pulling latest dots..."
     cd "$DOTFILES"
     git pull
 
-    success "Sync complete"
+    # Check for unpushed commits
+    if git rev-parse @{u} >/dev/null 2>&1; then
+        local unpushed=$(git rev-list @{u}..HEAD --count 2>/dev/null || echo "0")
+        if [[ "$unpushed" -gt 0 ]]; then
+            warn "You have $unpushed unpushed commit(s). Run 'dots push' to push them."
+        fi
+    fi
+}
+
+cmd_push() {
+    check_dotfiles_repo
+
+    cd "$DOTFILES"
+    git push
 }
 
 cmd_status() {
@@ -498,8 +573,10 @@ Usage:
   dots link -A|--all               Link all configs from dots
   dots unlink <config> [configs]   Remove symlink(s) to dots (strict)
   dots unlink -A|--all             Remove all symlinks to dots
+  dots eject <config> [configs]    Remove config(s) from dots, restore to system
   dots rm <config>                 Remove config/link (moves to trash)
-  dots sync                        Pull latest and verify all symlinks
+  dots sync|pull                   Pull latest and check for unpushed commits
+  dots push                        Push commits to remote
   dots status                      Show what's linked and what's not
   dots help                        Show this help
 
@@ -511,6 +588,8 @@ Examples:
   dots link -A                     Link all configs from dots repo
   dots unlink kitty                Remove symlink (only if points to dots)
   dots unlink -A                   Remove all symlinks pointing to dots
+  dots eject nvim                  Move config out of dots, untrack from git
+  dots eject kitty ranger micro    Eject multiple configs at once
   dots rm nvim                     Remove ~/.config/nvim (move to trash)
 
 Repository: $DOTFILES
@@ -521,8 +600,10 @@ case "$1" in
     snatch) cmd_snatch "$2" ;;
     link) shift; cmd_link "$@" ;;
     unlink) shift; cmd_unlink "$@" ;;
+    eject) shift; cmd_eject "$@" ;;
     rm) shift; cmd_rm "$@" ;;
-    sync) cmd_sync ;;
+    sync|pull) cmd_sync ;;
+    push) cmd_push ;;
     status) cmd_status ;;
     help|--help|-h|"") cmd_help ;;
     *) error "Unknown command: $1\nRun 'dots help' for usage" ;;
