@@ -1,0 +1,78 @@
+[/]
+edge-preview-scale=0.10000000000000001
+horizontal-margin=20
+minimap-scale=0.0
+restore-attach-modal-dialogs='false'
+restore-edge-tiling='false'
+restore-keybinds='{"toggle-tiled-left":{"bind":"[\\"<Primary><Super>Left\\",\\"<Primary><Super>KP_Left\\",\\"<Primary><Super>h\\"]","schema_id":"org.gnome.mutter.keybindings"},"switch-applications":{"bind":"[\\"<Super>Tab\\",\\"<Alt>Tab\\"]","schema_id":"org.gnome.desktop.wm.keybindings"},"switch-applications-backward":{"bind":"[\\"<Shift><Super>Tab\\",\\"<Shift><Alt>Tab\\"]","schema_id":"org.gnome.desktop.wm.keybindings"},"switch-to-workspace-1":{"bind":"[\\"<Super>Home\\"]","schema_id":"org.gnome.desktop.wm.keybindings"},"close":{"bind":"[\\"<Super>q\\"]","schema_id":"org.gnome.desktop.wm.keybindings"},"switch-group-backward":{"bind":"[\\"<Shift><Super>Above_Tab\\",\\"<Shift><Alt>Above_Tab\\"]","schema_id":"org.gnome.desktop.wm.keybindings"},"screensaver":{"bind":"[\\"<Super>Escape\\"]","schema_id":"org.gnome.settings-daemon.plugins.media-keys"}}'
+restore-workspaces-only-on-primary='false'
+show-window-position-bar=false
+swipe-friction=[0.0, 0.0]
+swipe-sensitivity=[0.0, 0.0]
+use-default-background=true
+vertical-margin=0
+vertical-margin-bottom=10
+window-gap=8
+
+[keybindings]
+close-window=['<Super>q']
+move-down=['<Shift><Super>Down', '<Shift><Super>j']
+move-left=['<Control><Super>comma', '<Shift><Super>comma', '<Shift><Super>Left', '<Shift><Super>h']
+move-monitor-left=['<Control><Alt><Super>h']
+move-monitor-right=['<Control><Alt><Super>l']
+move-right=['<Control><Super>period', '<Shift><Super>period', '<Shift><Super>Right', '<Shift><Super>l']
+move-up=['<Shift><Super>Up', '<Shift><Super>k']
+new-window=['<Super>n']
+previous-workspace=['<Super>apostrophe', '<Alt>Tab']
+resize-h-dec=['<Control><Super>Down', '<Control><Super>j']
+resize-h-inc=['<Control><Super>Up', '<Control><Super>k']
+resize-w-dec=['<Control><Super>Left', '<Control><Super>h']
+resize-w-inc=['<Control><Super>Right', '<Control><Super>l']
+swap-monitor-left=['']
+swap-monitor-right=['']
+switch-down=['']
+switch-down-workspace=['<Super>Page_Down', '<Shift><Alt>j']
+switch-left=['']
+switch-monitor-above=['<Alt><Super>k']
+switch-monitor-below=['<Alt><Super>j']
+switch-monitor-left=['<Alt><Super>h']
+switch-monitor-right=['<Alt><Super>l']
+switch-right=['']
+switch-up=['']
+switch-up-workspace=['<Super>Page_Up', '<Shift><Alt>k']
+toggle-maximize-width=['']
+
+[workspaces]
+list=['d4fc4e3f-7f0d-4733-a525-7e435e65a36b', 'eb768341-4634-45da-93c4-2cc8cf0ad672', '1c66067f-16a9-48c4-9f53-1119fad43b9e', '653b4ae7-3612-4eeb-944d-a30130b4f811', '1773045a-176f-4ced-82a3-91fb47282d85', 'e929863c-8280-427a-8c07-2c617996c85d', 'fd1d3dd0-0e88-4afa-a96b-18a9accbb26a', 'aae3c56f-81f0-47fb-aeaf-975417f4d009']
+
+[workspaces/1773045a-176f-4ced-82a3-91fb47282d85]
+index=3
+name='5'
+
+[workspaces/1c66067f-16a9-48c4-9f53-1119fad43b9e]
+index=6
+name='6'
+show-top-bar=true
+
+[workspaces/653b4ae7-3612-4eeb-944d-a30130b4f811]
+index=5
+name='4'
+
+[workspaces/aae3c56f-81f0-47fb-aeaf-975417f4d009]
+index=7
+
+[workspaces/d4fc4e3f-7f0d-4733-a525-7e435e65a36b]
+index=0
+name='1'
+show-top-bar=true
+
+[workspaces/e929863c-8280-427a-8c07-2c617996c85d]
+index=2
+
+[workspaces/eb768341-4634-45da-93c4-2cc8cf0ad672]
+index=1
+name='2'
+
+[workspaces/fd1d3dd0-0e88-4afa-a96b-18a9accbb26a]
+index=4
+name='Workspace 5'
