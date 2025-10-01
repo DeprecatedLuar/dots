@@ -1,0 +1,91 @@
+# Kanata Configuration Notes
+
+## Essential Syntax Rules
+- Uses S-expression syntax (Lisp-like) with parentheses ()
+- Comments: ;; for line comments, #| |# for block comments
+- Whitespace flexible (spaces, tabs, newlines don't affect parsing)
+
+## Required Configuration Entries
+1. defsrc - Defines which keys Kanata processes (must match deflayer order)
+2. deflayer - Defines key mappings for each layer (first layer = default)
+
+## Key Special Symbols
+- _ (underscore) = transparent key (pass through to underlying layer)
+- XX = no-op key (do nothing)
+- @ = alias reference (e.g., @caps-to-vim)
+
+## Emergency Exit
+Hold: LCtrl + Escape + Space to kill Kanata immediately
+
+## Layer System
+- layer-switch: permanently switch to layer
+- layer-toggle: temporarily activate layer while held
+- First defined deflayer becomes the default starting layer
+
+## Tap-Hold Actions
+Format: (tap-hold tap-time hold-time tap-action hold-action)
+- tap-time: how long before considering it a hold (ms)
+- hold-time: minimum hold duration (ms)
+Common times: 200ms tap, 200ms hold
+
+## Modifier Naming
+- C- = Ctrl
+- S- = Shift  
+- A- = Alt
+- M- = Meta/Win
+
+## Common Key Names
+- spc = spacebar
+- ret = enter
+- bspc = backspace
+- caps = caps lock
+- grv = grave/backtick
+- lctl/rctl = left/right control
+- lsft/rsft = left/right shift
+- lmet/rmet = left/right meta/windows key
+
+## Mouse Support
+- Mouse buttons: mlft, mrgt, mmid (left, right, middle)
+- Mouse wheel: mwu, mwd, mwl, mwr (up, down, left, right)
+- CRITICAL WARNING: Adding mouse buttons to defsrc can cause mouse pointer freezing!
+- Solution: Use linux-device-detect-mode keyboard-only in defcfg
+- Alternative: Use specific device targeting with linux-dev parameter
+
+## Device Detection Settings
+- linux-device-detect-mode keyboard-only = Only grab keyboard devices (recommended)
+- linux-device-detect-mode all = Grab all devices (can cause mouse issues)
+- linux-dev /dev/input/eventX = Target specific device only
+
+## Safety Tips
+- Always backup working configurations
+- Test changes incrementally
+- Use the online Kanata simulator before deploying
+- Keep known-good config as fallback
+- Kanata runs as root - be security conscious
+- NEVER add mouse buttons to defsrc without keyboard-only detection mode
+
+## Configuration Order Matters
+1. defcfg (optional global settings)
+2. defsrc (required - key layout)
+3. defvar (optional variables)
+4. defalias (optional aliases)
+5. deflayer (required - at least one)
+6. defchords (optional chords/combos)
+
+## Your Current Config Features
+- Caps lock as vim-mode layer switch
+- Sophisticated vim navigation on hjkl
+- Shift layer for extended vim commands
+- Visual mode with V toggle (double-tap to exit)
+- I key exits vim-mode to insert mode
+- Y copies (Ctrl+C), X cuts (Ctrl+X)
+- All unmapped keys disabled in vim-mode (XX)
+- Super key as emergency exit mechanism
+- Multi-layer system with transparent keys
+- Keyboard-only device detection to prevent mouse issues
+
+## Process Management
+- Not a background service (runs in terminal)
+- process-unmapped-keys yes = handle all keys
+- log-layer-changes yes = debugging layer switches
+- Restart with: sudo systemctl restart kanata (if running as service)

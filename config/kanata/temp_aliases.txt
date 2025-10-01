@@ -1,0 +1,21 @@
+(defalias
+  caps-to-vim (layer-switch vim-mode)
+  caps-to-default (layer-switch default)
+  shift-toggle (layer-switch vim-shift)
+  super-exit (on-press (layer-switch default) lmet)
+  vim-x C-x
+  vim-d bspc
+  
+  ;; Letters that auto-return to vim-mode after typing
+  sq (multi S-q (layer-switch vim-mode))  sw (multi S-w (layer-switch vim-mode))
+  se (multi S-e (layer-switch vim-mode))  sr (multi S-r (layer-switch vim-mode))
+  st (multi S-t (layer-switch vim-mode))  sy (multi S-y (layer-switch vim-mode))
+  su (multi S-u (layer-switch vim-mode))  si (multi S-i (layer-switch vim-mode))
+  so (multi S-o (layer-switch vim-mode))  sp (multi S-p (layer-switch vim-mode))
+  sa (multi S-a (layer-switch vim-mode))  ss (multi S-s (layer-switch vim-mode))
+  sd (multi S-d (layer-switch vim-mode))  sf (multi S-f (layer-switch vim-mode))
+  sg (multi S-g (layer-switch vim-mode))  sz (multi S-z (layer-switch vim-mode))
+  sx (multi S-x (layer-switch vim-mode))  sc (multi S-c (layer-switch vim-mode))
+  sb (multi S-b (layer-switch vim-mode))  sn (multi S-n (layer-switch vim-mode))
+  sm (multi S-m (layer-switch vim-mode))
+)
