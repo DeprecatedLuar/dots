@@ -43,6 +43,9 @@
   cap (tap-hold-press $Tt $Ht (tap-dance $Ht (@vimn @escaps)) @meta) ;; Caps Lock: single tap for vim-normal, double tap for escape, hold for meta-layer
   pac (tap-hold-press $Tt $Ht (tap-dance $Ht (@def @escaps))  @meta)
 
+  ;; Modifier layer access
+  a^ (tap-hold 100 300 a (layer-while-held modleft))
+  ;^ (tap-hold 100 300 ; (layer-while-held modright))
 
   ctrl-exit (multi lctl @def)
 
@@ -61,42 +64,55 @@
 
   fnd (macro C-f 10 (on-press tap-vkey def))
 
+  ;; Operators switch to their layer
+  d (layer-switch delete-ops)
+  y (layer-switch yank-ops)
+  g (layer-switch g-ops)
 
-  ;; Shift layer auto-return commands
-  Q (multi S-q @vimn)  W (multi S-w @vimn)
-  E (multi S-e @vimn)  R (multi S-r @vimn)
-  T (multi S-t @vimn)  Y (multi S-y @vimn)
-  U (multi S-u @vimn)  I (multi S-i @vimn)
-  O (multi S-o @vimn)  P (multi S-p @vimn)
-  A (multi S-a @vimn)  S (multi S-s @vimn)
-  D (multi S-d @vimn)  F (multi S-f @vimn)
-  G (multi S-g @vimn)
-  Z (multi S-z @vimn)  C (multi S-c @vimn)
-  B (multi S-b @vimn)  N (multi S-n @vimn)
-  M (multi S-m @vimn)
+  ;; Delete operations (execute + return to vim-normal)
+  dw (macro C-S-right bspc (on-press tap-vkey vimk))
+  db (macro C-S-left bspc (on-press tap-vkey vimk))
+  dd (macro home S-end del bspc (on-press tap-vkey vimk))
+  d$ (macro S-end del (on-press tap-vkey vimk))
+
+  ;; Yank operations (execute + return to vim-normal)
+  yw (macro C-S-right C-c left (on-press tap-vkey vimk))
+  yb (macro C-S-left C-c right (on-press tap-vkey vimk))
+  yy (macro home S-end C-c left (on-press tap-vkey vimk))
+
+  ;; G operations (execute + return to vim-normal)
+  gg C-home
+
+  ;; Escape from ops layers
+  ops-esc (layer-switch vim-normal)
+
+  D (macro S-end del)
+
+
+ 
 )
 
 ;; ============ LAYERS ============
 (deflayer default
   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
-  @cap a    s    d    f    g    h    j    k    l    ;    '    ret
+  @cap @a^  s    d    f    g    h    j    k    l    @;^  '    ret
   lsft @intl-double-ctrl z    x    c    v    b    n    m    ,    .    /    rsft
   lctl @super-exit lalt           spc            ralt @super-exit rctl
 )
 
 (deflayer vim-normal
-  XX   1    2    3    4    5    6    7    8    9    0    XX   XX   bspc
-  XX   XX   C-right XX   XX   XX   C-c  C-z  @insert-exit XX   C-v  [    ]    XX
-  @pac XX   XX   C-x  @D   XX   left down up right XX   '    ret
-  @vsft @intl-double-ctrl XX   del  XX   @vis XX   XX   XX   XX   XX   @fnd  @vsft
+  XX   1    2    3    XX   5    6    7    8    9    0    XX   XX   bspc
+  XX   XX   C-right XX   XX   XX   @y  C-z  @insert-exit XX   C-v  [    ]    XX
+  @pac XX   XX   @d  XX   @g   left down up right XX   '    ret
+  @vsft @intl-double-ctrl XX   del  XX   @vis C-left   C-g  XX   XX   XX   @fnd  @vsft
   @ctrl-exit @super-exit lalt           spc            ralt @super-exit @ctrl-exit
 )
 
 (deflayer vim-shifted
+  XX   XX   XX   XX   end  XX   XX   XX   XX   XX   XX   XX   XX   XX
   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
-  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
-  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   @D   XX   C-end   XX   XX   XX   XX   XX   XX   XX
   _    XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   _
   XX   XX   XX              XX              XX   XX   XX
 )
@@ -123,4 +139,44 @@
   _    a  lalt lsft lctl    g    left down up   right ;    '    ret
   lsft @intl-double-ctrl z    x    c    v    b    n    m    ,    .    /    rsft
   lctl _    lalt           spc            ralt _    rctl
+)
+
+(deflayer modleft
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    lalt lsft lctl _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _              _              _    _    _
+)
+
+(deflayer modright
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _   lctl lsft lalt  _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _              _              _    _    _
+)
+
+(deflayer delete-ops
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   @dw  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  @ops-esc XX   XX   @dd  XX   XX   XX   XX   XX   XX   @d$  XX   XX
+  XX   XX   XX   XX   XX   @db  XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX              XX              XX   XX   XX
+)
+
+(deflayer yank-ops
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   @yw  XX   XX   XX   @yy  XX   XX   XX   XX   XX   XX   XX
+  @ops-esc XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   @yb  XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX              XX              XX   XX   XX
+)
+
+(deflayer g-ops
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  @ops-esc XX   XX   XX   XX   @gg  XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX              XX              XX   XX   XX
 )
