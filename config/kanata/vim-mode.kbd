@@ -1,25 +1,10 @@
-;; ============================================================================
-;; KANATA VIM MODE CONFIGURATION
-;; ============================================================================
-;; Advanced vim-like keyboard remapping with multiple layers
-;; 
-;; Features:
-;; - Caps Lock: tap=vim-mode, hold=super key
-;; - Vim navigation on hjkl (arrow keys)
-;; - Visual mode with V toggle
-;; - Copy/cut functionality (Y/X)
-;; - Shift layer for extended commands
-;; - All unmapped keys disabled in vim-mode
-;; ============================================================================
-
-;; ============ GLOBAL CONFIGURATION ============
 (defcfg
   process-unmapped-keys yes
   log-layer-changes no
   linux-device-detect-mode keyboard-only
 )
 
-;; ============ SOURCE KEY LAYOUT ============
+;; ============ SOURCE ============
 (defsrc
   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
@@ -28,120 +13,114 @@
   lctl lmet lalt           spc            ralt rmet rctl
 )
 
-;; ============ LAYER DEFINITIONS ============
+;; ============ VARIABLES ============
+(defvar
+  Tt 200 ;; tap time
+  Ht 200 ;; hold time
+)
 
-;; ------------ DEFAULT LAYER ------------
-;; Normal typing mode with caps lock as vim entry point
+;; ============ FAKE KEYS ============
+(deffakekeys
+  vshift lsft  ;; Virtual key to hold shift
+  vimk (layer-switch vim-normal)
+  def  (layer-switch default)
+  metl (multi lmet (layer-while-held meta-layer))
+  safety (macro (on-press release-vkey vshift) 10)
+  
+)
+
+;; ============ ALIASES ============
+(defalias
+  ;; International key (102d): tap = one-shot ctrl, hold = ctrl
+  intl-double-ctrl (tap-hold $Tt $Ht (one-shot 2000 lctl) lctl)
+
+  vimn (layer-switch vim-normal)
+  def (layer-switch default)
+  escaps (layer-switch escape)
+  meta (multi (on-press tap-vkey safety) (on-release tap-vkey def) lmet (layer-while-held meta-layer))
+  vsft (layer-while-held vim-shifted)
+
+  cap (tap-hold-press $Tt $Ht (tap-dance $Ht (@vimn @escaps)) @meta) ;; Caps Lock: single tap for vim-normal, double tap for escape, hold for meta-layer
+  pac (tap-hold-press $Tt $Ht (tap-dance $Ht (@def @escaps))  @meta)
+
+
+  ctrl-exit (multi lctl @def)
+
+
+  vis (multi (layer-switch visual-mode) (on-press press-vkey vshift))   ;; Visual mode: switch layer + hold shift
+
+
+  
+  vexit (macro (on-press tap-vkey vimk) 10 (on-press release-vkey vshift) 10 left)   ;; Exit visual mode: release shift + switch to vim-normal + press left   
+
+  insert-exit @def
+  super-exit (multi lmet @def)
+
+  vcp (macro (on-press release-vkey vshift) 10 C-c 10 (on-press tap-vkey vimk) left)
+  vcut (macro (on-press release-vkey vshift) 10 C-x 10 (on-press tap-vkey vimk))
+
+  fnd (macro C-f 10 (on-press tap-vkey def))
+
+
+  ;; Shift layer auto-return commands
+  Q (multi S-q @vimn)  W (multi S-w @vimn)
+  E (multi S-e @vimn)  R (multi S-r @vimn)
+  T (multi S-t @vimn)  Y (multi S-y @vimn)
+  U (multi S-u @vimn)  I (multi S-i @vimn)
+  O (multi S-o @vimn)  P (multi S-p @vimn)
+  A (multi S-a @vimn)  S (multi S-s @vimn)
+  D (multi S-d @vimn)  F (multi S-f @vimn)
+  G (multi S-g @vimn)
+  Z (multi S-z @vimn)  C (multi S-c @vimn)
+  B (multi S-b @vimn)  N (multi S-n @vimn)
+  M (multi S-m @vimn)
+)
+
+;; ============ LAYERS ============
 (deflayer default
   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
-  @caps-tap-hold a    s    @d-conditional    @f-conditional    g    h    j    k    l    ;    '    ret
+  @cap a    s    d    f    g    h    j    k    l    ;    '    ret
   lsft @intl-double-ctrl z    x    c    v    b    n    m    ,    .    /    rsft
   lctl @super-exit lalt           spc            ralt @super-exit rctl
 )
 
-;; ------------ VIM MODE LAYER ------------
-;; Navigation and vim commands, specific keys allowed for quick editing
-(deflayer vim-mode
+(deflayer vim-normal
   XX   1    2    3    4    5    6    7    8    9    0    XX   XX   bspc
   XX   XX   C-right XX   XX   XX   C-c  C-z  @insert-exit XX   C-v  [    ]    XX
-  @caps-to-default XX   XX   C-x  @d-conditional   XX   left down up right XX   '    ret
-  lsft @intl-double-ctrl XX   del  XX   @shift-toggle XX   XX   XX   XX   @vim-d XX   rsft
+  @pac XX   XX   C-x  @D   XX   left down up right XX   '    ret
+  @vsft @intl-double-ctrl XX   del  XX   @vis XX   XX   XX   XX   XX   @fnd  @vsft
   @ctrl-exit @super-exit lalt           spc            ralt @super-exit @ctrl-exit
 )
 
-;; ------------ VIM SHIFT LAYER ------------
-;; Extended vim commands with shift modifiers
-(deflayer vim-shift
-  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-  tab  @sq  S-C-right @se  @sr  @st  C-c  @su  @si  @so  @sp  [    ]    \
-  @caps-to-default @sa  @ss  @sd  @d-conditional  @sg  S-left S-down S-up S-right ;    '    ret
-  lsft @intl-double-ctrl @sz  @cut-exit @sc  @visual-toggle @sb  @sn  @sm  ,    @sd  /    rsft
-  @ctrl-exit @super-exit lalt           spc            ralt @super-exit @ctrl-exit
+(deflayer vim-shifted
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  _    XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   _
+  XX   XX   XX              XX              XX   XX   XX
 )
 
-;; ------------ VISUAL MODE LAYER ------------
-;; Visual selection mode with selection-aware commands
 (deflayer visual-mode
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   @vcp  XX   XX   XX   XX   XX   XX   XX
+  @pac XX   XX  @vcut XX   XX   S-left S-down S-up S-right XX   XX   ret
+  XX   XX   XX   XX   XX   @vexit XX   XX   XX   XX   XX   XX   XX
+  XX   @cap XX              XX              XX   @cap XX
+)
+
+(deflayer escape
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  @def _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _              _              _    _    _
+)
+
+(deflayer meta-layer
   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-  tab  q    S-C-right e    r    t    @copy-exit u    i    o    p    [    ]    \
-  @caps-to-default a    s    @visual-cut    @d-conditional    g    S-left S-down S-up S-right ;    '    ret
-  lsft @intl-double-ctrl z    del    S-c    @visual-exit b    n    m    ,    S-bspc /    rsft
-  @ctrl-exit @super-exit lalt           spc            ralt @super-exit @ctrl-exit
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  _    a  lalt lsft lctl    g    left down up   right ;    '    ret
+  lsft @intl-double-ctrl z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl _    lalt           spc            ralt _    rctl
 )
-
-;; ============ VIRTUAL KEYS ============
-(defvirtualkeys
-  exit-to-vim (layer-switch vim-mode)
-)
-
-;; ============ ALIASES & ACTIONS ============
-
-;; ------------ International Key ------------
-(defalias
-  ;; International key (102d): tap = one-shot ctrl, hold = ctrl
-  intl-double-ctrl (tap-hold 200 200 (one-shot 2000 lctl) lctl)
-)
-
-;; ------------ Core Layer Controls ------------
-(defalias
-  ;; Caps Lock: single tap for vim-mode, double tap for escape, hold for super key
-  caps-tap-hold (tap-hold-press 200 300 (tap-dance 300 ((layer-switch vim-mode) esc)) lmet)
-  
-  ;; F key: normal F, but Ctrl when Super is held
-  f-conditional (fork f lctl (lmet rmet))
-
-  ;; D key: normal D, but Alt when Super is held
-  d-conditional (fork d lalt (lmet rmet))
-  
-  ;; Layer switching
-  caps-to-default (layer-switch default)
-  ctrl-exit (multi lctl (layer-switch default))
-  shift-toggle (layer-switch vim-shift)
-  visual-toggle (layer-switch visual-mode)
-  visual-exit (layer-switch vim-mode)
-  insert-exit (layer-switch default)
-  super-exit (multi lmet (layer-switch default))
-)
-
-;; ------------ Vim Actions ------------
-(defalias
-  ;; Copy and cut with layer exit
-  copy-exit (multi C-c (layer-switch vim-mode))
-  cut-exit (multi 
-    C-x 
-    (on-press-fakekey-delay 50) 
-    (on-press-fakekey exit-to-vim press)
-  )
-  
-  ;; Visual mode cut (just cut, no layer exit)
-  visual-cut C-x
-  
-  ;; Vim delete (backspace)
-  vim-d bspc
-)
-
-;; ------------ Shift Layer Auto-Return Commands ------------
-;; Letters that execute shift+letter and automatically return to vim-mode
-(defalias
-  ;; Top row
-  sq (multi S-q (layer-switch vim-mode))  sw (multi S-w (layer-switch vim-mode))
-  se (multi S-e (layer-switch vim-mode))  sr (multi S-r (layer-switch vim-mode))
-  st (multi S-t (layer-switch vim-mode))  sy (multi S-y (layer-switch vim-mode))
-  su (multi S-u (layer-switch vim-mode))  si (multi S-i (layer-switch vim-mode))
-  so (multi S-o (layer-switch vim-mode))  sp (multi S-p (layer-switch vim-mode))
-  
-  ;; Home row
-  sa (multi S-a (layer-switch vim-mode))  ss (multi S-s (layer-switch vim-mode))
-  sd (multi S-d (layer-switch vim-mode))  sf (multi S-f (layer-switch vim-mode))
-  sg (multi S-g (layer-switch vim-mode))
-  
-  ;; Bottom row
-  sz (multi S-z (layer-switch vim-mode))  sc (multi S-c (layer-switch vim-mode))
-  sb (multi S-b (layer-switch vim-mode))  sn (multi S-n (layer-switch vim-mode))
-  sm (multi S-m (layer-switch vim-mode))
-)
-
-;; ============================================================================
-;; END OF CONFIGURATION
-;; ============================================================================

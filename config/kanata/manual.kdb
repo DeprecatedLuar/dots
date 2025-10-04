@@ -1,0 +1,42 @@
+(defcfg
+  process-unmapped-keys yes
+)
+
+(defsrc
+  caps spc s d f h j k l 
+)
+
+(defvar
+Tt 200 ;; tap re-press timeout
+Ht 200 ;; hold activation time
+)
+
+
+(defalias
+  cap1    (tap-hold $Tt $Ht (layer-switch vim   ) (layer-while-held metalayer))
+  cap2    (tap-hold $Tt $Ht (layer-switch layer1) (layer-while-held metalayer))
+  disable (layer-switch exit)
+  capesc  (tap-hold $Tt $Ht esc                   (layer-while-held metalayer))
+  fctrl   (tap-hold $Tt $Ht f lctrl                                           )
+  dshift  (tap-hold $Tt $Ht d lshift                                          )
+  salt    (tap-hold $Tt $Ht s lalt                                            )                                           
+)
+
+
+
+;; Layer 1 (default/base)
+(deflayer layer1
+  @cap1 spc s d f h j k l 
+)
+
+(deflayer vim
+  @cap2 spc _ _ _ left down up rght
+)
+
+(deflayer metalayer
+  XX @disable @salt @dshift @fctrl left down up rght
+)
+
+(deflayer exit
+  @capesc spc _ _ _ _ _ _ _
+)
