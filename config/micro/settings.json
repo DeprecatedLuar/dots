@@ -2,5 +2,5 @@
     "*.conf": {
         "filetype": "git-config"
     },
-    "colorscheme": "atom-dark"
+    "colorscheme": "cmc-16"
 }

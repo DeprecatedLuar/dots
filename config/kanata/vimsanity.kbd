@@ -43,9 +43,14 @@
   cap (tap-hold-press $Tt $Ht (tap-dance $Ht (@vimn @escaps)) @meta) ;; Caps Lock: single tap for vim-normal, double tap for escape, hold for meta-layer
   pac (tap-hold-press $Tt $Ht (tap-dance $Ht (@def @escaps))  @meta)
 
-  ;; Modifier layer access
-  a^ (tap-hold 100 300 a (layer-while-held modleft))
-  ;^ (tap-hold 100 300 ; (layer-while-held modright))
+  ;; Direct modifiers (no layers)
+  a^ (tap-hold 200 250 a tab)
+  f^ (tap-hold 200 250 f lctl)
+  j^ (tap-hold 200 300 j lctl)
+  d^ (tap-hold 200 250 d lsft)
+  k^ (tap-hold 200 300 k lsft)
+  s^ (tap-hold 200 250 s lalt)
+  l^ (tap-hold 200 300 l lalt)
 
   ctrl-exit (multi lctl @def)
 
@@ -72,7 +77,7 @@
   ;; Delete operations (execute + return to vim-normal)
   dw (macro C-S-right bspc (on-press tap-vkey vimk))
   db (macro C-S-left bspc (on-press tap-vkey vimk))
-  dd (macro home S-end del bspc (on-press tap-vkey vimk))
+  dd (macro spc 5  home S-end del 10 bspc 5 home (on-press tap-vkey vimk))
   d$ (macro S-end del (on-press tap-vkey vimk))
 
   ;; Yank operations (execute + return to vim-normal)
@@ -96,7 +101,7 @@
 (deflayer default
   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
-  @cap @a^  s    d    f    g    h    j    k    l    @;^  '    ret
+  @cap @a^  @s^  @d^  @f^  g    h    @j^  @k^  @l^  ;    '    ret
   lsft @intl-double-ctrl z    x    c    v    b    n    m    ,    .    /    rsft
   lctl @super-exit lalt           spc            ralt @super-exit rctl
 )
@@ -139,22 +144,6 @@
   _    a  lalt lsft lctl    g    left down up   right ;    '    ret
   lsft @intl-double-ctrl z    x    c    v    b    n    m    ,    .    /    rsft
   lctl _    lalt           spc            ralt _    rctl
-)
-
-(deflayer modleft
-  _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    lalt lsft lctl _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _              _              _    _    _
-)
-
-(deflayer modright
-  _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    _   lctl lsft lalt  _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _              _              _    _    _
 )
 
 (deflayer delete-ops

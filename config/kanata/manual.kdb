@@ -34,7 +34,7 @@ Ht 200 ;; hold activation time
 )
 
 (deflayer metalayer
-  XX @disable @salt @dshift @fctrl left down up rght
+  XX ;@disable @salt @dshift @fctrl left down up rght
 )
 
 (deflayer exit
