@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Analyze template system architecture and normal initialization flow",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Examine working registration system to understand correct Supabase config loading",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Compare prototype vs registration implementation differences",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Identify root cause of architectural mismatch",
+    "status": "in_progress",
+    "priority": "high",
+    "id": "4"
+  }
+]

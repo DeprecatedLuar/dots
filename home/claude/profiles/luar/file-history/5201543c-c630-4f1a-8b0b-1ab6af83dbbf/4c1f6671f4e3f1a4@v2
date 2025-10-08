@@ -1,0 +1,133 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Project Overview
+
+`dots` is a minimal, opinionated dotfiles management tool written in pure bash. It manages dotfiles through simple symlinking without external dependencies (explicitly avoiding GNU stow complexity).
+
+**Philosophy**: Dotfiles should live in a git repo at `~/.config/dots` and be symlinked to their actual locations in `~/.config/` or `~/`. The tool handles the movement, linking, and git operations automatically.
+
+## Core Architecture
+
+### Directory Structure
+
+```
+$HOME/.config/dots/          # Dotfiles git repository (user's actual dotfiles)
+├── config/                  # Configs from ~/.config/ (stored without leading dot)
+│   └── nvim/
+│   └── alacritty/
+└── home/                    # Files from ~/ (stored with their original names, including dots)
+    └── .gitconfig
+    └── .bashrc
+```
+
+The tool creates symlinks:
+- `~/.config/nvim` → `~/.config/dots/config/nvim`
+- `~/.gitconfig` → `~/.config/dots/home/.gitconfig`
+
+### Key Concepts
+
+**Name Resolution Logic**: The tool strips leading dots when storing configs in `config/` but preserves original names in `home/`. It searches both with and without leading dots to handle various naming conventions.
+
+**Safety Mechanisms**:
+- Real files/directories moved to `~/.local/share/Trash/files` (never deleted)
+- Symlinks can be safely replaced/removed
+- Conflicts clearly reported (file vs symlink vs directory)
+
+## Command Lifecycle Patterns
+
+### Snatch Flow
+1. Validates config exists in filesystem (not already a symlink)
+2. Validates config doesn't already exist in dots repo
+3. Moves config to dots repo
+4. Creates symlink in original location
+5. Auto-commits to git: `"snatch: add <name>"`
+
+### Link Flow
+1. Validates config exists in dots repo
+2. Checks target location for conflicts
+3. Replaces existing symlinks, errors on real files/dirs (unless `-A` mode)
+4. Creates symlink to dots repo
+
+### Eject Flow
+1. Removes symlink if it points to dots
+2. Moves config from dots back to original location
+3. Auto-commits removal to git: `"eject: remove <name>"`
+
+## Command Reference
+
+### Core Commands
+```bash
+dots snatch <config>             # Adopt existing config into dots repo
+dots link <config> [configs...]  # Create symlink(s) from dots to system
+dots link -A|--all              # Link all configs from dots repo (skip conflicts)
+dots unlink <config>            # Remove symlink (strict: must point to dots)
+dots unlink -A|--all            # Remove all symlinks pointing to dots
+dots eject <config>             # Move config out of dots, back to system
+dots rm <config>                # Move config/symlink to trash
+dots sync|pull                  # Git pull + check for unpushed commits
+dots push                       # Git push to remote
+dots status                     # Show link status of all configs
+```
+
+### Batch Operations
+All commands except `sync`, `push`, `status` support multiple arguments:
+```bash
+dots link kitty ranger micro
+dots eject nvim alacritty
+dots unlink -A  # Bulk unlink with conflict handling
+```
+
+## Internal Functions
+
+**Path Resolution**:
+- `find_in_filesystem()` - Locates config in `~/.config/` or `~/`, returns `"config name"` or `"home name"` or `"none"`
+- `find_in_dotfiles()` - Locates config in dots repo, same return format
+- `strip_dot()` - Removes leading dot from name
+
+**Single-Item Handlers**:
+- `link_single()`, `rm_single()`, `eject_single()`, `unlink_single()` - Handle individual config operations, called in loops for batch mode
+
+## Development Guidelines
+
+**Bash Conventions**:
+- Use `set -e` for fail-fast behavior
+- All errors exit with `error()` function
+- Color-coded output: GREEN (success), YELLOW (warning), BLUE (info), PURPLE (special ops like unlink/eject), RED (errors)
+
+**Git Integration**:
+- Auto-commits use consistent format: `"<action>: <description>"`
+- Output suppressed with `>/dev/null 2>&1` for cleaner UX
+- Always `cd "$DOTFILES"` before git operations
+
+**Error Handling Philosophy**:
+- Provide context in errors (show what exists, where it conflicts)
+- Suggest corrective actions in error messages
+- Distinguish between symlinks, files, and directories in messages
+
+## Testing Approach
+
+Manual testing workflow:
+1. Create test config: `mkdir ~/test-config`
+2. Run through lifecycle: `dots snatch test-config` → `dots eject test-config`
+3. Test conflict scenarios (existing files, broken symlinks, wrong symlinks)
+4. Verify git commits created correctly
+5. Test batch operations with `-A` flags
+
+**Critical Edge Cases**:
+- Broken symlinks (should be replaceable)
+- Symlinks pointing elsewhere (should warn/skip)
+- Configs with/without leading dots
+- Name collisions in trash directory (timestamp-based deduplication)
+
+## Completion System
+
+Bash completion in `lib/completions.sh`:
+- Context-aware: suggests different configs based on subcommand
+- `snatch` - shows non-symlink configs in filesystem
+- `link`/`eject` - shows configs in dots repo
+- `unlink` - shows symlinks pointing to dots
+- `rm` - shows all configs in filesystem
+
+To enable: Source `lib/completions.sh` in bash config

@@ -1,0 +1,27 @@
+[
+  {
+    "content": "Deploy dependency analysis subagent",
+    "status": "in_progress",
+    "activeForm": "Deploying dependency analysis subagent"
+  },
+  {
+    "content": "Deploy structure mapping subagent",
+    "status": "pending",
+    "activeForm": "Deploying structure mapping subagent"
+  },
+  {
+    "content": "Deploy configuration extraction subagent",
+    "status": "pending",
+    "activeForm": "Deploying configuration extraction subagent"
+  },
+  {
+    "content": "Review and synthesize all subagent reports",
+    "status": "pending",
+    "activeForm": "Reviewing and synthesizing all subagent reports"
+  },
+  {
+    "content": "Create comprehensive migration action plan",
+    "status": "pending",
+    "activeForm": "Creating comprehensive migration action plan"
+  }
+]

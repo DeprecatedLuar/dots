@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Fix i18n.js file path for language files",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Update HTML to use empty appName for dynamic loading",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Update fallback text to use template variable",
+    "status": "completed",
+    "priority": "medium",
+    "id": "3"
+  },
+  {
+    "content": "Test that dynamic loading works properly",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  }
+]

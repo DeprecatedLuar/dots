@@ -1,0 +1,17 @@
+[
+  {
+    "content": "Update action-plan.md with Phase 4B completion",
+    "status": "in_progress",
+    "activeForm": "Updating action-plan.md with Phase 4B completion"
+  },
+  {
+    "content": "Update CLAUDE.md with vision.md → README.md change and Phase 4B status",
+    "status": "pending",
+    "activeForm": "Updating CLAUDE.md with documentation changes"
+  },
+  {
+    "content": "Add Phase 4B tests to test suite",
+    "status": "pending",
+    "activeForm": "Adding Phase 4B tests to test suite"
+  }
+]

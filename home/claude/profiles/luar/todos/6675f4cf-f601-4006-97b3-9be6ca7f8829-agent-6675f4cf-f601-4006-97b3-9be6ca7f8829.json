@@ -1,0 +1,52 @@
+[
+  {
+    "content": "Initialize project structure and Go module",
+    "status": "completed",
+    "activeForm": "Initializing project structure and Go module"
+  },
+  {
+    "content": "Create shared utilities (logging, config, error handling)",
+    "status": "completed",
+    "activeForm": "Creating shared utilities (logging, config, error handling)"
+  },
+  {
+    "content": "Implement HTTP server with basic endpoints",
+    "status": "in_progress",
+    "activeForm": "Implementing HTTP server with basic endpoints"
+  },
+  {
+    "content": "Build orchestration layer (payload processing)",
+    "status": "pending",
+    "activeForm": "Building orchestration layer (payload processing)"
+  },
+  {
+    "content": "Implement agent core (AI reasoning engine)",
+    "status": "pending",
+    "activeForm": "Implementing agent core (AI reasoning engine)"
+  },
+  {
+    "content": "Create tool registry system",
+    "status": "pending",
+    "activeForm": "Creating tool registry system"
+  },
+  {
+    "content": "Implement streaming functionality",
+    "status": "pending",
+    "activeForm": "Implementing streaming functionality"
+  },
+  {
+    "content": "Build individual tools (postgres_memory, http_request, knowledge_search)",
+    "status": "pending",
+    "activeForm": "Building individual tools (postgres_memory, http_request, knowledge_search)"
+  },
+  {
+    "content": "Create configuration files (TOML configs)",
+    "status": "pending",
+    "activeForm": "Creating configuration files (TOML configs)"
+  },
+  {
+    "content": "Add environment variables and documentation",
+    "status": "pending",
+    "activeForm": "Adding environment variables and documentation"
+  }
+]

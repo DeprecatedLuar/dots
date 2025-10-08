@@ -1,0 +1,75 @@
+# Kitty Nord-inspired theme for micro
+# Converted from kitty.conf color scheme
+
+# Background and foreground
+color-link default "#a7c7e7,#0c1219"
+color-link statusline "#a7c7e7,#0c1219"
+color-link tabbar "#a7c7e7,#0d1117"
+color-link indent-char "#71cee9"
+color-link line-number "#71cee9,#0c1219"
+color-link current-line-number "#d0daf3,#0d1117"
+color-link gutter-error "#ff7b72"
+color-link gutter-warning "#f1b476"
+
+# Cursor and selection
+color-link cursor-line "#0d1117"
+color-link color-column "#0d1117"
+color-link selection "#71cee950"
+
+# Syntax highlighting
+color-link comment "#71cee9"
+color-link comment.bright "#71d9b9"
+
+# Keywords and control flow
+color-link identifier "#a7c7e7"
+color-link identifier.class "#f1b476"
+color-link identifier.var "#d0daf3"
+
+# Statements (keywords, if, for, etc)
+color-link statement "#bc8cff"
+color-link statement.symbol "#39c5cf"
+
+# Constants (strings, numbers, booleans)
+color-link constant "#08f9aa"
+color-link constant.bool "#f4926a"
+color-link constant.number "#f4926a"
+color-link constant.string "#08f9aa"
+color-link constant.string.char "#71d9b9"
+color-link constant.specialChar "#56d4dd"
+
+# Types
+color-link type "#f1b476"
+color-link type.keyword "#bc8cff"
+color-link type.extended "#f4926a"
+
+# Special elements
+color-link special "#d2a8ff"
+color-link symbol "#39c5cf"
+color-link symbol.brackets "#71cee9"
+color-link symbol.operator "#56d4dd"
+color-link symbol.tag "#ff7b72"
+
+# Preprocessor
+color-link preproc "#bc8cff"
+
+# Functions
+color-link underlined "#71cee9"
+
+# Errors and warnings
+color-link error "#ff7b72"
+color-link todo "#bc8cff"
+
+# Diff colors
+color-link diff-added "#08f9aa"
+color-link diff-modified "#71cee9"
+color-link diff-deleted "#ffa198"
+
+# Dividers and borders
+color-link divider "#0d1117"
+color-link message "#a7c7e7"
+color-link error-message "#ff7b72"
+
+# Git gutter
+color-link git-addition "#08f9aa"
+color-link git-modification "#71cee9"
+color-link git-deletion "#ff7b72"

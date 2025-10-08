@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Replace over-engineered test suite with simple behavior snapshots",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Create 50-line simple characterization script",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Remove complex mock systems and automation framework",
+    "status": "completed",
+    "priority": "medium",
+    "id": "3"
+  },
+  {
+    "content": "Make output readable by non-technical people",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  }
+]

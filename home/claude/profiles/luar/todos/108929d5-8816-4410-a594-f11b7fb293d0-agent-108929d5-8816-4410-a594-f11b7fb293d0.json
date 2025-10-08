@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Add correct Supabase CDN script to index.html",
+    "status": "completed",
+    "priority": "high",
+    "id": "add-working-cdn"
+  },
+  {
+    "content": "Revert auth.js to use window.supabase instead of ES6 imports",
+    "status": "completed",
+    "priority": "high",
+    "id": "revert-auth-imports"
+  },
+  {
+    "content": "Restore library availability check in auth.js",
+    "status": "completed",
+    "priority": "high",
+    "id": "restore-library-check"
+  },
+  {
+    "content": "Test that module resolution error is fixed",
+    "status": "completed",
+    "priority": "medium",
+    "id": "test-fixed-resolution"
+  }
+]

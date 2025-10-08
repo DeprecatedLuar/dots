@@ -1,0 +1,507 @@
+#!/bin/bash
+# dots - Dotfiles management tool
+# Manages dotfiles with simple symlinking (no GNU stow nonsense)
+
+set -e
+
+DOTFILES="$HOME/.config/dots"
+TRASH="$HOME/.local/share/Trash/files"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+NC='\033[0m'
+
+error() { echo -e "${RED}Error: $1${NC}" >&2; exit 1; }
+success() { echo -e "${GREEN}✓ $1${NC}"; }
+warn() { echo -e "${YELLOW}! $1${NC}"; }
+info() { echo -e "${BLUE}→ $1${NC}"; }
+
+check_dotfiles_repo() {
+    [[ -d "$DOTFILES/.git" ]] || error "Dots repo not found at $DOTFILES\nRun 'bashrc init dots' first"
+}
+
+ensure_dotfiles_structure() {
+    mkdir -p "$DOTFILES/config"
+    mkdir -p "$DOTFILES/home"
+}
+
+# Strip leading dot from name (e.g., .nvim -> nvim)
+strip_dot() {
+    local name="$1"
+    echo "${name#.}"
+}
+
+# Find where a config currently lives in the filesystem
+# Returns: "config:nvim" or "home:.gitconfig" or "none"
+find_in_filesystem() {
+    local name="$1"
+    local stripped=$(strip_dot "$name")
+
+    # Check .config first (without dot) - include broken symlinks
+    if [[ -e "$HOME/.config/$stripped" ]] || [[ -L "$HOME/.config/$stripped" ]]; then
+        echo "config:$stripped"
+        return
+    fi
+
+    # Check home (try with original name, then stripped) - include broken symlinks
+    if [[ -e "$HOME/$name" ]] || [[ -L "$HOME/$name" ]]; then
+        echo "home:$name"
+        return
+    fi
+
+    if [[ "$name" != "$stripped" ]] && ([[ -e "$HOME/$stripped" ]] || [[ -L "$HOME/$stripped" ]]); then
+        echo "home:$stripped"
+        return
+    fi
+
+    echo "none"
+}
+
+# Check if a config exists in dots repo
+# Returns: "config:nvim" or "home:.gitconfig" or "none"
+find_in_dotfiles() {
+    local name="$1"
+    local stripped=$(strip_dot "$name")
+    
+    # Check both with and without dots
+    if [[ -e "$DOTFILES/config/$stripped" ]]; then
+        echo "config:$stripped"
+        return
+    fi
+    
+    if [[ -e "$DOTFILES/config/$name" ]]; then
+        echo "config:$name"
+        return
+    fi
+    
+    if [[ -e "$DOTFILES/home/$name" ]]; then
+        echo "home:$name"
+        return
+    fi
+    
+    if [[ -e "$DOTFILES/home/$stripped" ]]; then
+        echo "home:$stripped"
+        return
+    fi
+    
+    echo "none"
+}
+
+cmd_snatch() {
+    local name="$1"
+    [[ -z "$name" ]] && error "Usage: dots snatch <config-name>"
+    
+    check_dotfiles_repo
+    ensure_dotfiles_structure
+    
+    # Block snatching bash
+    local stripped=$(strip_dot "$name")
+    [[ "$stripped" == "bash" ]] && error "Cannot snatch bash - it's your system bootstrap"
+    
+    # Find in filesystem
+    local location=$(find_in_filesystem "$name")
+    [[ "$location" == "none" ]] && error "Config '$name' not found in ~/.config or ~/"
+    
+    local type="${location%%:*}"
+    local found_name="${location##*:}"
+    local source_path
+    
+    if [[ "$type" == "config" ]]; then
+        source_path="$HOME/.config/$found_name"
+    else
+        source_path="$HOME/$found_name"
+    fi
+    
+    # Check if it's a symlink
+    [[ -L "$source_path" ]] && error "Cannot snatch symlinks - '$source_path' is already a symlink"
+    
+    # Check if already exists in dotfiles
+    local dots_location=$(find_in_dotfiles "$name")
+    [[ "$dots_location" != "none" ]] && error "'$name' already exists in dots repo"
+    
+    # Determine destination in dotfiles
+    local dest_path="$DOTFILES/$type/$found_name"
+    
+    info "Snatching $source_path → $dest_path"
+    
+    # Move to dotfiles
+    mv "$source_path" "$dest_path"
+    
+    # Create symlink
+    ln -s "$dest_path" "$source_path"
+    
+    # Auto-commit
+    cd "$DOTFILES"
+    git add "$dest_path"
+    git commit -m "snatch: add $found_name"
+    
+    success "Snatched $found_name and created symlink"
+    warn "Don't forget to 'git push' from $DOTFILES"
+}
+
+# Link a single config (internal helper)
+link_single() {
+    local name="$1"
+
+    # Find in dotfiles repo
+    local dots_location=$(find_in_dotfiles "$name")
+    [[ "$dots_location" == "none" ]] && error "'$name' not found in dots repo"
+
+    local type="${dots_location%%:*}"
+    local found_name="${dots_location##*:}"
+    local dots_path="$DOTFILES/$type/$found_name"
+
+    # Determine target path
+    local target_path
+    if [[ "$type" == "config" ]]; then
+        target_path="$HOME/.config/$found_name"
+    else
+        target_path="$HOME/$found_name"
+    fi
+
+    # Check if target exists
+    if [[ -e "$target_path" ]] || [[ -L "$target_path" ]]; then
+        if [[ -L "$target_path" ]]; then
+            # It's a symlink, remove and replace
+            info "Replacing existing symlink at $target_path"
+            rm "$target_path"
+        else
+            # It's a real file/folder - give detailed error
+            local type="file"
+            [[ -d "$target_path" ]] && type="directory"
+            error "Target '$target_path' already exists as a $type\nUse 'dots rm $name' to move it to trash first, or 'dots snatch $name' to adopt it"
+        fi
+    fi
+
+    # Create parent directory if needed
+    mkdir -p "$(dirname "$target_path")"
+
+    # Create symlink
+    ln -s "$dots_path" "$target_path"
+
+    success "Linked $found_name"
+}
+
+cmd_link() {
+    check_dotfiles_repo
+
+    # Handle -A / --all flag
+    if [[ "$1" == "-A" ]] || [[ "$1" == "--all" ]]; then
+        info "Linking all configs from dots repo..."
+        local linked=0
+        local skipped=0
+
+        # Link all configs
+        for config_path in "$DOTFILES/config"/*; do
+            [[ -e "$config_path" ]] || continue
+            local name=$(basename "$config_path")
+            local target="$HOME/.config/$name"
+
+            # Check if already correctly linked
+            if [[ -L "$target" ]] && [[ "$(readlink "$target")" == "$config_path" ]]; then
+                ((skipped++)) || true
+                continue
+            fi
+
+            # Check if target exists (and is not a symlink we can replace)
+            if [[ -e "$target" ]] || [[ -L "$target" ]]; then
+                if [[ -L "$target" ]]; then
+                    # Broken symlink or wrong symlink - replace it
+                    rm "$target"
+                    mkdir -p "$(dirname "$target")"
+                    ln -s "$config_path" "$target"
+                    echo "  Linked $name"
+                    ((linked++)) || true
+                else
+                    # Real file/directory - skip with warning
+                    warn "Skipped $name (real file/directory exists)"
+                    ((skipped++)) || true
+                fi
+            else
+                # Doesn't exist - create symlink
+                mkdir -p "$(dirname "$target")"
+                ln -s "$config_path" "$target"
+                echo "  Linked $name"
+                ((linked++)) || true
+            fi
+        done
+
+        # Link all home files
+        for home_path in "$DOTFILES/home"/*; do
+            [[ -e "$home_path" ]] || continue
+            local name=$(basename "$home_path")
+            local target="$HOME/$name"
+
+            # Check if already correctly linked
+            if [[ -L "$target" ]] && [[ "$(readlink "$target")" == "$home_path" ]]; then
+                ((skipped++)) || true
+                continue
+            fi
+
+            # Check if target exists (and is not a symlink we can replace)
+            if [[ -e "$target" ]] || [[ -L "$target" ]]; then
+                if [[ -L "$target" ]]; then
+                    # Broken symlink or wrong symlink - replace it
+                    rm "$target"
+                    mkdir -p "$(dirname "$target")"
+                    ln -s "$home_path" "$target"
+                    echo "  Linked $name"
+                    ((linked++)) || true
+                else
+                    # Real file/directory - skip with warning
+                    warn "Skipped $name (real file/directory exists)"
+                    ((skipped++)) || true
+                fi
+            else
+                # Doesn't exist - create symlink
+                mkdir -p "$(dirname "$target")"
+                ln -s "$home_path" "$target"
+                echo "  Linked $name"
+                ((linked++)) || true
+            fi
+        done
+
+        success "Linked $linked configs ($skipped already linked or skipped)"
+        return
+    fi
+
+    # No arguments provided
+    [[ -z "$1" ]] && error "Usage: dots link <config-name> [<config-name>...]\n       dots link -A|--all"
+
+    # Batch mode: link multiple configs
+    for name in "$@"; do
+        link_single "$name"
+    done
+}
+
+# Remove a single config (internal helper)
+rm_single() {
+    local name="$1"
+
+    # Find in filesystem
+    local location=$(find_in_filesystem "$name")
+    [[ "$location" == "none" ]] && error "Config '$name' not found in ~/.config or ~/"
+
+    local type="${location%%:*}"
+    local found_name="${location##*:}"
+    local target_path
+
+    if [[ "$type" == "config" ]]; then
+        target_path="$HOME/.config/$found_name"
+    else
+        target_path="$HOME/$found_name"
+    fi
+
+    # If it's a symlink, just remove it (no trash needed)
+    if [[ -L "$target_path" ]]; then
+        rm "$target_path"
+        success "Removed symlink $found_name"
+        return
+    fi
+
+    # It's a real file/folder - move to trash for safety
+    mkdir -p "$TRASH"
+
+    # Generate unique trash name if needed
+    local trash_path="$TRASH/$found_name"
+    if [[ -e "$trash_path" ]]; then
+        trash_path="$TRASH/${found_name}.$(date +%s)"
+    fi
+
+    info "Moving $target_path → $trash_path"
+    mv "$target_path" "$trash_path"
+
+    success "Moved $found_name to trash"
+}
+
+cmd_rm() {
+    [[ -z "$1" ]] && error "Usage: dots rm <config-name> [<config-name>...]"
+
+    # Batch mode: remove multiple configs
+    for name in "$@"; do
+        rm_single "$name"
+    done
+}
+
+# Unlink a single config (internal helper)
+unlink_single() {
+    local name="$1"
+
+    # Find in filesystem
+    local location=$(find_in_filesystem "$name")
+    [[ "$location" == "none" ]] && error "'$name' not found in ~/.config or ~/"
+
+    local type="${location%%:*}"
+    local found_name="${location##*:}"
+    local target_path
+
+    if [[ "$type" == "config" ]]; then
+        target_path="$HOME/.config/$found_name"
+    else
+        target_path="$HOME/$found_name"
+    fi
+
+    # Check if it exists
+    [[ ! -e "$target_path" ]] && [[ ! -L "$target_path" ]] && error "'$found_name' not found"
+
+    # Check if it's a symlink
+    [[ ! -L "$target_path" ]] && error "'$found_name' is not a symlink (it's a real file/directory)\nUse 'dots rm $name' to move it to trash"
+
+    # Check if it points to dots repo
+    local link_target=$(readlink "$target_path")
+    if [[ "$link_target" != "$DOTFILES/"* ]]; then
+        error "'$found_name' doesn't point to dots repo\nPoints to: $link_target"
+    fi
+
+    # Safe to remove
+    rm "$target_path"
+    echo -e "${PURPLE}✓ Unlinked $found_name${NC}"
+}
+
+cmd_unlink() {
+    check_dotfiles_repo
+
+    # Handle -A / --all flag
+    if [[ "$1" == "-A" ]] || [[ "$1" == "--all" ]]; then
+        info "Unlinking all configs from dots repo..."
+        local unlinked=0
+        local skipped=0
+
+        # Check all configs
+        for config_path in "$DOTFILES/config"/*; do
+            [[ -e "$config_path" ]] || continue
+            local name=$(basename "$config_path")
+            local target="$HOME/.config/$name"
+
+            # Only unlink if it's a symlink pointing to dots
+            if [[ -L "$target" ]] && [[ "$(readlink "$target")" == "$config_path" ]]; then
+                rm "$target"
+                echo -e "${PURPLE}  Unlinked $name${NC}"
+                ((unlinked++)) || true
+            else
+                ((skipped++)) || true
+            fi
+        done
+
+        # Check all home files
+        for home_path in "$DOTFILES/home"/*; do
+            [[ -e "$home_path" ]] || continue
+            local name=$(basename "$home_path")
+            local target="$HOME/$name"
+
+            # Only unlink if it's a symlink pointing to dots
+            if [[ -L "$target" ]] && [[ "$(readlink "$target")" == "$home_path" ]]; then
+                rm "$target"
+                echo -e "${PURPLE}  Unlinked $name${NC}"
+                ((unlinked++)) || true
+            else
+                ((skipped++)) || true
+            fi
+        done
+
+        echo -e "${PURPLE}✓ Unlinked $unlinked configs ($skipped not linked or not symlinks)${NC}"
+        return
+    fi
+
+    # No arguments provided
+    [[ -z "$1" ]] && error "Usage: dots unlink <config-name> [<config-name>...]\n       dots unlink -A|--all"
+
+    # Batch mode: unlink multiple configs
+    for name in "$@"; do
+        unlink_single "$name"
+    done
+}
+
+cmd_sync() {
+    check_dotfiles_repo
+
+    info "Pulling latest dots..."
+    cd "$DOTFILES"
+    git pull
+
+    success "Sync complete"
+}
+
+cmd_status() {
+    check_dotfiles_repo
+
+    for config_path in "$DOTFILES/config"/*; do
+        [[ -e "$config_path" ]] || continue
+        local name=$(basename "$config_path")
+        local target="$HOME/.config/$name"
+
+        if [[ -L "$target" ]] && [[ "$(readlink "$target")" == "$config_path" ]]; then
+            echo -e "${GREEN}✓ $name${NC}"
+        elif [[ -L "$target" ]]; then
+            echo -e "${YELLOW}! $name${NC}"
+        elif [[ -d "$target" ]]; then
+            echo -e "${YELLOW}! $name ${YELLOW}[DIR]${NC} (directory exists, not linked)"
+        elif [[ -f "$target" ]]; then
+            echo -e "${YELLOW}! $name ${YELLOW}[FILE]${NC} (file exists, not linked)"
+        else
+            echo -e "${PURPLE}✗ $name${NC}"
+        fi
+    done
+
+    for home_path in "$DOTFILES/home"/*; do
+        [[ -e "$home_path" ]] || continue
+        local name=$(basename "$home_path")
+        local target="$HOME/$name"
+
+        if [[ -L "$target" ]] && [[ "$(readlink "$target")" == "$home_path" ]]; then
+            echo -e "${GREEN}✓ $name${NC}"
+        elif [[ -L "$target" ]]; then
+            echo -e "${YELLOW}! $name${NC}"
+        elif [[ -d "$target" ]]; then
+            echo -e "${YELLOW}! $name [DIR]${NC} (directory exists, not linked)"
+        elif [[ -f "$target" ]]; then
+            echo -e "${YELLOW}! $name [FILE]${NC} (file exists, not linked)"
+        else
+            echo -e "${PURPLE}✗ $name${NC}"
+        fi
+    done
+}
+
+cmd_help() {
+    cat << EOF
+dots - Dotfiles Manager
+
+Usage:
+  dots snatch <config>             Adopt existing config into dots
+  dots link <config> [configs]     Create symlink(s) from dots
+  dots link -A|--all               Link all configs from dots
+  dots unlink <config> [configs]   Remove symlink(s) to dots (strict)
+  dots unlink -A|--all             Remove all symlinks to dots
+  dots rm <config>                 Remove config/link (moves to trash)
+  dots sync                        Pull latest and verify all symlinks
+  dots status                      Show what's linked and what's not
+  dots help                        Show this help
+
+Examples:
+  dots snatch nvim                 Move ~/.config/nvim to dots, create symlink
+  dots snatch .gitconfig           Move ~/.gitconfig to dots, create symlink
+  dots link alacritty              Link ~/.config/alacritty from dots
+  dots link kitty ranger micro     Link multiple configs at once
+  dots link -A                     Link all configs from dots repo
+  dots unlink kitty                Remove symlink (only if points to dots)
+  dots unlink -A                   Remove all symlinks pointing to dots
+  dots rm nvim                     Remove ~/.config/nvim (move to trash)
+
+Repository: $DOTFILES
+EOF
+}
+
+case "$1" in
+    snatch) cmd_snatch "$2" ;;
+    link) shift; cmd_link "$@" ;;
+    unlink) shift; cmd_unlink "$@" ;;
+    rm) shift; cmd_rm "$@" ;;
+    sync) cmd_sync ;;
+    status) cmd_status ;;
+    help|--help|-h|"") cmd_help ;;
+    *) error "Unknown command: $1\nRun 'dots help' for usage" ;;
+esac

@@ -1,0 +1,38 @@
+[
+  {
+    "content": "Check Telegram auto-download settings",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Clean up temp_data directory of unwanted downloads",
+    "status": "pending",
+    "priority": "medium",
+    "id": "2"
+  },
+  {
+    "content": "Search for pimsleur mp3 file in Telegram downloads",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Create telegram-downloader project with venv",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Set up Telegram API credentials",
+    "status": "pending",
+    "priority": "high",
+    "id": "5"
+  },
+  {
+    "content": "Create Telethon script for bulk MP3 downloads",
+    "status": "pending",
+    "priority": "high",
+    "id": "6"
+  }
+]

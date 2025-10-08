@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Create speed profiles for different content types",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Enhance calculateDelay with context awareness",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Add markdown detection for speed variations",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Implement subtle randomization for natural feel",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  },
+  {
+    "content": "Test game-like streaming effects",
+    "status": "completed",
+    "priority": "medium",
+    "id": "5"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Add ES6 import for Supabase from CDN",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Remove waitForSupabase function and related logic",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Update client initialization to use direct import",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Verify all existing functionality is preserved",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "content": "Phase 1B: Fix final critical file size violation (memory_system.go)",
+    "status": "in_progress",
+    "activeForm": "Fixing final critical file size violation"
+  },
+  {
+    "content": "Phase 2: Add missing configuration headers to remaining 9 files",
+    "status": "pending",
+    "activeForm": "Adding missing configuration headers to remaining 9 files"
+  },
+  {
+    "content": "Phase 3: Add Go doc comments for exported functions",
+    "status": "pending",
+    "activeForm": "Adding Go doc comments for exported functions"
+  },
+  {
+    "content": "Phase 4: Standardize TOML key naming conventions",
+    "status": "pending",
+    "activeForm": "Standardizing TOML key naming conventions"
+  }
+]

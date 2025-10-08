@@ -1,0 +1,20 @@
+[
+  {
+    "content": "Modify glass-enhanced class to preserve background colors",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Update message group styles to use background + glass overlay",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Test the color-aware glass implementation",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  }
+]

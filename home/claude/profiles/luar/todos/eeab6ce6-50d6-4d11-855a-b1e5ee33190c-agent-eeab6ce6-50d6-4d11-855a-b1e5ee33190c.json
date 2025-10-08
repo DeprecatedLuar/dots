@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Move common folder to /public/shared/common/",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Update /public/index.html asset paths (4 references)",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Update /public/js/ui-state.js asset path (1 reference)",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Update documentation references",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  },
+  {
+    "content": "Verify all updated paths work correctly",
+    "status": "completed",
+    "priority": "medium",
+    "id": "5"
+  }
+]

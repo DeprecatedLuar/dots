@@ -1,0 +1,38 @@
+[
+  {
+    "content": "Analyze current cleanup service implementation and dependencies",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Trace all code paths that interact with cleanup service",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Design NODE_ENV=test cleanup disable logic",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Identify potential side effects of disabling cleanup",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Test the environment variable implementation",
+    "status": "completed",
+    "priority": "medium",
+    "id": "5"
+  },
+  {
+    "content": "Document testing guidelines for future development",
+    "status": "completed",
+    "priority": "low",
+    "id": "6"
+  }
+]

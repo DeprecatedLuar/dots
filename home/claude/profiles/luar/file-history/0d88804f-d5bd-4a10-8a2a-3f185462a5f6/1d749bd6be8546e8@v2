@@ -1,0 +1,152 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Repository Overview
+
+This is a dotfiles repository managing configuration files for a Linux development environment. Unlike traditional GNU stow-based dotfile managers, this uses a custom bash script (`dots`) that provides simple, opinionated symlink management.
+
+**Repository Location**: `~/.config/dots`
+
+**Structure**:
+- `config/` - Configuration files that belong in `~/.config/` (stored without leading dot)
+- `home/` - Configuration files that belong in `~` (stored with original naming)
+- `.bin/dots` - The dotfiles management CLI tool
+
+## The `dots` CLI Tool
+
+The central command for all dotfile operations. It MUST be used instead of manual symlink management.
+
+### Core Commands
+
+```bash
+# Adopt existing config into dots repo
+dots snatch <config>      # Moves config to dots/, creates symlink, auto-commits
+
+# Link config from dots repo to system
+dots link <config>        # Creates symlink from dots repo to system location
+
+# Remove config (symlinks are deleted, real files moved to trash)
+dots rm <config>
+
+# Pull latest from git and verify all symlinks
+dots sync
+
+# Show status of all tracked configs
+dots status
+```
+
+### Important Behaviors
+
+**Auto-detection**: Commands work with or without leading dots. `dots snatch nvim` and `dots snatch .nvim` are equivalent.
+
+**Location logic**:
+- Checks `~/.config/<name>` first (stored in `config/` without dot)
+- Falls back to `~/<name>` (stored in `home/` with original name)
+
+**Safety features**:
+- Cannot snatch `bash` (system bootstrap protection)
+- Cannot snatch symlinks (prevents double-linking)
+- Real files moved to `~/.local/share/Trash/files` when using `dots rm`
+- Auto-commit after snatch operations
+
+**Symlink verification**: `dots sync` and `dots link` create parent directories as needed.
+
+## Managed Configurations
+
+### Terminal Emulators
+- **kitty** (primary): Custom color scheme, background image, Mononoki Nerd Font
+- **alacritty**: Backup configuration
+- **wezterm**: Alternative terminal
+
+### Keyboard Customization
+- **kanata**: Advanced keyboard remapping with vim-mode layers
+  - `system.kbd` - Base configuration with caps-lock tap-hold behavior
+  - `vim-mode.kbd` - Modal editing system with vim navigation
+  - Multi-layer setup: default → vim-mode → vim-shift → visual-mode
+  - Custom super key handling and layer switching
+
+### Development Tools
+- **micro**: Lightweight terminal editor with custom bindings and colorschemes
+- **ranger**: Terminal file manager with custom rifle.conf for file associations
+- **starship**: Shell prompt with custom format showing git metrics, cmd duration, tunnel status
+
+### Other
+- **pop-shell**: GNOME extension configuration
+
+## Git Workflow
+
+This repository uses standard git practices with the user's custom `git acp` alias:
+
+```bash
+# The dots tool auto-commits after snatch operations
+cd ~/.config/dots
+git push  # Push after snatching configs
+```
+
+**Commit messages**: The `dots snatch` command uses the format: `"snatch: add <config-name>"`
+
+## Development Patterns
+
+### Adding New Configs
+
+1. If config already exists in filesystem: `dots snatch <name>`
+2. If config exists in dots repo but not linked: `dots link <name>`
+3. Never manually create symlinks - always use `dots` commands
+
+### Synchronizing Across Machines
+
+```bash
+dots sync  # Pulls latest and creates all symlinks
+```
+
+### Modifying Configs
+
+Edit configs directly through their symlinks in `~/.config/` or `~`. Changes affect the dots repository immediately since they're symlinked.
+
+### Verifying State
+
+```bash
+dots status  # Shows which configs are properly linked, broken, or conflicting
+```
+
+## Architecture Notes
+
+**No external dependencies**: Pure bash implementation, no GNU stow or similar tools required.
+
+**Trash system**: Uses XDG trash location (`~/.local/share/Trash/files`) for safety when removing real files.
+
+**Symlink-first philosophy**: The tool assumes symlinks are the desired state. Real files/directories are considered conflicts that need resolution.
+
+**Auto-commit behavior**: `dots snatch` automatically commits new configs to encourage version control discipline.
+
+## Common Scenarios
+
+**Conflict resolution**: If `dots link` fails because a real file exists:
+```bash
+dots rm <config>    # Move existing to trash
+dots link <config>  # Create symlink from dots
+```
+
+**Adopting system config**:
+```bash
+dots snatch kitty   # Moves ~/.config/kitty to dots, creates symlink, commits
+```
+
+**Fresh machine setup**:
+```bash
+git clone <repo> ~/.config/dots
+dots sync  # Links everything
+```
+
+## Kanata Configuration Details
+
+The kanata keyboard remapping uses a sophisticated multi-layer system:
+
+- **Caps Lock**: Tap for Escape, hold for Vim-mode layer activation
+- **Super keys**: Custom exit behavior across layers
+- **Vim-mode layer**: Home row becomes arrow keys (h/j/k/l), modal editing shortcuts
+- **Visual-mode layer**: Selection operations with shift behaviors
+- **Shift toggle**: Temporary layer switching for uppercase operations
+
+Kanata config is a git submodule with its own history tracking.

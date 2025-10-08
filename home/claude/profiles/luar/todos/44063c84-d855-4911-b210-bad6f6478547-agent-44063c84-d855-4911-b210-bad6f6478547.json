@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Check current .env file contents",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Trace logging system environment detection",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Identify which logging system is being used",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Find why environment controls aren't working",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Fix logging environment detection",
+    "status": "completed",
+    "priority": "high",
+    "id": "5"
+  }
+]

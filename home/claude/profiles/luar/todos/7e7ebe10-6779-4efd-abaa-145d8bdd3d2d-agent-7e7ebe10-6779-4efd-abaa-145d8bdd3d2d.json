@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Create css directory in /public/app/",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Update HTML CSS imports to include template CSS files",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Create page-styles.css with refactored glassmorphism",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Remove built-in glassmorphism from style.css",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  },
+  {
+    "content": "Update HTML classes to use glass-lib classes",
+    "status": "completed",
+    "priority": "medium",
+    "id": "5"
+  }
+]

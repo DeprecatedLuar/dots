@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Change split size from 80MB to 60MB to account for encryption overhead",
+    "status": "completed",
+    "priority": "high",
+    "id": "fix_split_size"
+  },
+  {
+    "content": "Delete original archive file before GitHub push",
+    "status": "completed",
+    "priority": "high",
+    "id": "delete_original"
+  },
+  {
+    "content": "Update logging to reflect encryption overhead considerations",
+    "status": "completed",
+    "priority": "medium",
+    "id": "update_logs"
+  },
+  {
+    "content": "Test that encrypted parts stay under 100MB GitHub limit",
+    "status": "completed",
+    "priority": "high",
+    "id": "test_encryption_overhead"
+  }
+]

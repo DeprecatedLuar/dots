@@ -1,0 +1,17 @@
+[
+  {
+    "content": "Restore the hand-written code from commandRouter.go that was accidentally deleted",
+    "status": "completed",
+    "activeForm": "Restoring the hand-written code from commandRouter.go that was accidentally deleted"
+  },
+  {
+    "content": "Start fresh with minimal main.go based on what was originally written",
+    "status": "completed",
+    "activeForm": "Starting fresh with minimal main.go based on what was originally written"
+  },
+  {
+    "content": "Build up functionality step by step with explanations",
+    "status": "in_progress",
+    "activeForm": "Building up functionality step by step with explanations"
+  }
+]

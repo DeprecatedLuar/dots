@@ -1,0 +1,50 @@
+[
+  {
+    "content": "Check JavaScript console errors and DOM element presence",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Verify event listeners are being attached correctly",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Check CSS issues that might prevent button clicks",
+    "status": "completed",
+    "priority": "medium",
+    "id": "3"
+  },
+  {
+    "content": "Look for interfering JavaScript files",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  },
+  {
+    "content": "Check button HTML structure matches JavaScript expectations",
+    "status": "completed",
+    "priority": "high",
+    "id": "5"
+  },
+  {
+    "content": "Look for duplicate event handlers or conflicting code",
+    "status": "completed",
+    "priority": "medium",
+    "id": "6"
+  },
+  {
+    "content": "Check validation issues preventing send function execution",
+    "status": "completed",
+    "priority": "medium",
+    "id": "7"
+  },
+  {
+    "content": "Check authentication and configuration loading issues",
+    "status": "completed",
+    "priority": "high",
+    "id": "8"
+  }
+]

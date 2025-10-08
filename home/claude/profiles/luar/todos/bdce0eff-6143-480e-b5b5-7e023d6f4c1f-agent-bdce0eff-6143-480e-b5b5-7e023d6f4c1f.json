@@ -1,0 +1,134 @@
+[
+  {
+    "content": "Replace server.js with minimal entry point",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Update header documentation for modular architecture",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Add minimal imports and server startup",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Preserve essential documentation and client routing info",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Verify under 30 lines and clean startup logging",
+    "status": "completed",
+    "priority": "low",
+    "id": "5"
+  },
+  {
+    "content": "Fix missing dotenv configuration in server.js",
+    "status": "completed",
+    "priority": "high",
+    "id": "6"
+  },
+  {
+    "content": "Fix incorrect import path in proxy.validator.js",
+    "status": "completed",
+    "priority": "medium",
+    "id": "7"
+  },
+  {
+    "content": "Remove GET / route from assets.routes.js",
+    "status": "completed",
+    "priority": "high",
+    "id": "8"
+  },
+  {
+    "content": "Remove mainApp function from assets.controller.js",
+    "status": "completed",
+    "priority": "high",
+    "id": "9"
+  },
+  {
+    "content": "Add root route directly in app.js after static middleware",
+    "status": "completed",
+    "priority": "high",
+    "id": "10"
+  },
+  {
+    "content": "Remove wildcard /:coach/:page route from assets.routes.js",
+    "status": "completed",
+    "priority": "high",
+    "id": "11"
+  },
+  {
+    "content": "Remove dynamicPages function from assets.controller.js",
+    "status": "completed",
+    "priority": "high",
+    "id": "12"
+  },
+  {
+    "content": "Add wildcard route directly in app.js after all other routes",
+    "status": "completed",
+    "priority": "high",
+    "id": "13"
+  },
+  {
+    "content": "Fix incorrect path resolution in static middleware",
+    "status": "completed",
+    "priority": "high",
+    "id": "14"
+  },
+  {
+    "content": "Fix incorrect path resolution in root route",
+    "status": "completed",
+    "priority": "high",
+    "id": "15"
+  },
+  {
+    "content": "Fix incorrect path resolution in wildcard route",
+    "status": "completed",
+    "priority": "high",
+    "id": "16"
+  },
+  {
+    "content": "Add debug logging to app.js for Express version and middleware chain",
+    "status": "completed",
+    "priority": "high",
+    "id": "17"
+  },
+  {
+    "content": "Add test route to verify app functionality",
+    "status": "completed",
+    "priority": "high",
+    "id": "18"
+  },
+  {
+    "content": "Fix Express v5 compatibility or downgrade to v4",
+    "status": "completed",
+    "priority": "high",
+    "id": "19"
+  },
+  {
+    "content": "Remove debug logging from app.js",
+    "status": "completed",
+    "priority": "medium",
+    "id": "20"
+  },
+  {
+    "content": "Remove debug test route from app.js",
+    "status": "completed",
+    "priority": "medium",
+    "id": "21"
+  },
+  {
+    "content": "Clean up server startup message",
+    "status": "completed",
+    "priority": "low",
+    "id": "22"
+  }
+]

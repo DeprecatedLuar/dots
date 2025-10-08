@@ -1,0 +1,8 @@
+/.credentials.json
+/file-history
+/history.jsonl
+/ide
+/shell-snapshots
+/statsig
+/todos
+!profiles/

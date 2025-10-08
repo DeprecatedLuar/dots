@@ -1,0 +1,56 @@
+[
+  {
+    "content": "Phase 1: Remove deprecated files (old/oldregistration.js, template/js/debug-loadstyle.js)",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Phase 1: Fix formatting inconsistencies across all JavaScript files",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Phase 1: Standardize naming conventions (camelCase vs snake_case)",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Phase 1: Fix hardcoded typos and magic numbers",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Phase 1: Improve and consolidate documentation",
+    "status": "completed",
+    "priority": "medium",
+    "id": "5"
+  },
+  {
+    "content": "Phase 2: Extract common utilities and constants",
+    "status": "completed",
+    "priority": "medium",
+    "id": "6"
+  },
+  {
+    "content": "Phase 2: Standardize error handling patterns",
+    "status": "completed",
+    "priority": "medium",
+    "id": "7"
+  },
+  {
+    "content": "Phase 3: Consolidate duplicate client ID extraction functionality",
+    "status": "completed",
+    "priority": "low",
+    "id": "8"
+  },
+  {
+    "content": "Phase 3: Add comprehensive JSDoc documentation",
+    "status": "completed",
+    "priority": "low",
+    "id": "9"
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "content": "Read and analyze the collect-server.py script to understand the current implementation",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Check the current CSV file structure and existing data",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Trace the file path resolution logic to verify where data should be written",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Test the CSV writing function in isolation to identify the root cause",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Verify permissions and directory structure",
+    "status": "completed",
+    "priority": "medium",
+    "id": "5"
+  },
+  {
+    "content": "Check for any error handling that might be masking issues",
+    "status": "completed",
+    "priority": "medium",
+    "id": "6"
+  }
+]

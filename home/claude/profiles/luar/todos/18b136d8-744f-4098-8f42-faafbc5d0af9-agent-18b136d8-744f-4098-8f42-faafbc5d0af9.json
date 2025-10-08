@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Backup current hash-based CSP configuration",
+    "status": "completed",
+    "priority": "high",
+    "id": "emergency1"
+  },
+  {
+    "content": "Implement development CSP with unsafe-inline",
+    "status": "completed",
+    "priority": "high",
+    "id": "emergency2"
+  },
+  {
+    "content": "Remove outdated hash comments",
+    "status": "completed",
+    "priority": "high",
+    "id": "emergency3"
+  },
+  {
+    "content": "Test Import Maps execution without CSP violations",
+    "status": "completed",
+    "priority": "high",
+    "id": "emergency4"
+  },
+  {
+    "content": "Verify legacy system loads at /legacy/?client=javan-zhang",
+    "status": "completed",
+    "priority": "high",
+    "id": "emergency5"
+  }
+]

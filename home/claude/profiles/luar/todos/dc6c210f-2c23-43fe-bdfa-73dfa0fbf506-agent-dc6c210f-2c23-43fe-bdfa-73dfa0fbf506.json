@@ -1,0 +1,20 @@
+[
+  {
+    "content": "Analyze client ID parsing in /app/ page JavaScript",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Fix client ID extraction to use 'javan-zhang' not 'app'",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Add CSP hash 'sha256-wLkra+XV/XUOz71iMchfFiiwYhpETIUvUsWA8ma0OBg=' to security.js",
+    "status": "completed",
+    "priority": "medium",
+    "id": "3"
+  }
+]

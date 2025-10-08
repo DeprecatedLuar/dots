@@ -1,0 +1,71 @@
+# Kitty Configuration - Replicated from Alacritty
+
+# Window settings
+remember_window_size no
+initial_window_width 60c
+initial_window_height 30c
+window_padding_width 6
+background_opacity 0.80
+hide_window_decorations yes
+
+# Font configuration
+font_family Ubuntu Mono
+bold_font Ubuntu Mono Bold
+italic_font Ubuntu Mono Italic
+bold_italic_font Ubuntu Mono Bold Italic
+font_size 12.5
+
+# Better line spacing 
+modify_font cell_height 102%
+
+# Colors (Nord-inspired stylish theme with soft blue/cyan)
+foreground #a7c7e7
+background #000F1A
+cursor #00ff89
+
+# Black
+color0 #0d1117
+color8 #0d1117
+
+# Red
+color1 #ff7b72
+color9 #ffa198
+
+# Green (soft cyan)
+color2 #08f9aa
+color10 #08f9aa
+
+# Yellow
+color3 #f1b476
+color11 #f4926a
+
+# Blue
+color4 #71cee9
+color12 #71cee9
+
+# Magenta
+color5 #bc8cff
+color13 #d2a8ff
+
+# Cyan
+color6 #39c5cf
+color14 #56d4dd
+
+# White (soft blue)
+color7 #a7c7e7
+color15 #dbeafe
+
+# Key bindings
+map ctrl+shift+c copy_to_clipboard
+map ctrl+shift+v paste_from_clipboard
+map ctrl+plus change_font_size all +1.0
+map ctrl+minus change_font_size all -1.0
+map ctrl+0 change_font_size all 0
+
+# Shell
+shell /bin/bash --login
+
+# Performance settings
+repaint_delay 10
+input_delay 3
+sync_to_monitor yes

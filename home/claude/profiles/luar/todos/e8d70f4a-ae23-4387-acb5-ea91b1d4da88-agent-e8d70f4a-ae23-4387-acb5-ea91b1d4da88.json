@@ -1,0 +1,20 @@
+[
+  {
+    "content": "Remove border-image from .message-group that causes rectangular border",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Replace with solid border that respects border-radius",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Test message containers have proper rounded borders",
+    "status": "completed",
+    "priority": "medium",
+    "id": "3"
+  }
+]

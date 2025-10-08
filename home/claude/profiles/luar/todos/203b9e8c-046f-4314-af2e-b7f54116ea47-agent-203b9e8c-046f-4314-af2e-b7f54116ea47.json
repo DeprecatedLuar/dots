@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Fix missing favicon.ico file",
+    "status": "pending",
+    "priority": "low",
+    "id": "fix-1"
+  },
+  {
+    "content": "Fix Supabase configuration loading issues",
+    "status": "in_progress",
+    "priority": "high",
+    "id": "fix-2"
+  },
+  {
+    "content": "Fix CSS url_to_image and url_to_logo 404 errors",
+    "status": "pending",
+    "priority": "medium",
+    "id": "fix-3"
+  },
+  {
+    "content": "Check client configuration loading for javan-zhang",
+    "status": "pending",
+    "priority": "high",
+    "id": "fix-4"
+  }
+]

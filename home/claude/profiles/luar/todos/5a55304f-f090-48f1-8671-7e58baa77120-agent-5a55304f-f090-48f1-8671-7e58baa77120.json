@@ -1,0 +1,8 @@
+[
+  {
+    "content": "Fix the broken glass effects - restore both header and input to working state",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  }
+]

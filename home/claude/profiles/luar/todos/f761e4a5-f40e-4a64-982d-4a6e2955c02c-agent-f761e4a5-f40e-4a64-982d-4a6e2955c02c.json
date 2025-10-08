@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Search for message creation functions in /public/app/",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Check HTML script tags to identify all loaded JS files",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Find where glass-enhanced classes are applied to messages",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Look for dynamic CSS class modification code",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  },
+  {
+    "content": "Trace hardcoded message classes from HTML",
+    "status": "completed",
+    "priority": "medium",
+    "id": "5"
+  }
+]

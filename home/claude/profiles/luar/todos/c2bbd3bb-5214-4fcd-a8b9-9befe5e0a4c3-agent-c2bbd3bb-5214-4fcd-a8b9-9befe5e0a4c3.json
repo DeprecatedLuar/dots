@@ -1,0 +1,20 @@
+[
+  {
+    "content": "Check bashrc for external-repos references",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Search entire system for external-repos references",
+    "status": "completed",
+    "priority": "medium",
+    "id": "2"
+  },
+  {
+    "content": "Update any found references to use 'foreign' instead",
+    "status": "completed",
+    "priority": "medium",
+    "id": "3"
+  }
+]

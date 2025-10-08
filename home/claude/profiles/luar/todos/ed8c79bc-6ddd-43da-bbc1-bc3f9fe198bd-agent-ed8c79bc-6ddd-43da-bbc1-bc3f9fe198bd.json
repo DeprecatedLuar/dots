@@ -1,0 +1,22 @@
+[
+  {
+    "content": "Analyze project structure and identify all code files",
+    "status": "completed",
+    "activeForm": "Analyzing project structure and identifying code files"
+  },
+  {
+    "content": "Create comprehensive file inventory by type",
+    "status": "completed",
+    "activeForm": "Creating comprehensive file inventory by type"
+  },
+  {
+    "content": "Launch sub-agents to process batches of files for comment cleanup",
+    "status": "in_progress",
+    "activeForm": "Launching sub-agents to process file batches for comment cleanup"
+  },
+  {
+    "content": "Verify cleanup results and ensure code functionality is preserved",
+    "status": "pending",
+    "activeForm": "Verifying cleanup results and code functionality"
+  }
+]

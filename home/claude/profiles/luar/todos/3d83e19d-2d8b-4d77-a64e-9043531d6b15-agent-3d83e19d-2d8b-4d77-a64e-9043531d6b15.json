@@ -1,0 +1,14 @@
+[
+  {
+    "content": "Adjust avatar vertical position to center with first line of text",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Make avatar round instead of square",
+    "status": "completed",
+    "priority": "medium",
+    "id": "2"
+  }
+]

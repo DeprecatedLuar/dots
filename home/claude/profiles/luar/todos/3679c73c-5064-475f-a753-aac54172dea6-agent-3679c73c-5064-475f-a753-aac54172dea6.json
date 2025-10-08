@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Remove CSP-blocked inline script from HTML",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Change logger default from true to false",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Create config-init.js to pre-initialize config",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Fix script loading order in HTML",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Test that all browser logs are completely disabled",
+    "status": "completed",
+    "priority": "medium",
+    "id": "5"
+  }
+]

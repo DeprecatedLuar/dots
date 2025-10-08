@@ -1,0 +1,20 @@
+[
+  {
+    "content": "Analyze browser console errors and determine severity",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Check if CORS is properly configured for Supabase",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Investigate missing logo.png file",
+    "status": "completed",
+    "priority": "low",
+    "id": "3"
+  }
+]

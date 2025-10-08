@@ -1,0 +1,20 @@
+[
+  {
+    "content": "Install and configure dunst notification daemon",
+    "status": "in_progress",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Provide mako alternative for Wayland",
+    "status": "pending",
+    "priority": "medium",
+    "id": "2"
+  },
+  {
+    "content": "Show how to disable GNOME notifications",
+    "status": "pending",
+    "priority": "high",
+    "id": "3"
+  }
+]

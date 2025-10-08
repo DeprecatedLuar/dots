@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Analyze current status endpoint response format",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Design backward-compatible response format logic",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Update status endpoint to maintain frontend compatibility",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Test the updated response format with existing frontend expectations",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  }
+]

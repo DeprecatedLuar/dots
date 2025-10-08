@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Check for other facility level entries in save file",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Look for lvl fields that might control facility levels",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Update VAB lvl field from 0.5 to lower value",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Update SPH lvl field from 0 to higher value",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Check browser console errors for legacy system",
+    "status": "in_progress",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Verify all script src paths are accessible",
+    "status": "pending",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Test Import Maps resolution in legacy",
+    "status": "pending",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Check for missing assets causing load failures",
+    "status": "pending",
+    "priority": "medium",
+    "id": "4"
+  },
+  {
+    "content": "Compare working ROOT vs broken legacy loading",
+    "status": "pending",
+    "priority": "high",
+    "id": "5"
+  }
+]

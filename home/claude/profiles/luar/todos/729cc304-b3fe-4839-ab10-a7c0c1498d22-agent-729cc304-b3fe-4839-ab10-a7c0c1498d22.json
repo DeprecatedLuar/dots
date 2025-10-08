@@ -1,0 +1,22 @@
+[
+  {
+    "content": "Test the original main.go server",
+    "status": "completed",
+    "activeForm": "Testing the original main.go server"
+  },
+  {
+    "content": "Fix remaining import paths in tools directory",
+    "status": "completed",
+    "activeForm": "Fixing remaining import paths in tools directory"
+  },
+  {
+    "content": "Fix errors package time.RFC3339 issue",
+    "status": "in_progress",
+    "activeForm": "Fixing errors package time.RFC3339 issue"
+  },
+  {
+    "content": "Fix duplicate Execute method in http_request tool",
+    "status": "pending",
+    "activeForm": "Fixing duplicate Execute method in http_request tool"
+  }
+]
