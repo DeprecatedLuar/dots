@@ -1,0 +1,22 @@
+[
+  {
+    "content": "Check Mentor-OS frontend configuration for API endpoints",
+    "status": "in_progress",
+    "activeForm": "Checking Mentor-OS frontend configuration for API endpoints"
+  },
+  {
+    "content": "Verify API is running on port 3010",
+    "status": "pending",
+    "activeForm": "Verifying API is running on port 3010"
+  },
+  {
+    "content": "Check network requests in browser dev tools",
+    "status": "pending",
+    "activeForm": "Checking network requests in browser dev tools"
+  },
+  {
+    "content": "Review API endpoint configuration",
+    "status": "pending",
+    "activeForm": "Reviewing API endpoint configuration"
+  }
+]

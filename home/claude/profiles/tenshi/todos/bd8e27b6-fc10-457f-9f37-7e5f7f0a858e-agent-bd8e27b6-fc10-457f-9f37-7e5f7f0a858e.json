@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Analyze existing Supabase nodes in other n8n workflows to understand patterns",
+    "status": "pending",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Find Mentor OS database schema and connection details",
+    "status": "pending",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Read current vvl-scraper.json to understand Google Sheets usage",
+    "status": "pending",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Replace Google Sheets nodes with Supabase equivalent functionality",
+    "status": "pending",
+    "priority": "medium",
+    "id": "4"
+  },
+  {
+    "content": "Test and verify the modified workflow",
+    "status": "pending",
+    "priority": "low",
+    "id": "5"
+  }
+]

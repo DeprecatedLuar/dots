@@ -1,0 +1,12 @@
+[
+  {
+    "content": "Fix X11 overlay compilation issues",
+    "status": "completed",
+    "activeForm": "Fixing X11 overlay compilation issues"
+  },
+  {
+    "content": "Test green border on vim-normal layer",
+    "status": "in_progress",
+    "activeForm": "Testing green border on vim-normal layer"
+  }
+]

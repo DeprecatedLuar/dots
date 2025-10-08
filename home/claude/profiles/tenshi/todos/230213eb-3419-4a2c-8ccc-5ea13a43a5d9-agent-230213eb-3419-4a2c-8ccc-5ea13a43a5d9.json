@@ -1,0 +1,17 @@
+[
+  {
+    "content": "Extend auto-release.yml to include build and release creation steps",
+    "status": "completed",
+    "activeForm": "Extending auto-release.yml to include build and release creation steps"
+  },
+  {
+    "content": "Test the updated automation with a new commit",
+    "status": "completed",
+    "activeForm": "Testing the updated automation with a new commit"
+  },
+  {
+    "content": "Monitor the workflow execution to verify it works end-to-end",
+    "status": "in_progress",
+    "activeForm": "Monitoring the workflow execution to verify it works end-to-end"
+  }
+]

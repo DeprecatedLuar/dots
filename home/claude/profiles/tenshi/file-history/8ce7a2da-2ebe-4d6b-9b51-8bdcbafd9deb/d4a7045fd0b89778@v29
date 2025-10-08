@@ -1,0 +1,126 @@
+(defcfg
+  process-unmapped-keys yes
+  log-layer-changes no
+  linux-device-detect-mode keyboard-only
+)
+
+;; ============ SOURCE ============
+(defsrc
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft 102d z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lmet lalt           spc            ralt rmet rctl
+)
+
+;; ============ VARIABLES ============
+(defvar
+  Tt 200 ;; tap time
+  Ht 200 ;; hold time
+)
+
+;; ============ FAKE KEYS ============
+(deffakekeys
+  vshift lsft  ;; Virtual key to hold shift
+  vimk (layer-switch vim-normal)
+  def  (layer-switch default)
+  metl (multi lmet (layer-while-held meta-layer))
+  safety (macro (on-press release-vkey vshift) 10)
+  
+)
+
+;; ============ ALIASES ============
+(defalias
+  ;; International key (102d): tap = one-shot ctrl, hold = ctrl
+  intl-double-ctrl (tap-hold $Tt $Ht (one-shot 2000 lctl) lctl)
+
+  vimn (layer-switch vim-normal)
+  def (layer-switch default)
+  escaps (layer-switch escape)
+  meta (multi (on-press tap-vkey safety) (on-release tap-vkey def) lmet (layer-while-held meta-layer))
+  vsft (layer-while-held vim-shifted)
+
+  cap (tap-hold-press $Tt $Ht (tap-dance $Ht (@vimn @escaps)) @meta) ;; Caps Lock: single tap for vim-normal, double tap for escape, hold for meta-layer
+  pac (tap-hold-press $Tt $Ht (tap-dance $Ht (@def @escaps))  @meta)
+
+
+  ctrl-exit (multi lctl @def)
+
+
+  vis (multi (layer-switch visual-mode) (on-press press-vkey vshift))   ;; Visual mode: switch layer + hold shift
+
+
+  
+  vexit (macro (on-press tap-vkey vimk) 10 (on-press release-vkey vshift) 10 left)   ;; Exit visual mode: release shift + switch to vim-normal + press left   
+
+  insert-exit @def
+  super-exit (multi lmet @def)
+
+  vcp (macro (on-press release-vkey vshift) 10 C-c 10 (on-press tap-vkey vimk) left)
+  vcut (macro (on-press release-vkey vshift) 10 C-x 10 (on-press tap-vkey vimk))
+
+  fnd (macro C-f 10 (on-press tap-vkey def))
+
+
+  ;; Shift layer auto-return commands
+  Q (multi S-q @vimn)  W (multi S-w @vimn)
+  E (multi S-e @vimn)  R (multi S-r @vimn)
+  T (multi S-t @vimn)  Y (multi S-y @vimn)
+  U (multi S-u @vimn)  I (multi S-i @vimn)
+  O (multi S-o @vimn)  P (multi S-p @vimn)
+  A (multi S-a @vimn)  S (multi S-s @vimn)
+  D (multi S-d @vimn)  F (multi S-f @vimn)
+  G (multi S-g @vimn)
+  Z (multi S-z @vimn)  C (multi S-c @vimn)
+  B (multi S-b @vimn)  N (multi S-n @vimn)
+  M (multi S-m @vimn)
+)
+
+;; ============ LAYERS ============
+(deflayer default
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  @cap a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft @intl-double-ctrl z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl @super-exit lalt           spc            ralt @super-exit rctl
+)
+
+(deflayer vim-normal
+  XX   1    2    3    4    5    6    7    8    9    0    XX   XX   bspc
+  XX   XX   C-right XX   XX   XX   C-c  C-z  @insert-exit XX   C-v  [    ]    XX
+  @pac XX   XX   C-x  @D   XX   left down up right XX   '    ret
+  @vsft @intl-double-ctrl XX   del  XX   @vis C-left   XX   XX   XX   XX   @fnd  @vsft
+  @ctrl-exit @super-exit lalt           spc            ralt @super-exit @ctrl-exit
+)
+
+(deflayer vim-shifted
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   C-end   XX   XX   XX   XX   XX   XX   XX
+  _    XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   _
+  XX   XX   XX              XX              XX   XX   XX
+)
+
+(deflayer visual-mode
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   @vcp  XX   XX   XX   XX   XX   XX   XX
+  @pac XX   XX  @vcut XX   XX   S-left S-down S-up S-right XX   XX   ret
+  XX   XX   XX   XX   XX   @vexit XX   XX   XX   XX   XX   XX   XX
+  XX   @cap XX              XX              XX   @cap XX
+)
+
+(deflayer escape
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  @def _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _              _              _    _    _
+)
+
+(deflayer meta-layer
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  _    a  lalt lsft lctl    g    left down up   right ;    '    ret
+  lsft @intl-double-ctrl z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl _    lalt           spc            ralt _    rctl
+)

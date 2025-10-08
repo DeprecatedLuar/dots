@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Add fix-webm-duration library to project",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Track recording duration in audio-recorder.js",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Fix blob metadata before creating audio elements",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Test audio playback with metadata fix",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Update CLAUDE.md file structure section with missing files (streaming.js, background-animation.js)",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Add streaming system documentation to CLAUDE.md",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Add audio recording system documentation to CLAUDE.md",
+    "status": "completed",
+    "priority": "medium",
+    "id": "3"
+  },
+  {
+    "content": "Update logging migration counts with actual current numbers",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  },
+  {
+    "content": "Add background animation system documentation if substantial",
+    "status": "completed",
+    "priority": "low",
+    "id": "5"
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "content": "Fix script.js line 35: Change namespace overwrite to preserve existing properties",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Fix init.js line 199-200: Update menuSystem access path to correct namespace",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Test hamburger menu functionality after fixes",
+    "status": "completed",
+    "priority": "medium",
+    "id": "3"
+  }
+]

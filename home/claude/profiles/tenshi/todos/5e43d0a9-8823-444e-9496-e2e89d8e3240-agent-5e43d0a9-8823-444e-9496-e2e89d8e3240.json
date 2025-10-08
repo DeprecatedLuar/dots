@@ -1,0 +1,38 @@
+[
+  {
+    "content": "Add APP_DIR constant and paths to centralized paths system",
+    "status": "completed",
+    "priority": "high",
+    "id": "6"
+  },
+  {
+    "content": "Update app.js with new /app static route",
+    "status": "completed",
+    "priority": "high",
+    "id": "7"
+  },
+  {
+    "content": "Add app asset controller functions",
+    "status": "completed",
+    "priority": "high",
+    "id": "8"
+  },
+  {
+    "content": "Add app asset routes to routes file",
+    "status": "completed",
+    "priority": "high",
+    "id": "9"
+  },
+  {
+    "content": "Add template integration support",
+    "status": "completed",
+    "priority": "medium",
+    "id": "10"
+  },
+  {
+    "content": "Test all routes and verify preservation",
+    "status": "completed",
+    "priority": "medium",
+    "id": "11"
+  }
+]

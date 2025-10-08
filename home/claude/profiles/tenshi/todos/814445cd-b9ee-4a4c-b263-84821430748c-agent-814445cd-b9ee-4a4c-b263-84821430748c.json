@@ -1,0 +1,20 @@
+[
+  {
+    "content": "Research n8n OpenAI node documentation and structure",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Convert Make.com node configuration to n8n format",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Map the filter conditions to n8n conditional logic",
+    "status": "completed",
+    "priority": "medium",
+    "id": "3"
+  }
+]

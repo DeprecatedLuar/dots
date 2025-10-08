@@ -1,0 +1,12 @@
+[
+  {
+    "content": "Debug variable detection for nested TOML structures",
+    "status": "completed",
+    "activeForm": "Debugging variable detection for nested structures"
+  },
+  {
+    "content": "Implement variable editing functionality (@pokename)",
+    "status": "in_progress",
+    "activeForm": "Implementing variable editing functionality"
+  }
+]

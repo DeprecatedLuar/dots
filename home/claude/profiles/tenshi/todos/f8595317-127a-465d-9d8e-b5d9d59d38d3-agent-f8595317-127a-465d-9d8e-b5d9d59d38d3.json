@@ -1,0 +1,38 @@
+[
+  {
+    "content": "Add hidden password reset and recovery forms to login HTML",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Extend LoginHandler class with password reset methods",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Add recovery token detection after coach config loading",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Implement form state management methods",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Test existing login flow for regression",
+    "status": "completed",
+    "priority": "medium",
+    "id": "5"
+  },
+  {
+    "content": "Test new forgot password functionality",
+    "status": "completed",
+    "priority": "medium",
+    "id": "6"
+  }
+]

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -e
+source "$(dirname "$0")/../lib/utils.sh"
+source "$(dirname "$0")/../lib/commands.sh"
+
+case "$1" in
+    snatch) cmd_snatch "$2" ;;
+    link) shift; cmd_link "$@" ;;
+    unlink) shift; cmd_unlink "$@" ;;
+    eject) shift; cmd_eject "$@" ;;
+    rm) shift; cmd_rm "$@" ;;
+    sync|pull) cmd_sync ;;
+    push) cmd_push ;;
+    status) cmd_status ;;
+    help|--help|-h|"") cmd_help ;;
+    *) error "Unknown command: $1\nRun 'dots help' for usage" ;;
+esac

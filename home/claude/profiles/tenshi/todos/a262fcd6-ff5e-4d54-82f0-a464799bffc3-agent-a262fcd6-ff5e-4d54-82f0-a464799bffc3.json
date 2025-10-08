@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Revert auth.js to original state without auth bypass",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Revert server.js endpoint to original state",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Remove DISABLE_AUTH from .env",
+    "status": "completed",
+    "priority": "medium",
+    "id": "3"
+  },
+  {
+    "content": "Test that authentication works normally",
+    "status": "in_progress",
+    "priority": "medium",
+    "id": "4"
+  }
+]

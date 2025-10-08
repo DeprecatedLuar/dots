@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Modify handleSubmit() error handling for user already registered detection",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Add showCoachConfirmation() method using existing patterns",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Add handleAddCoachAccess() method for database integration",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Add restoreRegistrationForm() method for cancel functionality",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Add CSS styles for confirmation UI",
+    "status": "completed",
+    "priority": "medium",
+    "id": "5"
+  }
+]

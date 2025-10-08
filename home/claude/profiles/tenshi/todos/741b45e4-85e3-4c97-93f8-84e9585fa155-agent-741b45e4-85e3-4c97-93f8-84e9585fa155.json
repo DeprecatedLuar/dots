@@ -1,0 +1,20 @@
+[
+  {
+    "content": "Find current funds and science values in persistent.sfs",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Set funds to 30000",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Add 20 science to current amount",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  }
+]

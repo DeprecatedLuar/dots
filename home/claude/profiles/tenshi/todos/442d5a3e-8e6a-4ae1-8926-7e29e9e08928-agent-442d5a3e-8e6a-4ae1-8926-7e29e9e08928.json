@@ -1,0 +1,8 @@
+[
+  {
+    "content": "Fix race condition in polling logic by moving clearInterval before async status check",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  }
+]

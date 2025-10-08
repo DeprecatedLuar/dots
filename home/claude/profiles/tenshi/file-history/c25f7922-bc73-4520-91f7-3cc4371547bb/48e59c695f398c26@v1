@@ -1,0 +1,24 @@
+# Handle executable files first
+has_exec_flag = ~/Development/bin/multiplexer "$1"
+
+# Programming files
+ext py|sh|pl|rb|php|js|ts|jsx|tsx|c|cpp|h|hpp|java|kt|go|rs = ~/Development/bin/multiplexer "$1"
+
+# Web files  
+ext html|htm|css|scss|sass|less|xml|svg = ~/Development/bin/multiplexer "$1"
+
+# Config files
+ext conf|config|cfg|ini|yaml|yml|json|toml|env = ~/Development/bin/multiplexer "$1"
+
+# Documentation
+ext txt|md|rst|org|tex|log|readme = ~/Development/bin/multiplexer "$1"
+
+# Text MIME types
+mime ^text = ~/Development/bin/multiplexer "$1"
+text/plain = ~/Development/bin/multiplexer "$1"
+
+# JSON specifically
+mime application/json = ~/Development/bin/multiplexer "$1"
+
+# Fallback - open anything in editor
+!mime ^image, !mime ^video, !mime ^audio = ~/Development/bin/multiplexer "$1"

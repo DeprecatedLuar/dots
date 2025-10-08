@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Update Supabase URL in server.js CSP configuration (remove www)",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Update Supabase URL in auth.js (remove www)",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Search for any other instances of incorrect URL",
+    "status": "completed",
+    "priority": "medium",
+    "id": "3"
+  },
+  {
+    "content": "Test authentication with correct URL",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  }
+]

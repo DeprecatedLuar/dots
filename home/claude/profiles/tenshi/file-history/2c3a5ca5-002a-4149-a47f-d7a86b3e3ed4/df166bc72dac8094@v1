@@ -1,0 +1,82 @@
+#!/bin/bash
+# ~/.config/bash/bin/bashrc
+
+case "$1" in
+    # Shortcuts
+    ela)
+        $EDITOR "$HOME/.config/bash/modules/local/aliases.sh"
+        ;;
+    eua)
+        $EDITOR "$HOME/.config/bash/modules/universal/aliases.sh"
+        ;;
+    elp)
+        $EDITOR "$HOME/.config/bash/modules/local/paths.sh"
+        ;;
+    eup)
+        $EDITOR "$HOME/.config/bash/modules/universal/paths.sh"
+        ;;
+    
+    # Full commands
+    edit)
+        case "$2" in
+            local)
+                case "$3" in
+                    alias|aliases) $EDITOR "$HOME/.config/bash/modules/local/aliases.sh" ;;
+                    paths|path) $EDITOR "$HOME/.config/bash/modules/local/paths.sh" ;;
+                esac
+                ;;
+            universal)
+                case "$3" in
+                    alias|aliases) $EDITOR "$HOME/.config/bash/modules/universal/aliases.sh" ;;
+                    paths|path) $EDITOR "$HOME/.config/bash/modules/universal/paths.sh" ;;
+                esac
+                ;;
+        esac
+        ;;
+    
+    update)
+        echo "Updating bash..."
+        cd "$HOME/.config/bash" || exit 1
+        git pull
+        echo "Update complete"
+        echo "Run reload to apply changes"
+        ;;
+
+	install)
+	    source "$HOME/.config/bash/lib/os-detect.sh"
+	    PKG_MGR=$(detect_package_manager)
+	    
+	    if [[ ! -f "$HOME/.config/bash/lib/${PKG_MGR}-packages.sh" ]]; then
+	        echo "Error: Unsupported package manager: $PKG_MGR"
+	        echo "No lib/${PKG_MGR}-packages.sh found"
+	        exit 1
+	    fi
+	    
+	    # Source the package file (contains arrays + install function)
+	    source "$HOME/.config/bash/lib/${PKG_MGR}-packages.sh"
+	    
+	    case "$2" in
+	        universal) install_packages "${UNIVERSAL[@]}" ;;
+	        dev-tools) install_packages "${DEV_TOOLS[@]}" ;;
+	        all) install_packages "${UNIVERSAL[@]}" "${DEV_TOOLS[@]}" ;;
+	        *)
+	            echo "Usage: bashrc install [universal|dev-tools|all]"
+	            ;;
+	    esac
+	    ;;
+    
+    *)
+        echo "Usage: bashrc <command>"
+        echo ""
+        echo "Commands:"
+        echo "  edit local [alias|paths]      - Edit local config"
+        echo "  edit universal [alias|paths]  - Edit universal config"
+        echo "  update                        - Pull latest from GitHub"
+        echo ""
+        echo "Shortcuts:"
+        echo "  ela  - edit local alias"
+        echo "  elp  - edit local paths"
+        echo "  eua  - edit universal alias"
+        echo "  eup  - edit universal paths"
+        ;;
+esac

@@ -1,0 +1,22 @@
+[
+  {
+    "content": "Add loading animations for utterances iframe",
+    "status": "completed",
+    "activeForm": "Adding loading animations for utterances iframe"
+  },
+  {
+    "content": "Style the iframe loading area",
+    "status": "completed",
+    "activeForm": "Styling the iframe loading area"
+  },
+  {
+    "content": "Create visual bridge elements between design and comments",
+    "status": "in_progress",
+    "activeForm": "Creating visual bridge elements between design and comments"
+  },
+  {
+    "content": "Add CSS targeting for iframe outer styling",
+    "status": "completed",
+    "activeForm": "Adding CSS targeting for iframe outer styling"
+  }
+]

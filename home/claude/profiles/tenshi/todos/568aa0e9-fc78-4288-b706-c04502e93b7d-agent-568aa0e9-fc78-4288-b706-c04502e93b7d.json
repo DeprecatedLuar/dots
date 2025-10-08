@@ -1,0 +1,20 @@
+[
+  {
+    "content": "Install Catppuccin macchiato theme with peach accent",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Install Catppuccin macchiato theme with lavender accent",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Install Catppuccin macchiato theme with flamingo accent",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  }
+]

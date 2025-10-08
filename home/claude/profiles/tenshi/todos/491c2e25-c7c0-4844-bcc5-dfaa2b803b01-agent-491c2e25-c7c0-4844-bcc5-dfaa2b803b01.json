@@ -1,0 +1,50 @@
+[
+  {
+    "content": "Update @legacy-utils/ to @app-utils/ in all JS files",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Update @legacy-components/ to @app-components/ in all JS files",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Update @legacy-managers/ to @app-managers/ in all JS files",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Update @legacy-features/ to @app-features/ in all JS files",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Update @legacy-services/ to @app-services/ in all JS files",
+    "status": "completed",
+    "priority": "high",
+    "id": "5"
+  },
+  {
+    "content": "Update @legacy-integrations/ to @app-integrations/ in all JS files",
+    "status": "completed",
+    "priority": "high",
+    "id": "6"
+  },
+  {
+    "content": "Update @legacy-api/ to @app-api/ in all JS files",
+    "status": "completed",
+    "priority": "high",
+    "id": "7"
+  },
+  {
+    "content": "Update @legacy-core/ to @app-core/ in all JS files",
+    "status": "completed",
+    "priority": "high",
+    "id": "8"
+  }
+]

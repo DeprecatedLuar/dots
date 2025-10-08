@@ -1,0 +1,6 @@
+{
+    "*.conf": {
+        "filetype": "off"
+    },
+    "colorscheme": "cmc-16"
+}

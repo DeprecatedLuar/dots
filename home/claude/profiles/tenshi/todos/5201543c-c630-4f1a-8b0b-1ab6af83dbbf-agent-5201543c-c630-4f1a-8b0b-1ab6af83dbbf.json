@@ -1,0 +1,22 @@
+[
+  {
+    "content": "Create .gitignore file",
+    "status": "completed",
+    "activeForm": "Creating .gitignore file"
+  },
+  {
+    "content": "Initialize git repo if needed",
+    "status": "completed",
+    "activeForm": "Initializing git repo if needed"
+  },
+  {
+    "content": "Add and commit all files",
+    "status": "in_progress",
+    "activeForm": "Adding and committing all files"
+  },
+  {
+    "content": "Push to GitHub",
+    "status": "pending",
+    "activeForm": "Pushing to GitHub"
+  }
+]

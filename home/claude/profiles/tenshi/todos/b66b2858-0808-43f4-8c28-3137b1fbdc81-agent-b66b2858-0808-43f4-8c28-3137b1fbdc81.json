@@ -1,0 +1,12 @@
+[
+  {
+    "content": "Install @iarna/toml dependency",
+    "status": "in_progress",
+    "activeForm": "Installing @iarna/toml dependency"
+  },
+  {
+    "content": "Test server startup after dependency installation",
+    "status": "pending",
+    "activeForm": "Testing server startup after dependency installation"
+  }
+]

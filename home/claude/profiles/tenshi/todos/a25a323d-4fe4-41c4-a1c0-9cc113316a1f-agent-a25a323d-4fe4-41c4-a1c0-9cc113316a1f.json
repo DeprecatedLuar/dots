@@ -1,0 +1,20 @@
+[
+  {
+    "content": "Update dynamic route in app.js from /:page/:client to /:client/:page",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Test new URL pattern with sample URLs",
+    "status": "in_progress",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Verify all logic remains identical",
+    "status": "pending",
+    "priority": "medium",
+    "id": "3"
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "content": "Install @supabase/supabase-js via npm",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Update auth.js to use ES6 import instead of window.supabase",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Remove waitForSupabase() function from auth.js",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Update loadSupabaseConfig() to use createClient() directly",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Remove Supabase CDN script from index.html",
+    "status": "completed",
+    "priority": "medium",
+    "id": "5"
+  },
+  {
+    "content": "Test the ES6 import solution",
+    "status": "completed",
+    "priority": "high",
+    "id": "6"
+  }
+]

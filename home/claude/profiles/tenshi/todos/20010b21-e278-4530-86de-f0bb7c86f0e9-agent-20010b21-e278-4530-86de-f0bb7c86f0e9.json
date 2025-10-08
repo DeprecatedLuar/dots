@@ -1,0 +1,44 @@
+[
+  {
+    "content": "Update glass-surface with layered background using theme colors",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Enhance glass-enhanced with element-container-secondary",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Update glass-subtle with lighter-ui-background",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Enhance base .glass class with theme color support",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Update border integration to use theme border colors",
+    "status": "completed",
+    "priority": "medium",
+    "id": "5"
+  },
+  {
+    "content": "Add theme-aware glass utility variants",
+    "status": "completed",
+    "priority": "medium",
+    "id": "6"
+  },
+  {
+    "content": "Test glass effects with theme color integration",
+    "status": "completed",
+    "priority": "medium",
+    "id": "7"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Check what endpoint registration system actually uses",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Test both endpoints directly in browser",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Identify template system endpoint configuration",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Fix endpoint mismatch",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  }
+]

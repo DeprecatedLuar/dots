@@ -1,0 +1,14 @@
+[
+  {
+    "content": "Create start-workspace executable script that calls the tmux-workspace function",
+    "status": "in_progress",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Make tmux-workspace executable",
+    "status": "pending",
+    "priority": "medium",
+    "id": "2"
+  }
+]

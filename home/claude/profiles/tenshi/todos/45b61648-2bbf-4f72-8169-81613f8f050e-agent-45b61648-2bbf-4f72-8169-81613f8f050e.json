@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Update API Layer reference to reflect new api/index.js structure",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Update file path references throughout CLAUDE.md",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Update External Integrations section to remove webhook references",
+    "status": "completed",
+    "priority": "medium",
+    "id": "3"
+  },
+  {
+    "content": "Add documentation for new API configuration structure",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  }
+]

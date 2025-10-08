@@ -1,0 +1,14 @@
+[
+  {
+    "content": "Move cargo, rustup, and npm directories to organized bash folder structure",
+    "status": "completed",
+    "priority": "high",
+    "id": "move-dev-tools"
+  },
+  {
+    "content": "Fix Rust toolchain after moving directories",
+    "status": "completed",
+    "priority": "high",
+    "id": "fix-rust-setup"
+  }
+]

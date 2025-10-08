@@ -1,0 +1,22 @@
+[
+  {
+    "content": "Check current dev server errors and identify broken paths",
+    "status": "in_progress",
+    "activeForm": "Checking dev server errors and identifying broken paths"
+  },
+  {
+    "content": "Examine JavaScript files for path reference issues",
+    "status": "pending",
+    "activeForm": "Examining JavaScript files for path reference issues"
+  },
+  {
+    "content": "Update frontend path references to use new TOML-based system",
+    "status": "pending",
+    "activeForm": "Updating frontend path references to use new TOML-based system"
+  },
+  {
+    "content": "Test application functionality after path fixes",
+    "status": "pending",
+    "activeForm": "Testing application functionality after path fixes"
+  }
+]

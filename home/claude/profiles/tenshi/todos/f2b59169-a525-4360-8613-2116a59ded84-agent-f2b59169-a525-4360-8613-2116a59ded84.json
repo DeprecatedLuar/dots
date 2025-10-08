@@ -1,0 +1,56 @@
+[
+  {
+    "content": "Split auth.js into auth-core.js, auth-validation.js, auth-ui.js",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Split chat.js into chat-messages.js, chat-ui.js",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Split streaming.js into streaming-core.js, streaming-engine.js",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Split loadConfig.js into config-loader.js, config-applier.js",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  },
+  {
+    "content": "Split user-tracking.js into tracking-core.js, tracking-api.js",
+    "status": "completed",
+    "priority": "medium",
+    "id": "5"
+  },
+  {
+    "content": "Update import statements in dependent files",
+    "status": "pending",
+    "priority": "high",
+    "id": "6"
+  },
+  {
+    "content": "Test all functionality after splits",
+    "status": "pending",
+    "priority": "high",
+    "id": "7"
+  },
+  {
+    "content": "Remove original oversized files",
+    "status": "pending",
+    "priority": "medium",
+    "id": "8"
+  },
+  {
+    "content": "DEBUG: Investigate logo loading issue after chat.js split",
+    "status": "completed",
+    "priority": "high",
+    "id": "9"
+  }
+]

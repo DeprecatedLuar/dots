@@ -1,0 +1,44 @@
+[
+  {
+    "content": "Analyze template dependencies and requirements",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Identify integration touch points for legacy HTML",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Document initialization sequence and loading order",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Assess conflict risks with legacy code patterns",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Evaluate backward compatibility strategies",
+    "status": "completed",
+    "priority": "medium",
+    "id": "5"
+  },
+  {
+    "content": "Analyze configuration migration patterns",
+    "status": "completed",
+    "priority": "medium",
+    "id": "6"
+  },
+  {
+    "content": "Define minimal integration path",
+    "status": "completed",
+    "priority": "high",
+    "id": "7"
+  }
+]

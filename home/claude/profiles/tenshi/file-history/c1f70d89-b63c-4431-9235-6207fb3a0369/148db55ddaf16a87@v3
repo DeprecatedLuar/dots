@@ -1,0 +1,75 @@
+# Kitty Configuration - Replicated from Alacritty
+
+# Window settings
+remember_window_size no
+initial_window_width 60c
+initial_window_height 30c
+window_padding_width 6
+background_opacity 0.95
+background_image ~/.config/kitty/bg-blurred-darker.png
+#background_image_layout scale
+background_tint 0.0
+hide_window_decorations yes
+
+# Font configuration
+font_family Mononoki Nerd Font Mono
+bold_font Mononoki Nerd Font Bold
+italic_font VictorMono Nerd Font Italic
+bold_italic_font Agave Nerd Font Mono Bold Italic
+font_size 12.5
+
+# Better line spacing 
+modify_font cell_height 102%
+
+# Colors
+foreground #bad6f1
+background #0c1219
+cursor #00ff89
+
+# Black
+color0 #1f3349
+color8 #1e2d3d
+
+# Red
+color1 #ff6721
+color9 #ff4e3e
+
+# Green
+color2 #08f9aa
+color10 #71d9b9
+
+# Yellow
+color3 #f1b476
+color11 #f4926a
+
+# Blue
+color4 #84a0ee
+color12 #84b2ee
+
+# Magenta
+color5 #bc8cff
+color13 #d2a8ff
+
+# Cyan
+color6 #36babe
+color14 #56d4dd
+
+# White 
+color7 #d0f3f0
+color15 #d0daf3
+
+# Key bindings
+map ctrl+shift+c copy_to_clipboard
+map ctrl+shift+v paste_from_clipboard
+map ctrl+plus change_font_size all +1.0
+map ctrl+minus change_font_size all -1.0
+map ctrl+0 change_font_size all 0
+# map ctrl+l - let shell handle it (default behavior pushes content up)
+
+# Shell
+shell /bin/bash --login
+
+# Performance settings
+repaint_delay 10
+input_delay 3
+sync_to_monitor yes

@@ -1,0 +1,8 @@
+[
+  {
+    "content": "Update menu button styles in public/style.css to remove container and make it just the icon",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  }
+]

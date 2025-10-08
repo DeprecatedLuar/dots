@@ -1,0 +1,20 @@
+[
+  {
+    "content": "Update validateCoachAccess() function to use coach_ids array",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Test multi-coach authentication functionality",
+    "status": "pending",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Verify single coach access still works",
+    "status": "pending",
+    "priority": "medium",
+    "id": "3"
+  }
+]

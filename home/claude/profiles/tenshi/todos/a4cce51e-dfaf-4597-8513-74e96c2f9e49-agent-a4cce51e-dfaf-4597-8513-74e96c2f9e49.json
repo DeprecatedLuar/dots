@@ -1,0 +1,20 @@
+[
+  {
+    "content": "Remove test result JSON files from repository",
+    "status": "in_progress",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Update .gitignore to exclude API test results",
+    "status": "pending",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Verify git status is clean",
+    "status": "pending",
+    "priority": "medium",
+    "id": "3"
+  }
+]

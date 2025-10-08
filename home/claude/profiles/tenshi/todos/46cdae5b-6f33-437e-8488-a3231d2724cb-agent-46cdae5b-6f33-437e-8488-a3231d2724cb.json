@@ -1,0 +1,22 @@
+[
+  {
+    "content": "Remove homebrew from apt-packages.sh UNIVERSAL array",
+    "status": "completed",
+    "activeForm": "Removing homebrew from apt-packages.sh UNIVERSAL array"
+  },
+  {
+    "content": "Create lib/special-packages.sh with homebrew installation",
+    "status": "completed",
+    "activeForm": "Creating lib/special-packages.sh with homebrew installation"
+  },
+  {
+    "content": "Update bin/bashrc to support 'install specials' command",
+    "status": "in_progress",
+    "activeForm": "Updating bin/bashrc to support 'install specials' command"
+  },
+  {
+    "content": "Update setup.sh to call special packages installation",
+    "status": "pending",
+    "activeForm": "Updating setup.sh to call special packages installation"
+  }
+]

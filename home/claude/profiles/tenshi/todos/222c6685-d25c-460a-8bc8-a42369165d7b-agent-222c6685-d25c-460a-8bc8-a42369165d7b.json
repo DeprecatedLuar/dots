@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Re-enable warning modal HTML in index.html",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Add session tracking flag for warning modal",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Update sendTextMessage to check for warning before sending",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Update modal handlers to set session flag",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  },
+  {
+    "content": "Test the warning modal functionality",
+    "status": "completed",
+    "priority": "medium",
+    "id": "5"
+  }
+]

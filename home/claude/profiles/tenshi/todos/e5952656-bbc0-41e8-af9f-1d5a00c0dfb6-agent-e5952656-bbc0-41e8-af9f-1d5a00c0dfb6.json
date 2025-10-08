@@ -1,0 +1,50 @@
+[
+  {
+    "content": "Explore and map project structures for both legacy MentorOS and modern registration system",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Analyze configuration systems - legacy loadConfig.js vs modern 5-tier cascade",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Compare Supabase integration approaches and identify conflicts",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Analyze CSS/theming architecture differences and precedence issues",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  },
+  {
+    "content": "Map global variable overlaps and namespace collisions",
+    "status": "completed",
+    "priority": "medium",
+    "id": "5"
+  },
+  {
+    "content": "Compare file structures and recommend migration path",
+    "status": "completed",
+    "priority": "medium",
+    "id": "6"
+  },
+  {
+    "content": "Identify shared functionality for unification opportunities",
+    "status": "completed",
+    "priority": "medium",
+    "id": "7"
+  },
+  {
+    "content": "Provide integration sequence recommendations",
+    "status": "completed",
+    "priority": "high",
+    "id": "8"
+  }
+]

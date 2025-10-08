@@ -1,0 +1,38 @@
+[
+  {
+    "content": "Explore the project structure to understand the two server environments",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Compare server configuration files for port, binding, and host settings",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Analyze middleware stacks in both environments",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Check environment variables and configuration differences",
+    "status": "in_progress",
+    "priority": "medium",
+    "id": "4"
+  },
+  {
+    "content": "Compare request routing and processing chains",
+    "status": "pending",
+    "priority": "medium",
+    "id": "5"
+  },
+  {
+    "content": "Investigate client-side differences and execution contexts",
+    "status": "pending",
+    "priority": "medium",
+    "id": "6"
+  }
+]

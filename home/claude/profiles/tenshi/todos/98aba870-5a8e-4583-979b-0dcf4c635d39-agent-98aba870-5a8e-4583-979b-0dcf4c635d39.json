@@ -1,0 +1,26 @@
+[
+  {
+    "content": "Create production-ready .gitignore",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Clean up development files for publication",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Initialize git repository",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Prepare for first commit and push",
+    "status": "completed",
+    "priority": "high",
+    "id": "4"
+  }
+]

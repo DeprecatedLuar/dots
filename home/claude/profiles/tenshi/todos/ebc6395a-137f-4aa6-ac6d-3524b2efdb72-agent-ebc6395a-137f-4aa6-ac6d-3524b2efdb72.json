@@ -1,0 +1,32 @@
+[
+  {
+    "content": "Analyze JavaScript performance and optimization",
+    "status": "completed",
+    "priority": "high",
+    "id": "1"
+  },
+  {
+    "content": "Review CSS and asset optimization",
+    "status": "completed",
+    "priority": "high",
+    "id": "2"
+  },
+  {
+    "content": "Examine network and loading performance",
+    "status": "completed",
+    "priority": "high",
+    "id": "3"
+  },
+  {
+    "content": "Check server-side optimizations",
+    "status": "completed",
+    "priority": "medium",
+    "id": "4"
+  },
+  {
+    "content": "Provide optimization recommendations",
+    "status": "completed",
+    "priority": "medium",
+    "id": "5"
+  }
+]

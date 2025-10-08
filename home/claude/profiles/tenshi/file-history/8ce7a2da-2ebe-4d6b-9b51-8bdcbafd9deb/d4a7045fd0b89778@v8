@@ -1,0 +1,104 @@
+(defcfg
+  process-unmapped-keys yes
+  log-layer-changes no
+  linux-device-detect-mode keyboard-only
+)
+
+;; ============ SOURCE ============
+(defsrc
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft 102d z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lmet lalt           spc            ralt rmet rctl
+)
+
+;; ============ VARIABLES ============
+(defvar
+
+
+  Tt 200 ;; tap time
+  Ht 200 ;; hold time
+)
+
+;; ============ ALIASES ============
+(defalias
+  ;; International key (102d): tap = one-shot ctrl, hold = ctrl
+  intl-double-ctrl (tap-hold $Tt $Ht (one-shot 2000 lctl) lctl)
+
+  vimn (layer-switch vim-normal)
+  def (layer-switch default)
+  escaps (layer-switch escape)
+  meta (layer-while-held meta-layer)
+
+  ;; Caps Lock: single tap for vim-normal, double tap for escape, hold for meta-layer
+  cap (tap-hold-press $Tt $Ht (tap-dance $Ht (@vimn @escaps)) @meta)
+
+  ;; Conditional keys with Super modifier
+  f^ (fork f lctl (lmet rmet))
+  d^ (fork d lsft (lmet rmet))
+  s^ (fork s lalt (lmet rmet))
+
+  ;; Layer switching
+  caps-to-default @def
+  ctrl-exit (multi lctl @def)
+  shift-toggle (layer-switch vim-shift)
+  visual-toggle (layer-switch visual-mode)
+  visual-exit @vimn
+  insert-exit @def
+  super-exit (multi lmet @def)
+
+  ;; Copy and cut actions
+  copy-exit (multi C-c @vimn)
+  cut-exit (multi C-x (on-press-fakekey-delay 50) (on-press-fakekey exit-to-vim press))
+  visual-cut C-x
+)
+
+;; ============ LAYERS ============
+(deflayer default
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  @cap a    @s^    @d^    @f^    g    h    j    k    l    ;    '    ret
+  lsft @intl-double-ctrl z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl @super-exit lalt           spc            ralt @super-exit rctl
+)
+
+(deflayer vim-normal
+  XX   1    2    3    4    5    6    7    8    9    0    XX   XX   bspc
+  XX   XX   C-right XX   XX   XX   C-c  C-z  @insert-exit XX   C-v  [    ]    XX
+  @caps-to-default XX   XX   C-x  @d^   XX   left down up right XX   '    ret
+  lsft @intl-double-ctrl XX   del  XX   @shift-toggle XX   XX   XX   XX   bspc XX   rsft
+  @ctrl-exit @super-exit lalt           spc            ralt @super-exit @ctrl-exit
+)
+
+(deflayer vim-shift
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   bspc
+  XX   XX   XX   XX   XX   XX   C-c  XX   XX   XX   XX   XX   XX   XX
+  @caps-to-default XX   XX   XX   @d^  XX   XX   XX   XX   XX   XX   XX   ret
+  lsft @intl-double-ctrl XX   @cut-exit XX   @visual-toggle XX   XX   XX   XX   XX   XX   rsft
+  @ctrl-exit @super-exit lalt           spc            ralt @super-exit @ctrl-exit
+)
+
+(deflayer visual-mode
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    S-C-right e    r    t    @copy-exit u    i    o    p    [    ]    \
+  @caps-to-default a    s    @visual-cut    @d^    g    S-left S-down S-up S-right ;    '    ret
+  lsft @intl-double-ctrl z    del    S-c    @visual-exit b    n    m    ,    S-bspc /    rsft
+  @ctrl-exit @super-exit lalt           spc            ralt @super-exit @ctrl-exit
+)
+
+(deflayer escape
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  @def _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _              _              _    _    _
+)
+
+(deflayer meta-layer
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  _    lalt lsft lctl lmet g    left down up   right ;    '    ret
+  lsft @intl-double-ctrl z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lmet lalt           spc            ralt lmet lctl
+)

@@ -1,0 +1,37 @@
+[
+  {
+    "content": "Create new core structure: shared/, domains/, runtime/",
+    "status": "in_progress",
+    "activeForm": "Creating new core structure: shared/, domains/, runtime/"
+  },
+  {
+    "content": "Move cross-cutting code to shared/",
+    "status": "pending",
+    "activeForm": "Moving cross-cutting code to shared/"
+  },
+  {
+    "content": "Organize business domains under domains/",
+    "status": "pending",
+    "activeForm": "Organizing business domains under domains/"
+  },
+  {
+    "content": "Move orchestration to runtime/",
+    "status": "pending",
+    "activeForm": "Moving orchestration to runtime/"
+  },
+  {
+    "content": "Update import statements for new core structure",
+    "status": "pending",
+    "activeForm": "Updating import statements for new core structure"
+  },
+  {
+    "content": "Test compilation",
+    "status": "pending",
+    "activeForm": "Testing compilation"
+  },
+  {
+    "content": "Update documentation",
+    "status": "pending",
+    "activeForm": "Updating documentation"
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "content": "Install required packages (sox, curl, lame, ydotool, whisper)",
+    "status": "in_progress",
+    "activeForm": "Installing required packages"
+  },
+  {
+    "content": "Setup ydotool service",
+    "status": "pending",
+    "activeForm": "Setting up ydotool service"
+  },
+  {
+    "content": "Clone and setup voice_typing repository",
+    "status": "pending",
+    "activeForm": "Cloning and setting up voice_typing"
+  },
+  {
+    "content": "Test voice_typing functionality",
+    "status": "pending",
+    "activeForm": "Testing voice_typing"
+  }
+]
