@@ -1,6 +1,0 @@
-{
-    "*.conf": {
-        "filetype": "git-config"
-    },
-    "colorscheme": "cmc-16"
-}

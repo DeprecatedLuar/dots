@@ -1,8 +1,0 @@
-[
-  {
-    "content": "Update mediaSrc directive in server.js CSP configuration to allow blob: and data: URLs",
-    "status": "completed",
-    "priority": "high",
-    "id": "1"
-  }
-]

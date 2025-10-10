@@ -1,8 +1,0 @@
-[
-  {
-    "content": "Remove development auth bypass that's hiding login modal",
-    "status": "completed",
-    "priority": "high",
-    "id": "12"
-  }
-]

@@ -1,8 +1,0 @@
-[
-  {
-    "content": "Delete original clients/ directory and verify legacy system still works",
-    "status": "completed",
-    "priority": "high",
-    "id": "delete-original-clients"
-  }
-]

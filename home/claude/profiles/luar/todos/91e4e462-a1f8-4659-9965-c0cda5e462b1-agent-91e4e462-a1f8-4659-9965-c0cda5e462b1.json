@@ -1,8 +1,0 @@
-[
-  {
-    "content": "Fix D key cutting in visual-mode and block space in vim-mode",
-    "status": "completed",
-    "priority": "medium",
-    "id": "1"
-  }
-]

@@ -1,6 +1,0 @@
-{
-    "*.conf": {
-        "filetype": "ini"
-    },
-    "colorscheme": "cmc-16"
-}

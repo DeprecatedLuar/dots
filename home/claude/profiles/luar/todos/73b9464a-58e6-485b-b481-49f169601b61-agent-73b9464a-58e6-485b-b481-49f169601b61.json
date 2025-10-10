@@ -1,8 +1,0 @@
-[
-  {
-    "content": "Update defaultSrc directive to include Supabase URL for broader CSP permissions",
-    "status": "completed",
-    "priority": "high",
-    "id": "1"
-  }
-]

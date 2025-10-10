@@ -1,8 +1,0 @@
-[
-  {
-    "content": "Reduce SUCCESS_MESSAGE_DURATION from 3000ms to 500ms in login-handler.js",
-    "status": "completed",
-    "priority": "high",
-    "id": "1"
-  }
-]
