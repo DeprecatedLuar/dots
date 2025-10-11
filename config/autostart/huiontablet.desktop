@@ -1,0 +1,18 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=HuionTablet
+Comment=Huion driver
+Exec=/usr/lib/huiontablet/huiontablet.sh
+Icon=/usr/share/icons/huiontablet.png
+Terminal=false
+Type=Application
+X-Ubuntu-Touch=true
+Categories=Application;Utility;Qt;
+StartupNotify=true
+Name[en_US]=HuionTablet
+NoDisplay=false
+X-GNOME-Autostart-enabled=false
+X-GNOME-Autostart-Phase=Application
+SingleMainWindow=true
+X-GNOME-UsesNotifications=true
+X-GNOME-SingleWindow=true
