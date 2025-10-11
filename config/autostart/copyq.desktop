@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=CopyQ
+Comment=Clipboard Manager
+Exec=copyq
+Icon=copyq
+Type=Application
+Categories=Utility;
+StartupNotify=false
+X-GNOME-Autostart-enabled=true
+Hidden=false
