@@ -2,5 +2,5 @@
     "*.conf": {
         "filetype": "git-config"
     },
-    "colorscheme": "one-dark"
+    "colorscheme": "monokai"
 }
