@@ -2,5 +2,6 @@
     "*.conf": {
         "filetype": "git-config"
     },
-    "colorscheme": "monokai"
+    "colorscheme": "monokai",
+    "softwrap": true
 }

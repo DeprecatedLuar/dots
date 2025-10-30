@@ -2,6 +2,7 @@ format = """
 $username\
 $hostname\
 $directory\
+$python\
 $git_branch\
 $git_state\
 $git_status\
@@ -69,3 +70,12 @@ when = "ps aux | grep stunnel | grep -v grep"
 command = "ps -o etime= -p $(ps aux | grep stunnel | grep -v grep | awk '{print $2}')"
 style = "red"
 format = "[TUNNEL OPEN for $output]($style)"
+
+[python]
+symbol = ""
+format = 'via [$symbol($virtualenv )]($style)'
+style = "yellow"
+pyenv_version_name = false
+detect_extensions = []
+detect_files = [".python-version", "Pipfile", "requirements.txt", "pyproject.toml"]
+detect_folders = ["venv", ".venv"]

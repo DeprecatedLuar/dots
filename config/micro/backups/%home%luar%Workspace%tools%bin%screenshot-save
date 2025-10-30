@@ -1,0 +1,24 @@
+122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u122;6u#!/bin/bash
+
+PICTURES_DIR="$HOME/Media/Pictures"
+SCREENSHOTS_DIR="$HOME/Media/Pictures/Screenshots"
+
+if [[ "$1" == "--temp" || "$1" == "-t" ]]; then
+    filename="temp.png"
+    output_path="$PICTURES_DIR/$filename"
+    notify=false
+else
+    filename="$(date +%Y-%m-%d_%H-%M-%S).webp"
+    output_path="$SCREENSHOTS_DIR/$filename"
+    notify=true
+fi
+
+ifV then
+    if [[ "$notify" == true ]]; then
+        /bin/notify-send -i camera-photo "Screenshot saved & copied" "$filename"
+    fi
+else
+    if [[ "$notify" == true ]]; then
+        /bin/notify-send -i dialog-error "Screenshot failed" "Could not save screenshot"
+    fi
+fi

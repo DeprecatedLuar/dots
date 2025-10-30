@@ -5,7 +5,7 @@
 )
 
 (defsrc
-  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc del
   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
   caps a    s    d    f    g    h    j    k    l    ;    '    ret
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
@@ -13,7 +13,7 @@
 )
 
 (deflayer default
-  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc del
   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
   @caps-tap-hold a    s    d    f    g    h    j    k    l    ;    '    ret
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
@@ -21,7 +21,7 @@
 )
 
 (deflayer vim-mode
-  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   bspc
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   bspc del
   XX   XX   C-right XX   XX   XX   C-c  XX   @insert-exit XX   XX   XX   XX   XX
   @caps-to-default XX   XX   XX   XX   XX   left down up right XX   XX   ret
   lsft XX   C-x  XX   @shift-toggle XX   XX   XX   XX   @vim-d XX   rsft
@@ -29,7 +29,7 @@
 )
 
 (deflayer vim-shift
-  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc del
   tab  @sq  S-C-right @se  @sr  @st  C-c  @su  @si  @so  @sp  [    ]    \
   @caps-to-default @sa  @ss  @sd  @sf  @sg  S-left S-down S-up S-right ;    '    ret
   lsft @sz  @cut-exit @sc  @visual-toggle @sb  @sn  @sm  ,    @sd  /    rsft
@@ -37,7 +37,7 @@
 )
 
 (deflayer visual-mode
-  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc del
   tab  q    S-C-right e    r    t    @copy-exit u    i    o    p    [    ]    \
   @caps-to-default a    s    S-d    f    g    S-left S-down S-up S-right ;    '    ret
   lsft z    C-x    S-c    @visual-exit b    n    m    ,    S-bspc /    rsft
