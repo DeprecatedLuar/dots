@@ -2,6 +2,7 @@
     "*.conf": {
         "filetype": "git-config"
     },
-    "colorscheme": "monokai",
-    "softwrap": true
+    "colorscheme": "catppuccin-mocha",
+    "softwrap": true,
+    "truecolor": "on"
 }
