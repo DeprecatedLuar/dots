@@ -82,5 +82,5 @@ detect_folders = ["venv", ".venv"]
 [hostname]
 ssh_only = true
 format = "[$hostname]($style) "
-style = "green"
+style = "purple"
 disabled = false
