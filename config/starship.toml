@@ -1,6 +1,4 @@
 format = """
-$username\
-$hostname\
 $directory\
 $python\
 $git_branch\
@@ -11,6 +9,7 @@ $fill\
 $nodejs\
 $cmd_duration $jobs $time\
 $line_break\
+$hostname\
 $character"""
 
 [fill]
@@ -79,3 +78,9 @@ pyenv_version_name = false
 detect_extensions = []
 detect_files = [".python-version", "Pipfile", "requirements.txt", "pyproject.toml"]
 detect_folders = ["venv", ".venv"]
+
+[hostname]
+ssh_only = true
+format = "[$hostname]($style) "
+style = "green"
+disabled = false

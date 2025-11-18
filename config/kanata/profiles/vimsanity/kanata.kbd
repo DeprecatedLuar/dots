@@ -1,0 +1,251 @@
+(defcfg
+  process-unmapped-keys yes
+  log-layer-changes yes
+  linux-device-detect-mode keyboard-only
+)
+
+;; ============ SOURCE ============
+(defsrc
+  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft 102d z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lmet lalt           spc            ralt rmet rctl
+)
+
+;; ============ VARIABLES ============
+(defvar
+  Tt 200 ;; tap time
+  Ht 200 ;; hold time
+)
+
+;; ============ FAKE KEYS ============
+(deffakekeys
+  vshift lsft  ;; Virtual key to hold shift
+  vimk (layer-switch vim-normal)
+  def  (layer-switch default)
+  escaps (layer-switch escape)
+  metl (multi lmet (layer-while-held meta-layer))
+  safety (macro (on-press release-vkey vshift) 10)
+
+)
+
+;; ============ ALIASES ============
+(defalias
+  vimn (layer-switch vim-normal)
+  def (layer-switch default)
+  escaps (layer-switch escape)
+  meta (multi (on-press tap-vkey safety) (on-release tap-vkey def) lmet (layer-while-held meta-layer))
+  meta2 (multi (on-press tap-vkey safety) (on-release tap-vkey escaps) lmet (layer-while-held meta-layer))
+  vsft (layer-while-held vim-shifted)
+  vvsft (layer-while-held visual-shifted)
+  dopsft (layer-while-held delete-ops-shifted)
+  yopsft (layer-while-held yank-ops-shifted)
+  gopsft (layer-while-held g-ops-shifted)
+
+  cap (tap-hold-press $Tt $Ht (tap-dance $Ht (@vimn @escaps)) @meta) ;; Caps Lock: single tap for vim-normal, double tap for escape, hold for meta-layer
+  pac (tap-hold-press $Tt $Ht (tap-dance $Ht (@def @escaps))  @meta)
+  cap-esc (tap-hold-press $Tt $Ht (tap-dance $Ht (esc @def)) @meta2) ;; Caps Lock on escape layer: single tap = esc, double tap = default, hold = meta2 (returns to escape)
+
+  ;; Direct modifiers (no layers)
+  a^ (tap-hold 200 250 a tab)
+  f^ (tap-hold 200 250 f lctl)
+  j^ (tap-hold 200 300 j lctl)
+  d^ (tap-hold 200 250 d lsft)
+  k^ (tap-hold 200 300 k lsft)
+  s^ (tap-hold 200 250 s lalt)
+  l^ (tap-hold 200 300 l lalt)
+
+  ;; Meta-layer tap-hold for asdf
+  a-meta (tap-hold 110 110 a tab)
+  s-meta (tap-hold 110 110 s lalt)
+  d-meta (tap-hold 110 110 d lsft)
+  f-meta (tap-hold 110 110 f lctl)
+
+  ctrl-exit (multi lctl @def)
+
+
+  vis (multi (layer-switch visual-mode) (on-press press-vkey vshift))   ;; Visual mode: switch layer + hold shift
+
+
+  
+  vexit (macro (on-press tap-vkey vimk) 10 (on-press release-vkey vshift) 10 left)   ;; Exit visual mode: release shift + switch to vim-normal + press left   
+
+  insert-exit @def
+  super-exit (multi lmet @def)
+
+  vcp (macro (on-press release-vkey vshift) 10 C-c 10 (on-press tap-vkey vimk) left)
+  vcut (macro (on-press release-vkey vshift) 10 C-x 10 (on-press tap-vkey vimk))
+  vdel (macro (on-press release-vkey vshift) 10 del 10 (on-press tap-vkey vimk))
+
+  ;; Visual mode caps lock handling (releases vshift, deselects, then switches layer)
+  vdef (macro (on-press release-vkey vshift) 10 left 10 (on-press tap-vkey def))
+  vescaps (macro (on-press release-vkey vshift) 10 left 10 (on-press tap-vkey escaps))
+  vmeta (multi (on-press release-vkey vshift) @meta)
+  vcaps (tap-hold-press $Tt $Ht (tap-dance $Ht (@vdef @vescaps)) @vmeta)
+
+  fnd (macro C-f 10 (on-press tap-vkey def))
+
+  ;; Operators switch to their layer
+  d (layer-switch delete-ops)
+  y (layer-switch yank-ops)
+  g (layer-switch g-ops)
+
+  ;; Delete operations (execute + return to vim-normal)
+  dw (macro C-S-right bspc (on-press tap-vkey vimk))
+  db (macro C-S-left bspc (on-press tap-vkey vimk))
+  dd (macro spc 5  home S-end del 10 bspc 5 home (on-press tap-vkey vimk))
+  d$ (macro S-end del (on-press tap-vkey vimk))
+
+  ;; Delete shifted operations (execute + return to vim-normal)
+  d0 (macro S-home del (on-press tap-vkey vimk))
+  dW (macro S-C-right del (on-press tap-vkey vimk))
+  dB (macro S-C-left del (on-press tap-vkey vimk))
+  dL (macro S-end del (on-press tap-vkey vimk))
+  dH (macro S-home del (on-press tap-vkey vimk))
+
+  ;; Yank operations (execute + return to vim-normal)
+  yw (macro C-S-right C-c left (on-press tap-vkey vimk))
+  yb (macro C-S-left C-c right (on-press tap-vkey vimk))
+  yy (macro home S-end C-c left (on-press tap-vkey vimk))
+
+  ;; Yank shifted operations (execute + return to vim-normal)
+  y0 (macro S-home C-c right (on-press tap-vkey vimk))
+  yW (macro S-C-right C-c left (on-press tap-vkey vimk))
+  yB (macro S-C-left C-c right (on-press tap-vkey vimk))
+  yL (macro S-end C-c left (on-press tap-vkey vimk))
+  yH (macro S-home C-c right (on-press tap-vkey vimk))
+
+  ;; G operations (execute + return to vim-normal)
+  gg (macro C-home (on-press tap-vkey vimk))
+
+  ;; G shifted operations (execute + return to vim-normal)
+  gG (macro C-end (on-press tap-vkey vimk))
+
+  ;; Escape from ops layers
+  ops-esc (layer-switch vim-normal)
+
+  D (macro S-end del)
+
+
+ 
+)
+
+;; ============ LAYERS ============
+(deflayer default
+  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  @cap @a^  @s^  @d^  @f^  g    h    @j^  @k^  @l^  ;    '    ret
+  lsft _ z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl @super-exit lalt           spc            ralt @super-exit rctl
+)
+
+(deflayer vim-normal
+  @def XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   1    2    3    XX   5    6    7    8    9    0    XX   XX   bspc
+  XX   XX   C-right XX   XX   XX   @y  C-z  @insert-exit XX   C-v  [    ]    XX
+  @pac XX   XX   @d  XX   @g   left down up right XX   '    ret
+  @vsft _ XX   del  XX   @vis C-left   C-g  XX   XX   XX   @fnd  @vsft
+  @ctrl-exit @super-exit lalt           spc            ralt @super-exit @ctrl-exit
+)
+
+(deflayer vim-shifted
+  @ops-esc XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   end  XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   @D   XX   C-end   home   XX   XX   end   XX   XX   XX
+  _    _ XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   _
+  XX   XX   XX              XX              XX   XX   XX
+)
+
+(deflayer visual-mode
+  @vexit XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   @vdel
+  XX   XX   XX   XX   XX   XX   @vcp  XX   XX   XX   XX   XX   XX   XX
+  @vcaps XX   XX  @vcut XX   XX   S-left S-down S-up S-right XX   XX   ret
+  @vvsft _ XX   @vdel XX   @vexit XX   XX   XX   XX   XX   XX   @vvsft
+  XX   @vcaps XX              XX              XX   @vcaps XX
+)
+
+(deflayer escape
+  esc  _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  @cap-esc _    _    _    _    _    _    _    _    _    _    _    _
+  _    _ _    _    _    _    _    _    _    _    _    _    _
+  _    _    _              _              _    _    _
+)
+
+(deflayer meta-layer
+  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  _    @a-meta @s-meta @d-meta @f-meta g left down up right ; ' ret
+  lsft _ z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl _    lalt           spc            ralt _    rctl
+)
+
+(deflayer delete-ops
+  @ops-esc XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   @dw  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  @ops-esc XX   XX   @dd  XX   XX   XX   XX   XX   XX   @d$  XX   XX
+  @dopsft _ XX   XX   XX   @db  XX   XX   XX   XX   XX   XX   @dopsft
+  XX   XX   XX              XX              XX   XX   XX
+)
+
+(deflayer yank-ops
+  @ops-esc XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   @yw  XX   XX   XX   @yy  XX   XX   XX   XX   XX   XX   XX
+  @ops-esc XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  @yopsft _ XX   XX   XX   @yb  XX   XX   XX   XX   XX   XX   @yopsft
+  XX   XX   XX              XX              XX   XX   XX
+)
+
+(deflayer g-ops
+  @ops-esc XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  @ops-esc XX   XX   XX   XX   @gg  XX   XX   XX   XX   XX   XX   XX
+  @gopsft _ XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   @gopsft
+  XX   XX   XX              XX              XX   XX   XX
+)
+
+(deflayer delete-ops-shifted
+  @ops-esc XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   @d0  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   @dW  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  @ops-esc XX   XX   XX   XX   XX   @dH  XX   XX   @dL  XX   XX   XX
+  _    _ XX   XX   XX   @dB  XX   XX   XX   XX   XX   XX   _
+  XX   XX   XX              XX              XX   XX   XX
+)
+
+(deflayer yank-ops-shifted
+  @ops-esc XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   @y0  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   @yW  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  @ops-esc XX   XX   XX   XX   XX   @yH  XX   XX   @yL  XX   XX   XX
+  _    _ XX   XX   XX   @yB  XX   XX   XX   XX   XX   XX   _
+  XX   XX   XX              XX              XX   XX   XX
+)
+
+(deflayer g-ops-shifted
+  @ops-esc XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  @ops-esc XX   XX   XX   XX   @gG  XX   XX   XX   XX   XX   XX   XX
+  _    _ XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   _
+  XX   XX   XX              XX              XX   XX   XX
+)
+
+(deflayer visual-shifted
+  @vexit XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   S-end   XX   XX   XX   XX   XX   XX   XX   XX   @vdel
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  @vcaps XX   XX   XX   XX   XX   S-home   XX   XX   S-end   XX   XX   ret
+  _    _ XX   @vdel XX   @vexit XX   XX   XX   XX   XX   XX   _
+  XX   @vcaps XX              XX              XX   @vcaps XX
+)

@@ -1,0 +1,14 @@
+[Unit]
+Description=Kanata keyboard remapping
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/home/luar/.config/bash/dev-tools/cargo/bin/kanata --cfg /home/luar/.config/kanata/kanata.kbd --port 5829
+Restart=always
+RestartSec=1
+User=root
+Group=input
+
+[Install]
+WantedBy=multi-user.target

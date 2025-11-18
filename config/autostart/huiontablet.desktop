@@ -1,4 +1,5 @@
 [Desktop Entry]
+Hidden=true
 Encoding=UTF-8
 Name=HuionTablet
 Comment=Huion driver
@@ -11,8 +12,4 @@ Categories=Application;Utility;Qt;
 StartupNotify=true
 Name[en_US]=HuionTablet
 NoDisplay=false
-X-GNOME-Autostart-enabled=false
-X-GNOME-Autostart-Phase=Application
 SingleMainWindow=true
-X-GNOME-UsesNotifications=true
-X-GNOME-SingleWindow=true
