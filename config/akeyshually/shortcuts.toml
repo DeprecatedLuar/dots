@@ -1,0 +1,29 @@
+[shortcuts]
+# Normal press/release
+"super+t" = "notify-send 'Pressed'"
+"super+t.onrelease" = "notify-send 'Released'"
+
+# Tap (explicit .onrelease required now)
+"super.onrelease" = "notify-send 'Tapped Super'"
+
+# Loop while held (mouse movement simulation)
+"ctrl+k.loop" = "xdotool mousemove_relative -- 0 -5"
+"ctrl+j.loop(50)" = "xdotool mousemove_relative -- 0 5"
+
+# Toggle (auto-clicker - press to start, press to stop)
+"super+x.toggle" = "xdotool click 1"
+"super+y.toggle(20)" = "xdotool click 1"
+
+# Switch between commands
+"super+p.switch" = ["notify-send 'Command 1'", "notify-send 'Command 2'", "notify-send 'Command 3'"]
+
+# Combined (same key, different timing)
+"super+m.loop" = "notify-send 'Looping'"
+"super+m.onrelease" = "notify-send 'Loop ended'"
+
+# Bug test - make sure Super+F1 doesn't trigger tap
+"super+f1" = "notify-send 'F1 combo worked'"
+
+# Keep a few regular ones
+"super+return" = "kitty"
+"print" = "notify-send 'Screenshot'"

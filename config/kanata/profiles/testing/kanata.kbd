@@ -1,0 +1,16 @@
+(defcfg
+  process-unmapped-keys yes
+  linux-device-detect-mode keyboard-only
+)
+
+(defsrc
+  102d
+)
+
+(defalias
+  k102 f15
+)
+
+(deflayer base
+  @k102
+)

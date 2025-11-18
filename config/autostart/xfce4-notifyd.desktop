@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Exec=/usr/lib/x86_64-linux-gnu/xfce4/notifyd/xfce4-notifyd
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name=XFCE Notification Daemon
+Comment=XFCE notification daemon (replaces GNOME notifications)
+X-GNOME-Autostart-Phase=Initialization

@@ -1,0 +1,89 @@
+# akeyshually configuration
+# Location: ~/.config/akeyshually/config.toml
+
+[settings]
+default_loop_interval = 0.0017
+disable_media_keys = false
+shell = "/bin/bash"  # Override $SHELL
+#env_file = "~/.profile" # source before commands
+
+[shortcuts]
+"super+k" = "edit_config"
+"ctrl+super+k" = "swap"
+
+#-[LAUNCHERS]--------------------------------
+
+"super.onrelease" = "rofi"
+"super+b" = "browser"
+"super+shift+b" = "browser2"
+"super+return" = "kitty"
+"super+f" = "dolphin"
+"super+x" = "kill_window"
+"super+e" = "email"
+#"ctrl+alt+t" = "kitty"
+"super+v" = "copyq toggle"
+"super+w" = "whatsapp"
+"shift+super+n" = "notetaker"
+
+#-[UTILS]------------------------------------
+
+"print" = "/home/luar/Workspace/tools/bin/screenshot-save --temp"
+"super+p" = "/home/luar/Workspace/tools/bin/screenshot-save --temp"
+"shift+print" = "/home/luar/Workspace/tools/bin/screenshot-save"
+"ctrl+print" = "bash -c \"xdg-open ~/Media/Pictures/temp.png\""
+"f9" = "yap"
+"ctrl+mute" = "mute_mic"
+"super+q" = "close_window"
+
+"102nd" = "1shot"
+"ro" = ""
+"super+t" = "date +%s.%N > /tmp/keypress-time"
+
+"f15" = "kitty"
+
+
+
+#-[MEDIA KEYS]-------------------------------
+
+#"ctrl+brightnessdown" = "dim-"
+
+#"volumeup" = "volume_up"
+#"volumedown" = "volume_down"
+#"mute" = "mute_toggle"
+#"brightnessup" = "brightness_up"
+#"brightnessdown" = "brightness_down"
+#"playpause" = "media_play_pause"
+#"nextsong" = "media_next"
+#"previoussong" = "media_previous"
+
+[command_variables]#--------------------------
+
+edit_config = "kitty micro ~/.config/akeyshually/config.toml"
+swap = "dots akeyshually 2"
+
+browser = "brave-browser --user-data-dir=/home/luar/.config/BraveSoftware/luar"
+browser2 = "brave-browser --user-data-dir=/home/luar/.config/BraveSoftware/dan"
+dmenu = "bash -c \"compgen -c | dmenu | sh\""
+rofi = "~/.config/rofi/scripts/launcher_t7"
+searchapp = "dbus-send --session --dest=org.gnome.Shell --type=method_call /org/gnome/Shell org.freedesktop.DBus.Properties.Set string:org.gnome.Shell string:OverviewActive variant:boolean:true"
+email = "flatpak run org.mozilla.Thunderbird"
+yap = "yap toggle"
+mute_mic = "pactl set-source-mute @DEFAULT_SOURCE@ toggle"
+whatsapp = "flatpak run com.rtosta.zapzap"
+notetaker = "bash -c \"source ~/.bashrc && /home/luar/.config/bash/bin/notetaker/notetaker\""
+close_window = "wmctrl -c :ACTIVE: 2>/dev/null || ydotool key 56:1 62:1 62:0 56:0"
+kill_window = "xkill 2>/dev/null || close_window"
+amongus = "notify-send 'Akeyshually 2' && dots akeyshually 2 && dots kanata arrow && pkexec systemctl daemon-reload  && pkexec systemctl restart kanata.service"
+1shot = "~/Workspace/tools/bin/1shot"
+
+# Media key commands (uncomment shortcuts above to use)
+volume_up = "pactl set-sink-volume @DEFAULT_SINK@ +5%"
+volume_down = "pactl set-sink-volume @DEFAULT_SINK@ -5%"
+mute_toggle = "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+brightness_up = "brightnessctl set +5%"
+brightness_down = "brightnessctl set 5%-"
+media_play_pause = "playerctl play-pause"
+media_next = "playerctl next"
+media_previous = "playerctl previous"
+
+"dim-" = "/home/luar/Workspace/tools/bin/dim -"
