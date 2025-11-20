@@ -3,5 +3,6 @@
         "filetype": "git-config"
     },
     "colorscheme": "catppuccin-mocha",
+    "softwrap": true,
     "truecolor": true
 }
