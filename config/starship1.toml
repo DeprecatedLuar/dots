@@ -1,0 +1,86 @@
+format = """
+$directory\
+$python\
+$git_branch\
+$git_state\
+$git_status\
+$git_metrics\
+$fill\
+$nodejs\
+$cmd_duration $jobs $time\
+$line_break\
+$hostname\
+$character"""
+
+[fill]
+symbol = "."
+
+[directory]
+style = "blue"
+read_only = " "
+truncation_length = 2
+truncate_to_repo = false
+fish_style_pwd_dir_length = 1
+
+[character]
+success_symbol = "[❯](green)"
+error_symbol = "[❯](red)"
+vicmd_symbol = "[❮](green)"
+
+[git_branch]
+symbol = " "
+format = "[$symbol$branch]($style) "
+style = "bright-black"
+
+[jobs]
+symbol = ""
+style = "bold red"
+number_threshold = 1
+format = "[$symbol]($style)"
+
+[git_status]
+format = '([\[$all_status$ahead_behind\]]($style) )'
+style = "cyan"
+
+[git_state]
+format = '\([$state( $progress_current/$progress_total)]($style)\) '
+style = "bright-black"
+
+[git_metrics]
+disabled = false
+
+[cmd_duration]
+format = "[$duration]($style)"
+style = "yellow"
+
+[memory_usage]
+symbol = " "
+
+[rust]
+symbol = " "
+
+[time]
+disabled = false
+style = "white"
+format = "[$time]($style)"
+
+[custom.stunnel]
+when = "ps aux | grep stunnel | grep -v grep"
+command = "ps -o etime= -p $(ps aux | grep stunnel | grep -v grep | awk '{print $2}')"
+style = "red"
+format = "[TUNNEL OPEN for $output]($style)"
+
+[python]
+symbol = ""
+format = 'via [$symbol($virtualenv )]($style)'
+style = "yellow"
+pyenv_version_name = false
+detect_extensions = []
+detect_files = [".python-version", "Pipfile", "requirements.txt", "pyproject.toml"]
+detect_folders = ["venv", ".venv"]
+
+[hostname]
+ssh_only = true
+format = "[$hostname 📡]($style)"
+style = "blue"
+disabled = false
