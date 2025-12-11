@@ -6,8 +6,8 @@ add_newline = false
 
 # A minimal left prompt
 format = """
-$username$nodejs$git_state$git_status$fill\
-$directory\
+$nodejs$git_state$git_status$fill\
+$username$directory\
 $python\
 $jobs$time
 $character
