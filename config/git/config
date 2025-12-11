@@ -13,7 +13,5 @@
 	yolo = !git add -A && git commit -m \"yolo commit\" && git push
 [safe]
 	directory = /home/luar/Documents/Dev/Projects/Code_Standards
-[credential]
-	helper = "!f() { /home/luar/.vscode-server/bin/bf9252a2fb45be6893dd8870c0bf37e2e1766d61/node /tmp/vscode-remote-containers-a31ad18c-4d94-4a09-a69f-6876bf6c0b26.js git-credential-helper $*; }; f"
 [credential "https://github.com"]
 	helper = !gh auth git-credential

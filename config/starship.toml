@@ -10,7 +10,7 @@ $nodejs$git_state$git_status$fill\
 $directory\
 $python\
 $jobs$time
-$character
+$hostname$character
 """
 
 # move the rest of the prompt to the right
