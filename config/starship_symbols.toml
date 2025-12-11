@@ -61,16 +61,12 @@ fish_style_pwd_dir_length = 1
 "Downloads" = ""
 "Music" = ""
 "Pictures" = ""
-".config" = "Σ"
-"Config" = "Σ"
+".config" = "."
 "Workspace" = "🖥"
-"Games" = "🎮︎"
-#"Videos" = ""
-"Media" = "≡"
+"Games" = "Γ"
+"Videos" = "🎞"
+"Media" = "Ω"
 "bin" = "β"
-"Local" = "Λ"
-".local" = "Λ"
-"Backup" = "↺"
 
 [cmd_duration]
 format = '[$duration]($style) '
@@ -88,10 +84,3 @@ symbol = "·"
 [palettes.custom]
 pastel_purple = "#9d64a3"
 soft_lavender = "#E0D6FF"   
-
-
-[hostname]
-ssh_only = true
-format = "[$hostname]($style)[❯](green)"
-style = "blue"
-disabled = false

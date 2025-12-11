@@ -6,10 +6,9 @@ add_newline = false
 
 # A minimal left prompt
 format = """
-$git_state$git_status$fill\
+$nodejs$git_state$git_status$fill\
 $directory\
 $python\
-$nodejs\
 $jobs$time
 $character
 """
@@ -38,26 +37,40 @@ staged = '[✚](green) '
 deleted = '[-](red) '
 renamed = '[➜](purple) '
 stashed = '[✭](cyan) '
-untracked = '[](white) '
-modified = '[=](blue) '
+untracked = '[??](white) '
+modified = '[Δ](blue) '
 conflicted = '[═](yellow) '
-diverged = '⇕ '
-up_to_date = ''
+diverged = '⇕'
+up_to_date = '[](black)'
+
+[git_state]
+format = '\([$state( $progress_current/$progress_total)]($style)\) '
+style = "bright-black"
 
 
 [directory]
 format = "[ $path ]($style)"
-style = "black"
-read_only = " "
-truncation_length = 1
+style = "purple"
+read_only = ""
+truncation_length = 3
 truncate_to_repo = false
 fish_style_pwd_dir_length = 1
 
 [directory.substitutions]
-"Documents" = "󰈙 "
-"Downloads" = " "
-"Music" = " "
-"Pictures" = " "
+"Documents" = "󰈙"
+"Downloads" = ""
+"Music" = ""
+"Pictures" = ""
+".config" = "Σ"
+"Config" = "Σ"
+"Workspace" = "🖥"
+"Games" = "🎮︎"
+#"Videos" = ""
+"Media" = "≡"
+"bin" = "β"
+"Local" = "Λ"
+".local" = "Λ"
+"Backup" = "↺"
 
 [cmd_duration]
 format = '[$duration]($style) '
@@ -71,3 +84,14 @@ symbol = '✘ '
 
 [fill]
 symbol = "·"
+
+[palettes.custom]
+pastel_purple = "#9d64a3"
+soft_lavender = "#E0D6FF"   
+
+
+[hostname]
+ssh_only = true
+format = "[$hostname]($style)[❯](green)"
+style = "blue"
+disabled = false
