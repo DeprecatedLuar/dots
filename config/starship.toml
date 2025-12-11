@@ -99,4 +99,4 @@ disabled = false
 [username]
 disabled = false
 format = "[$user]($style)"
-style_user = "yellow"
+style_user = "purple"
