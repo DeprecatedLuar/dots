@@ -6,11 +6,11 @@ add_newline = false
 
 # A minimal left prompt
 format = """
-$nodejs$git_state$git_status$fill\
+$username$nodejs$git_state$git_status$fill\
 $directory\
 $python\
 $jobs$time
-$character$username
+$character
 """
 
 # move the rest of the prompt to the right
@@ -98,5 +98,5 @@ disabled = false
 
 [username]
 disabled = false
-format = "[$user]($style)[❯](green)"
-style_user = "bold blue"
+format = "[$user]($style)"
+style_user = "yellow"
