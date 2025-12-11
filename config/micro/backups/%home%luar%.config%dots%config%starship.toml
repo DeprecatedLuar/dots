@@ -7,7 +7,7 @@ add_newline = false
 # A minimal left prompt
 format = """
 $username$nodejs$git_state$git_status$fill\
-$username$directory\
+$directory\
 $python\
 $jobs$time
 $character
@@ -98,5 +98,5 @@ disabled = false
 
 [username]
 disabled = false
-format = "[($user)]($style)"
+format = "[(][$user]($style)[)]"
 style_user = "blue"
