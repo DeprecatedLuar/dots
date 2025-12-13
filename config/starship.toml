@@ -6,9 +6,8 @@ add_newline = false
 
 # A minimal left prompt
 format = """
-$username$nodejs$git_state$git_status$fill\
-$directory\
-$python\
+$username$python$nodejs$git_state$git_status$fill\
+$directory$git_metrics\
 $jobs$time
 $character
 """
@@ -31,9 +30,9 @@ style = 'white'
 
 [git_status]
 format = '$all_status$ahead_behind '
-ahead = '[⬆](bold purple) '
+ahead = '[🢅](bold green) '
 behind = '[⬇](bold purple) '
-staged = '[✚](green) '
+staged = '[+](green) '
 deleted = '[-](red) '
 renamed = '[➜](purple) '
 stashed = '[✭](cyan) '
@@ -47,6 +46,12 @@ up_to_date = '[](black)'
 format = '\([$state( $progress_current/$progress_total)]($style)\) '
 style = "bright-black"
 
+[git_metrics]
+disabled = false
+ added_style = "green"
+ deleted_style = "red"
+ only_nonzero_diffs = true  # hide when no changes
+ format = '[+$added]($added_style) [-$deleted]($deleted_style) '
 
 [directory]
 format = "[ $path ]($style)"

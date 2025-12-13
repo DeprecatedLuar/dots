@@ -83,7 +83,7 @@ disabled = false
 symbol = '✘ '
 
 [fill]
-symbol = "·"
+symbol = "·".
 
 [palettes.custom]
 pastel_purple = "#9d64a3"
