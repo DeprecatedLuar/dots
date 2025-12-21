@@ -1,38 +1,33 @@
 CRITICAL
-[ ] ~/.ssh/
-[ ] ~/.local/share/keyrings/
+[x] ~/.ssh/
+[x] ~/.local/share/keyrings/
 
 PROTON AUTHENTICATOR (2FA CODES - CRITICAL!)
-[ ] ~/.config/me.proton.authenticator/
-[ ] ~/.local/share/me.proton.authenticator/
-[ ] ~/.local/share/proton-authenticator/
+[x] ~/.local/share/me.proton.authenticator/
 
 ENV FILES
-[ ] ~/Workspace/projects/api/mentoros-api/.env
-[ ] ~/Workspace/projects/api/agents-node/src/settings/.env
-[ ] ~/Workspace/projects/api/vps-backup-system/.env
-[ ] ~/Workspace/projects/api/mentoros-api-node/settings/.env
-[ ] ~/Workspace/projects/frontend/mentor-os/.env
-[ ] ~/Workspace/projects/misc/WRF/.env
-[ ] ~/Workspace/projects/misc/code_standards/framework/template/src/settings/.env
-[ ] ~/Workspace/tools/docker/immich/.env
-[ ] ~/Workspace/tools/foreign/gtk-main/.envrc
+[x] ~/Workspace/projects/api/mentoros-api/.env
+[x] ~/Workspace/projects/api/agents-node/src/settings/.env
+[x] ~/Workspace/projects/api/vps-backup-system/.env
+[x] ~/Workspace/projects/api/mentoros-api-node/settings/.env
+[x] ~/Workspace/projects/frontend/mentor-os/.env
+[x] ~/Workspace/projects/misc/WRF/.env
+[x] ~/Workspace/projects/misc/code_standards/framework/template/src/settings/.env
+[x] ~/Workspace/tools/docker/immich/.env
+[x] ~/Workspace/tools/foreign/gtk-main/.envrc
 
 BROWSER/EMAIL
-[ ] ~/.config/BraveSoftware/
-[ ] ~/.var/app/org.mozilla.Thunderbird/
+[x] ~/Backup/Brave/ (luar profile, 610MB, cache excluded)
+[x] ~/Backup/Thunderbird-backup.tar.gz.part* (86MB split: 52MB+34MB, settings only)
 
 GNOME EXTENSIONS (dump these)
-[ ] dconf dump /org/gnome/shell/extensions/paperwm/ > ~/paperwm.dconf
-[ ] dconf dump /org/gnome/shell/extensions/blur-my-shell/ > ~/blur-my-shell.dconf
-[ ] dconf dump /org/gnome/shell/extensions/cpupower/ > ~/cpupower.dconf
-[ ] dconf dump /org/gnome/shell/extensions/just-perfection/ > ~/just-perfection.dconf
-[ ] dconf dump /org/gnome/shell/extensions/top-bar-organizer/ > ~/top-bar-organizer.dconf
-[ ] dconf dump /org/gnome/shell/extensions/unite/ > ~/unite.dconf
-[ ] dconf dump /org/gnome/shell/extensions/vitals/ > ~/vitals.dconf
-
-EXTENSIONS (reinstall)
-[ ] caffeine, color-picker, nasa-apod, sound-output-device-chooser, bluetooth-quick-connect, volume_scroller, user-theme, visualizer, burn-my-windows, backslide, mediacontrols, panel-date-format, soft-brightness-plus
+[x] dconf dump /org/gnome/shell/extensions/paperwm/ > ~/paperwm.dconf
+[x] dconf dump /org/gnome/shell/extensions/blur-my-shell/ > ~/blur-my-shell.dconf
+[x] dconf dump /org/gnome/shell/extensions/cpupower/ > ~/cpupower.dconf
+[x] dconf dump /org/gnome/shell/extensions/just-perfection/ > ~/just-perfection.dconf
+[x] dconf dump /org/gnome/shell/extensions/top-bar-organizer/ > ~/top-bar-organizer.dconf
+[x] dconf dump /org/gnome/shell/extensions/unite/ > ~/unite.dconf
+[x] dconf dump /org/gnome/shell/extensions/vitals/ > ~/vitals.dconf
 
 GIT/SYSTEM
 [ ] ~/.config/git/config
@@ -43,8 +38,10 @@ DATA
 [ ] ~/Documents/backup/databases/
 [ ] ~/Documents/journal/
 [ ] ~/Media/Pictures/Wallpapers/
-[ ] ~/.config/lushrc/.history
 [ ] ~/.config/fonts/
+[ ] ~/Workspace/tools/docker/immich/model-cache/ (786MB ML models - saves redownload on ARM)
+[ ] ~/Workspace/tools/docker/immich/upload/ (6.1GB photos/videos)
+[ ] ~/Workspace/tools/docker/immich/postgres/ (database)
 [ ] KSP saves (locate: find ~ -iname "*kerbal*" -type d)
 [ ] crontab -l > ~/crontab.bak
 [ ] dpkg --get-selections > ~/Desktop/packages.list
@@ -67,7 +64,7 @@ GIT REPOS (push/commit or backup uncommitted)
 [ ] ~/Workspace/projects/cli/yappers-of-linux (3 uncommitted)
 [ ] ~/Workspace/projects/cli/akeyshually (1 uncommitted)
 [ ] ~/Workspace/projects/cli/ghtask (1 uncommitted)
-[ ] ~/Workspace/projects/system/going-vimsane (1 uncommitted)
+[ ] ~/Workspace/projects/system/going-vimsane (1 uncommitted - MAKE PORTABLE for new machine)
 
 VSCODE
 [ ] ~/.config/Code/User/settings.json
