@@ -36,17 +36,8 @@ GIT/SYSTEM
 DATA
 [x] ~/Documents/backup/databases/
 [x] ~/Documents/Prompts/
-[ ] ~/Media/Pictures/Wallpapers/
-[ ] ~/.config/fonts/
-[ ] ~/Workspace/tools/docker/immich/model-cache/ (786MB ML models - saves redownload on ARM)
-[ ] ~/Workspace/tools/docker/immich/upload/ (6.1GB photos/videos)
-[ ] ~/Workspace/tools/docker/immich/postgres/ (database)
-[ ] KSP saves (locate: find ~ -iname "*kerbal*" -type d)
-[ ] crontab -l > ~/crontab.bak
-[ ] dpkg --get-selections > ~/Desktop/packages.list
+[x] ~/.config/fonts/
 
-DOCKER VOLUMES
-[ ] n8n_data
 
 GIT REPOS (push/commit or backup uncommitted)
 [ ] ~/.config/dots/
