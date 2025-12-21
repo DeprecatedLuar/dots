@@ -30,13 +30,12 @@ GNOME EXTENSIONS (dump these)
 [x] dconf dump /org/gnome/shell/extensions/vitals/ > ~/vitals.dconf
 
 GIT/SYSTEM
-[ ] ~/.config/git/config
-[ ] ~/.config/gh/
-[ ] sudo cp -r /etc/keyd ~/Desktop/keyd-backup
+[x] ~/.config/git/config
+[x] ~/.config/gh/
 
 DATA
-[ ] ~/Documents/backup/databases/
-[ ] ~/Documents/journal/
+[x] ~/Documents/backup/databases/
+[x] ~/Documents/Prompts/
 [ ] ~/Media/Pictures/Wallpapers/
 [ ] ~/.config/fonts/
 [ ] ~/Workspace/tools/docker/immich/model-cache/ (786MB ML models - saves redownload on ARM)
