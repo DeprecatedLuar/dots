@@ -51,7 +51,7 @@ disabled = false
  added_style = "green"
  deleted_style = "red"
  only_nonzero_diffs = true  # hide when no changes
- format = '[+$added]($added_style) [-$deleted]($deleted_style) '
+ format = '([+$added]($added_style) )([-$deleted]($deleted_style) )'
 
 [directory]
 format = "[ $path ]($style)"

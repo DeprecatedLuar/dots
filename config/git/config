@@ -11,7 +11,10 @@
 [alias]
 	acp = !git add . && git commit -m \"$1\" && git push
 	yolo = !git add -A && git commit -m \"yolo commit\" && git push
+	s = status -sb
 [safe]
 	directory = /home/luar/Documents/Dev/Projects/Code_Standards
 [credential "https://github.com"]
 	helper = !gh auth git-credential
+[advice]
+	statusHints = false
