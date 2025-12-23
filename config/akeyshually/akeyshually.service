@@ -18,7 +18,7 @@ After=graphical-session.target kanata.service
 
 [Service]
 Type=simple
-ExecStartPre=/bin/sleep 5
+ExecStartPre=/usr/bin/env sleep 5
 ExecStart=%h/.local/bin/akeyshually
 Restart=always
 RestartSec=3
