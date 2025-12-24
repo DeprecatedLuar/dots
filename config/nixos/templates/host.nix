@@ -14,12 +14,13 @@ in
   
   imports = [
 
-    "${configDir}/system.nix"
-    "${configDir}/gui.nix"
-#   "${configDir}/cli.nix" 
+#   "${configDir}/system.nix"
+#   "${configDir}/gui/gui.nix"
+#   "${configDir}/gui/gaming.nix"
+#   "${configDir}/cli.nix"
 
     "${configDir}/machines/${hostName}"
-    ./hardware-configuration.nix  
+    ./hardware-configuration.nix
   ];
 
   networking.hostName = hostName;

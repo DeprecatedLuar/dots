@@ -7,24 +7,20 @@
     kitty
     brave
     firefox
-    heroic
     libreoffice
     vscode-fhs
-    equibop
     rofi-wayland
     maim
     imagemagick
     pavucontrol
     thunderbird
-    mangohud
     libnotify
     brightnessctl
-    gamemode
     hyprsunset
+    grimblast
   ];
 
-  programs.steam.enable = true;
-  programs.gamemode.enable = true;
+  services.flatpak.enable = true;
 
   #──[Desktop Environment]───────────────────────────────────────────────────
 

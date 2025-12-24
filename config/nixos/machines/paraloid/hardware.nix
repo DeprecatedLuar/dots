@@ -1,7 +1,12 @@
 { config, pkgs, ... }:
 
 {
-  hardware.graphics.enable = true;
+  #──[Power Management]──────────────────────────────────────────────────────
+
+  services.power-profiles-daemon.enable = true;
+
+  #──[Graphics]──────────────────────────────────────────────────────────────
+
   services.xserver.videoDrivers = ["nvidia"];
 
   hardware.nvidia = {
