@@ -16,8 +16,7 @@ in
     firefox
     libreoffice
     vscode-fhs
-    rofi
-    maim
+    rofi   
     imagemagick
     pavucontrol
     thunderbird
@@ -27,11 +26,7 @@ in
     quickshell
   ]
   # Hyprland-specific packages
-  ++ lib.optionals hasHyprland [ hyprsunset grimblast ]
-  # Niri-specific packages (add when needed)
-  ++ lib.optionals hasNiri [ ]
-  # XFCE-specific packages (add when needed)
-  ++ lib.optionals hasXfce [ ];
+  ++ lib.optionals hasHyprland [ hyprsunset grimblast hypridle ];
 
   services.flatpak.enable = true;
   xdg.portal.enable = true;  # Required for Flatpak and desktop integration
