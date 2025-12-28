@@ -33,6 +33,7 @@
          nodejs
          cargo
          rustc
+         gcc
          claude-code
 
          dstask

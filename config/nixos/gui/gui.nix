@@ -34,7 +34,7 @@ in
     grimblast
     hypridle
     hyprlandPlugins.hyprscrolling
-    (builtins.getFlake "github:caelestia-dots/shell").packages.${pkgs.system}.with-cli
+    #(builtins.getFlake "github:caelestia-dots/shell").packages.${pkgs.system}.with-cli
   ];
 
   services.flatpak.enable = true;
