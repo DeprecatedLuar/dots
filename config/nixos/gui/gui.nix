@@ -26,12 +26,14 @@ in
     quickshell
     swaybg
     xorg.xinit
+    matugen
   ]
   # Hyprland-specific packages
   ++ lib.optionals hasHyprland [
     hyprsunset
     grimblast
     hypridle
+    hyprlandPlugins.hyprscrolling
     (builtins.getFlake "github:caelestia-dots/shell").packages.${pkgs.system}.with-cli
   ];
 
@@ -52,10 +54,3 @@ in
   programs.niri.enable = hasNiri;
   programs.hyprland.enable = hasHyprland;
 }
-
-wayland.windowManager.hyprland = {
-  enable = hasHyprland;
-  plugins = [
-    pkgs.hyprlandPlugins.hyprscroller
-  ];
-};
