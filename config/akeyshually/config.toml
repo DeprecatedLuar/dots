@@ -12,6 +12,7 @@ env_file = "~/.profile"
 #-[LAUNCHERS]--------------------------------
 
 "super.onrelease" = "hotline"
+"super.doubletap" = "$LAUNCHER"
 
 "super+enter" = "kitty"
 "super+b" = "$BROWSER"

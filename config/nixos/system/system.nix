@@ -11,6 +11,9 @@
        services.flatpak.enable = true;
 
        environment.systemPackages = with pkgs; [
+         # Self-healing nixos-rebuild wrapper
+          (pkgs.writeShellScriptBin "nixos-rebuild" (builtins.readFile ./scripts/nixos-rebuild.sh))
+
          micro
          git
          wget
@@ -27,6 +30,7 @@
          gh
          zip
          devbox
+         mpv
 
          go
          python3
@@ -36,9 +40,7 @@
          gcc
          claude-code
 
-         dstask
          appimage-run
-         ncdu
 
        ];
        programs.nix-ld.enable = true;
@@ -63,18 +65,9 @@
 
      #──[Users]─────────────────────────────────────────────────────────────────
 
-       users.users = {
-         root = {
-           openssh.authorizedKeys.keys = [
-             "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBfrCrs58DjL/Y2FI+9hS+0dVRglxcMfIb9aiALctrrZ luar"
-           ];
-         };
-         ${mainUser} = {
-           isNormalUser = true;
-           extraGroups = [ "networkmanager" "wheel" "docker" "input" "uinput" ];
-           packages = with pkgs; [];
-         };
-       };
+       users.users.root.openssh.authorizedKeys.keys = [
+         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBfrCrs58DjL/Y2FI+9hS+0dVRglxcMfIb9aiALctrrZ luar"
+       ];
        services.openssh.settings.PermitRootLogin = "prohibit-password";
        services.getty.autologinUser = mainUser;
 

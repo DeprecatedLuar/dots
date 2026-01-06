@@ -1,0 +1,61 @@
+# systemd-to-nix Integration Plan
+
+## Workflow
+
+reload -s
+  ↓
+1. Run symlink-farm (existing behavior)
+   - User services: ~/.config/systemd/ → works as-is
+   - System services: ~/.config/systemd/sys/ → skip on NixOS
+
+2. Run systemd-to-nix generator (NEW)
+   - Parse: ~/.config/systemd/nix/*.service (symlinks)
+   - Generate: ~/.config/nixos/services/*.nix
+   - Strategy: Regenerate every time (simpler than checking diffs)
+
+3. User manually runs: sudo nixos-rebuild switch
+
+## File Structure
+
+~/.config/systemd/
+├── user → .                           # Existing (user services)
+├── sys/                               # Existing (regular Linux system services)
+│   └── kanata.service → ...           # Ignored on NixOS
+└── nix/                               # NEW (NixOS system services)
+    └── kanata.service → ...           # Symlink to source of truth
+
+~/.config/nixos/
+├── configuration.nix                  # Imports ./services/*.nix
+└── services/                          # NEW (generated)
+    └── kanata.nix                     # Auto-generated, don't manually edit
+
+## Parser Requirements
+
+- Parse basic systemd .service files
+- Generate valid NixOS systemd.services syntax
+- Handle: ExecStart, User, Group, After, WantedBy, Restart, etc.
+- Warn on unsupported directives
+
+## Integration Points
+
+1. symlink-farm.sh - add systemd-to-nix call
+2. configuration.nix - add auto-import of services/
+3. New script: systemd-to-nix.sh
+
+## Future Enhancements
+
+- Diff checking (only regenerate if changed)
+- User service support (systemd.user.services)
+- Validation before generating
+- Template variables for paths
+
+## Philosophy
+
+Service files remain source of truth (portable), NixOS gets generated configs
+(declarative). Selective enabling via symlinks. Works with existing symlink-farm
+pattern.
+
+## Current State
+
+For now: Use services.kanata module in NixOS directly. User services like
+akeyshually work with symlink-farm as-is.

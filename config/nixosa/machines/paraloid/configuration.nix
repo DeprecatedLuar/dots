@@ -15,9 +15,9 @@ in
 
   imports = [
 
-    "${configDir}/system/system.nix"
-    "${configDir}/system/gui/gui.nix"
-    "${configDir}/system/gui/gaming.nix"
+    "${configDir}/system.nix"
+    "${configDir}/gui/gui.nix"
+    "${configDir}/gui/gaming.nix"
     "${configDir}/users/${mainUser}.nix"
     #"${configDir}/cli.nix"
 

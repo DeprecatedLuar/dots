@@ -12,21 +12,16 @@ in
   environment.systemPackages = with pkgs; [
     # Compositor-agnostic GUI apps
     kitty
-    brave
     firefox
-    libreoffice
     vscode-fhs
     rofi
     imagemagick
     pavucontrol
-    thunderbird
     libnotify
     brightnessctl
     blueman
-    quickshell
     swaybg
     xorg.xinit
-    matugen
   ]
   # Hyprland-specific packages
   ++ lib.optionals hasHyprland [
