@@ -31,6 +31,7 @@
          zip
          devbox
          mpv
+         unzip
 
          go
          python3
