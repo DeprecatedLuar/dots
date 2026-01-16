@@ -10,18 +10,19 @@ in
 {
   time.timeZone = "America/Sao_Paulo";
   i18n.defaultLocale = "en_US.UTF-8";
-  services.xserver.xkb.layout = "us";
-  services.xserver.xkb.variant = "";
 
   imports = [
 
-    "${configDir}/system/system.nix"
     "${configDir}/system/gui/gui.nix"
     "${configDir}/system/gui/gaming.nix"
-    "${configDir}/users/${mainUser}.nix"
-    #"${configDir}/cli.nix"
 
-    "${configDir}/machines/${hostName}/default.nix" #don't touch
+
+
+    #dont touch
+    "${configDir}/system/system.nix"
+    "${configDir}/machines/${hostName}/default.nix"
+    "${configDir}/users/${mainUser}.nix"
+   
   ];
 
   networking.hostName = hostName;

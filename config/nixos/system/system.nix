@@ -8,7 +8,6 @@
      #──[Packages]──────────────────────────────────────────────────────────────
 
        nixpkgs.config.allowUnfree = true;
-       services.flatpak.enable = true;
 
        environment.systemPackages = with pkgs; [
          # Self-healing nixos-rebuild wrapper
@@ -92,16 +91,6 @@
 
 
        systemd.services = { };
-
-     #──[Network]───────────────────────────────────────────────────────────────
-
-       networking = {
-         networkmanager.enable = true;
-         firewall.allowedTCPPorts = [ 80 443 8080 25565 1433 ];
-       };
-       services.tailscale.enable = true;
-       services.zerotierone.enable = true;
-       services.zerotierone.joinNetworks = [ "bb720a5aaec04de3" ];
 
      #──[Bootloader]────────────────────────────────────────────────────────────
 

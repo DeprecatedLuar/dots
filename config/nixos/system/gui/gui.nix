@@ -23,6 +23,9 @@ in
     swaybg
     xorg.xinit
     celluloid
+    grimblast
+
+    zathura
   ]
   # Hyprland-specific packages
   ++ lib.optionals hasHyprland [
@@ -30,7 +33,6 @@ in
     grimblast
     hypridle
     hyprlandPlugins.hyprscrolling
-    #(builtins.getFlake "github:caelestia-dots/shell").packages.${pkgs.system}.with-cli
   ];
 
   services.flatpak.enable = true;

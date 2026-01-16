@@ -1,4 +1,5 @@
 {
+    "clipboard": "external",
     "*.conf": {
         "filetype": "git-config"
     },
