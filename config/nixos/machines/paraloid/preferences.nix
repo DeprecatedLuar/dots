@@ -12,9 +12,8 @@
   #──[Keyboard / Input]───────────────────────────────────────────────────────
 
   services.xserver.xkb = {
-    layout = "us,br";
+    layout = "us";
     variant = "";
-    options = "grp:alt_shift_toggle";
   };
 
   i18n.inputMethod = {
