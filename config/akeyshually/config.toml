@@ -39,6 +39,7 @@ env_file = "~/.profile"
 "super+p" = "grimblast copy area"
 "super+shift+p" = "grimblast copy"
 "shift+print" = "grimblast copy"
+"super+h" = "yap toggle"
 
 "ctrl+print" = "bash -c \"xdg-open ~/Media/Pictures/temp.png\""
 "f9" = "yap"

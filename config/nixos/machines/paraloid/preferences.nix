@@ -39,6 +39,7 @@
   };
 
   services.tailscale.enable = true;
+  services.tailscale.extraSetFlags = [ "--accept-dns=false" ];
   services.zerotierone.enable = true;
   services.zerotierone.joinNetworks = [ "bb720a5aaec04de3" ];
 }
