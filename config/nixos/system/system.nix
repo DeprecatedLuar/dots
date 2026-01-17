@@ -16,6 +16,7 @@
          micro
          git
          wget
+         ffmpeg
          xdotool
          ydotool
          tailscale
