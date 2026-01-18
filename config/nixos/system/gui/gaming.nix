@@ -27,6 +27,7 @@
     mangohud
     gamemode
     protonup-qt
+    gamescope
 
     equibop
   ];

@@ -64,6 +64,8 @@ env_file = "~/.profile"
 # "nextsong" = "media_next"
 # "previoussong" = "media_previous"
 
+#"shift+brightnessup" = "brightness_up"
+
 [command_variables]#--------------------------
 
 edit_config = "kitty micro ~/.config/akeyshually/config.toml"

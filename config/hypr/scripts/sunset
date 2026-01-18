@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+change=${1:?Usage: sunset <value> (e.g., -10 or +10)}
+brightness=$(brightnessctl -m | cut -d',' -f4 | tr -d '%')
+gamma=$(hyprctl hyprsunset gamma | cut -d'.' -f1)
+
+if [[ $change == -* ]]; then
+    val=${change#-}
+    if (( brightness < 1 )); then
+        hyprctl hyprsunset gamma "$change" > /dev/null
+    elif (( val > brightness )); then
+        brightnessctl -q -e4 -n2 set 0%
+        remainder=$((val - brightness))
+        hyprctl hyprsunset gamma "-$remainder" > /dev/null
+    else
+        brightnessctl -q -e4 -n2 set "${val}%-"
+    fi
+else
+    val=${change#+}
+    gamma_deficit=$((100 - gamma))
+    if (( gamma < 100 )) && (( val > gamma_deficit )); then
+        hyprctl hyprsunset gamma 100 > /dev/null
+        remainder=$((val - gamma_deficit))
+        brightnessctl -q -e4 -n2 set "${remainder}%+"
+    elif (( gamma < 100 )); then
+        hyprctl hyprsunset gamma "+$val" > /dev/null
+    else
+        brightnessctl -q -e4 -n2 set "${val}%+"
+    fi
+fi
+
+echo "brightness: $(brightnessctl -m | cut -d',' -f4)"
+echo "gamma: $(hyprctl hyprsunset gamma)"

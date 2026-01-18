@@ -16,6 +16,7 @@
          micro
          git
          wget
+         fd
          ffmpeg
          xdotool
          ydotool
