@@ -16,7 +16,7 @@ env_file = "~/.profile"
 
 "super+enter" = "kitty"
 "super+b" = "$BROWSER"
-"super+shift+b" = "browser2"
+"super+shift+b" = "brave"
 "super+e" = "thunderbird"
 "super+w" = "whatsapp"
 "super+f" = "$FILEMANAGER"
