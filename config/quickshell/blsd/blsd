@@ -30,9 +30,11 @@ set_border() {
 }
 
 # Parse flags
+TINT=""
 while [[ "$1" == -* ]]; do
     case "$1" in
-        -b) set_border "$2"; shift 2 ;;
+        -b|--border) set_border "$2"; shift 2 ;;
+        -t|--tint)   TINT="$2"; shift 2 ;;
         *)  shift ;;
     esac
 done
@@ -40,8 +42,6 @@ done
 case "$1" in
     hide)   set_num visible false ;;
     show)   set_num visible true ;;
-    tint)   set_num tint "$2" ;;
-    border)  set_border "$2" ;;
     borderx) set_num borderX "$2" ;;
     bordery) set_num borderY "$2" ;;
     radius) set_num radius "$2" ;;
@@ -58,5 +58,8 @@ case "$1" in
     magenta) set_color "#aa0088" "#ff44cc" ;;
     teal)   set_color "#008877" "#22ccaa" ;;
     \#*)    set_color "$1" "$1" ;;
-    *)      echo "Usage: blsd <color|hide|show|tint N|border N>" ;;
+    *)      echo "Usage: blsd [-b px] [-t 0-1] <color|hide|show>" ;;
 esac
+
+# Apply tint override after color (which sets default tint)
+[[ -n "$TINT" ]] && set_num tint "$TINT"

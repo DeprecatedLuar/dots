@@ -45,10 +45,26 @@ ShellRoot {
             property color c2: json.color2
 
             // Tint layer
-            Rectangle {
+            Shape {
                 anchors.fill: parent
-                color: Qt.rgba(frame.c.r, frame.c.g, frame.c.b, json.tint)
-                radius: json.radius
+
+                ShapePath {
+                    strokeWidth: 0
+                    strokeColor: "transparent"
+
+                    fillGradient: LinearGradient {
+                        x1: 0; y1: 0
+                        x2: frame.width; y2: frame.height
+                        GradientStop { position: 0.0; color: Qt.rgba(frame.c.r, frame.c.g, frame.c.b, json.tint) }
+                        GradientStop { position: 1.0; color: Qt.rgba(frame.c2.r, frame.c2.g, frame.c2.b, json.tint) }
+                    }
+
+                    PathRectangle {
+                        width: frame.width
+                        height: frame.height
+                        radius: json.radius
+                    }
+                }
             }
 
             // Gradient border using OddEvenFill ring
