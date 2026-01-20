@@ -1,5 +1,5 @@
 [settings]
-default_loop_interval = 100
+default_interval = 100
 disable_media_keys = false  # Set to true to let system handle media keys (GNOME/KDE/etc.)
 #shell = "/bin/bash"  # Override $SHELL
 env_file = "~/.profile"
@@ -35,7 +35,8 @@ env_file = "~/.profile"
 
 #-[UTILS]------------------------------------
 
-"print" = "grimblast copy area"
+"print" = "grimblast -f copy area"
+"print.doubletap" = "notify-send amogus"
 "super+p" = "grimblast copy area"
 "super+shift+p" = "grimblast copy"
 "shift+print" = "grimblast copy"
@@ -44,7 +45,6 @@ env_file = "~/.profile"
 "ctrl+print" = "bash -c \"xdg-open ~/Media/Pictures/temp.png\""
 "f9" = "yap"
 "102nd" = "notify-send penis"
-"ctrl+mute" = "mute_mic"
 "ctrl+shift+alt+h" = "xdotool mousemove_relative 2 0"
 
 #-[MEDIA KEYS]-------------------------------
@@ -55,21 +55,28 @@ env_file = "~/.profile"
 #   - brightnessctl (brightness control)
 #   - playerctl (optional, for media playback control)
 
-# "volumeup" = "volume_up"
-# "volumedown" = "volume_down"
-# "mute" = "mute_toggle"
-# "brightnessup" = "brightness_up"
-# "brightnessdown" = "brightness_down"
-# "playpause" = "media_play_pause"
-# "nextsong" = "media_next"
-# "previoussong" = "media_previous"
+"volumeup" = "volume_up"
+"volumedown" = "volume_down"
+"mute" = "mute_toggle"
+"brightnessup" = "brightness_up"
+"brightnessdown" = "brightness_down"
+"playpause" = "media_play_pause"
+"nextsong" = "media_next"
+"previoussong" = "media_previous"
+
+"ctrl+mute" = "mute_mic"
+"ctrl+volumeup" = "mic_up"
+"ctrl+volumedown" = "mic_down"
+
+"ctl+brightnessup" = "hyprctl hyprsunset temperature +200"
+"ctl+brightnessdown" = "hyprctl hyprsunset temperature -200"
 
 #"shift+brightnessup" = "brightness_up"
 
 [command_variables]#--------------------------
 
 edit_config = "kitty micro ~/.config/akeyshually/config.toml"
-kill_switch = "pkill -9 akeyshually"
+kill_switch = "akeyshually stop && pkill -9 akeyshually"
 
 #-[LAUNCHERS]--------------------------------
 
@@ -83,16 +90,19 @@ notetaker = "bash -c \"source ~/.bashrc && /home/user/.config/bash/bin/notetaker
 
 prtscr = "/home/user/Workspace/tools/bin/screenshot-save --temp"
 yap = "notify-send 'yap'"
-mute_mic = "pactl set-source-mute @DEFAULT_SOURCE@ toggle"
+mute_mic = "pactl set-source-mute @DEFAULT_SOURCE@ toggle || wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
 
 
 #-[MEDIA COMMANDS]---------------------------
 
-volume_up = "pactl set-sink-volume @DEFAULT_SINK@ +5%"
-volume_down = "pactl set-sink-volume @DEFAULT_SINK@ -5%"
-mute_toggle = "pactl set-sink-mute @DEFAULT_SINK@ toggle"
-brightness_up = "brightnessctl set +5%"
-brightness_down = "brightnessctl set 5%-"
+volume_up = "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
+volume_down = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+mute_toggle = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+brightness_up = "~/.config/hypr/scripts/sunset +5"
+brightness_down = "~/.config/hypr/scripts/sunset -5"
 media_play_pause = "playerctl play-pause"
 media_next = "playerctl next"
 media_previous = "playerctl previous"
+
+mic_up = "pactl set-source-volume @DEFAULT_SOURCE@ +10%   || wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%+"
+mic_down = "pactl set-source-volume @DEFAULT_SOURCE@ -10%   || wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%-"

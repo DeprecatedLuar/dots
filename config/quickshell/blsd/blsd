@@ -63,3 +63,5 @@ esac
 
 # Apply tint override after color (which sets default tint)
 [[ -n "$TINT" ]] && set_num tint "$TINT"
+
+exit 0
