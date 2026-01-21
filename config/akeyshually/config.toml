@@ -1,5 +1,5 @@
 [settings]
-default_interval = 100
+default_interval = 150
 disable_media_keys = false  # Set to true to let system handle media keys (GNOME/KDE/etc.)
 #shell = "/bin/bash"  # Override $SHELL
 env_file = "~/.profile"

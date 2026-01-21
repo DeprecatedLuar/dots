@@ -1,0 +1,13 @@
+# Test config for whileheld behavior
+[settings]
+default_interval = 200
+
+[shortcuts]
+# Test whileheld - file browser closes when released
+"super+t.whileheld" = "$FILEMANAGER"
+
+# Test repeat-whileheld - opens and closes file browser repeatedly
+"super+r.repeat-whileheld" = "$FILEMANAGER && sleep 0.3 && pkill thunar"
+
+# Test normal for comparison
+"super+n" = "notify-send 'normal' 'Fire and forget'"

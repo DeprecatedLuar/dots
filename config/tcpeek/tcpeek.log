@@ -412,3 +412,347 @@
 2026/01/20 11:37:17 [INFO] Executing: blsd hide
 2026/01/20 11:37:21 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
 2026/01/20 11:37:21 [INFO] Executing: blsd hide
+2026/01/21 08:24:01 [INFO] tcpeek starting
+2026/01/21 08:24:01 [INFO] Connected to 127.0.0.1:5828 (13 events configured)
+2026/01/21 08:24:01 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:24:01 [INFO] Executing: blsd hide
+2026/01/21 08:24:02 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/01/21 08:24:02 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/01/21 08:24:03 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:24:03 [INFO] Executing: blsd hide
+2026/01/21 08:24:03 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/01/21 08:24:03 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/01/21 08:24:04 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"delete-ops\"}}"
+2026/01/21 08:24:04 [INFO] Executing: blsd -t 0.06 -b 6 red
+2026/01/21 08:24:04 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"delete-ops-shifted\"}}"
+2026/01/21 08:24:04 [INFO] Executing: blsd -t 0.11 -b 6 pink
+2026/01/21 08:24:05 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/01/21 08:24:05 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/01/21 08:24:07 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:24:07 [INFO] Executing: blsd hide
+2026/01/21 08:24:07 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/01/21 08:24:07 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/01/21 08:24:31 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"delete-ops\"}}"
+2026/01/21 08:24:31 [INFO] Executing: blsd -t 0.06 -b 6 red
+2026/01/21 08:24:31 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"delete-ops-shifted\"}}"
+2026/01/21 08:24:31 [INFO] Executing: blsd -t 0.11 -b 6 pink
+2026/01/21 08:24:32 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/01/21 08:24:32 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/01/21 08:24:38 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"visual-mode\"}}"
+2026/01/21 08:24:38 [INFO] Executing: blsd -t 0.06 -b 6 purple
+2026/01/21 08:24:41 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/01/21 08:24:41 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/01/21 08:24:56 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:24:56 [INFO] Executing: blsd hide
+2026/01/21 08:25:08 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:25:08 [INFO] Executing: blsd hide
+2026/01/21 08:25:10 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:25:10 [INFO] Executing: blsd hide
+2026/01/21 08:25:48 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:25:48 [INFO] Executing: blsd hide
+2026/01/21 08:25:49 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:25:49 [INFO] Executing: blsd hide
+2026/01/21 08:25:55 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:25:55 [INFO] Executing: blsd hide
+2026/01/21 08:25:55 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:25:55 [INFO] Executing: blsd hide
+2026/01/21 08:26:16 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:26:16 [INFO] Executing: blsd hide
+2026/01/21 08:26:17 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:26:17 [INFO] Executing: blsd hide
+2026/01/21 08:26:18 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:26:18 [INFO] Executing: blsd hide
+2026/01/21 08:26:18 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:26:18 [INFO] Executing: blsd hide
+2026/01/21 08:27:16 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:27:16 [INFO] Executing: blsd hide
+2026/01/21 08:27:18 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:27:18 [INFO] Executing: blsd hide
+2026/01/21 08:27:19 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:27:19 [INFO] Executing: blsd hide
+2026/01/21 08:27:19 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:27:19 [INFO] Executing: blsd hide
+2026/01/21 08:29:32 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:29:32 [INFO] Executing: blsd hide
+2026/01/21 08:29:33 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:29:33 [INFO] Executing: blsd hide
+2026/01/21 08:29:48 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:29:48 [INFO] Executing: blsd hide
+2026/01/21 08:29:49 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:29:49 [INFO] Executing: blsd hide
+2026/01/21 08:32:54 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:32:54 [INFO] Executing: blsd hide
+2026/01/21 08:32:54 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:32:54 [INFO] Executing: blsd hide
+2026/01/21 08:32:55 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/01/21 08:32:55 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/01/21 08:32:56 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:32:56 [INFO] Executing: blsd hide
+2026/01/21 08:32:57 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:32:57 [INFO] Executing: blsd hide
+2026/01/21 08:32:57 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:32:57 [INFO] Executing: blsd hide
+2026/01/21 08:34:02 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:34:02 [INFO] Executing: blsd hide
+2026/01/21 08:34:02 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:34:02 [INFO] Executing: blsd hide
+2026/01/21 08:34:03 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/01/21 08:34:03 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/01/21 08:34:04 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:34:04 [INFO] Executing: blsd hide
+2026/01/21 08:34:05 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/01/21 08:34:05 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/01/21 08:34:06 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:34:06 [INFO] Executing: blsd hide
+2026/01/21 08:34:09 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:34:09 [INFO] Executing: blsd hide
+2026/01/21 08:34:09 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:34:09 [INFO] Executing: blsd hide
+2026/01/21 08:34:10 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:34:10 [INFO] Executing: blsd hide
+2026/01/21 08:34:13 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:34:13 [INFO] Executing: blsd hide
+2026/01/21 08:34:32 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:34:32 [INFO] Executing: blsd hide
+2026/01/21 08:34:33 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:34:33 [INFO] Executing: blsd hide
+2026/01/21 08:34:45 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:34:45 [INFO] Executing: blsd hide
+2026/01/21 08:34:45 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:34:45 [INFO] Executing: blsd hide
+2026/01/21 08:35:55 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:35:55 [INFO] Executing: blsd hide
+2026/01/21 08:35:55 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:35:55 [INFO] Executing: blsd hide
+2026/01/21 08:36:18 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:36:18 [INFO] Executing: blsd hide
+2026/01/21 08:36:19 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:36:19 [INFO] Executing: blsd hide
+2026/01/21 08:36:21 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:36:21 [INFO] Executing: blsd hide
+2026/01/21 08:36:22 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:36:22 [INFO] Executing: blsd hide
+2026/01/21 08:36:22 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:36:22 [INFO] Executing: blsd hide
+2026/01/21 08:36:25 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:36:25 [INFO] Executing: blsd hide
+2026/01/21 08:36:27 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:36:27 [INFO] Executing: blsd hide
+2026/01/21 08:36:27 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:36:27 [INFO] Executing: blsd hide
+2026/01/21 08:38:06 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:38:06 [INFO] Executing: blsd hide
+2026/01/21 08:38:06 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:38:06 [INFO] Executing: blsd hide
+2026/01/21 08:38:06 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:38:06 [INFO] Executing: blsd hide
+2026/01/21 08:38:06 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:38:06 [INFO] Executing: blsd hide
+2026/01/21 08:39:11 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/01/21 08:39:11 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/01/21 08:39:15 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:39:15 [INFO] Executing: blsd hide
+2026/01/21 08:39:18 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:39:18 [INFO] Executing: blsd hide
+2026/01/21 08:39:18 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:39:18 [INFO] Executing: blsd hide
+2026/01/21 08:39:18 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:39:18 [INFO] Executing: blsd hide
+2026/01/21 08:39:19 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:39:19 [INFO] Executing: blsd hide
+2026/01/21 08:39:19 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:39:19 [INFO] Executing: blsd hide
+2026/01/21 08:39:19 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:39:19 [INFO] Executing: blsd hide
+2026/01/21 08:39:20 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:39:20 [INFO] Executing: blsd hide
+2026/01/21 08:39:21 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:39:21 [INFO] Executing: blsd hide
+2026/01/21 08:39:21 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/01/21 08:39:21 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/01/21 08:39:22 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:39:22 [INFO] Executing: blsd hide
+2026/01/21 08:39:23 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/01/21 08:39:23 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/01/21 08:39:23 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:39:23 [INFO] Executing: blsd hide
+2026/01/21 08:39:48 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:39:48 [INFO] Executing: blsd hide
+2026/01/21 08:39:53 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:39:53 [INFO] Executing: blsd hide
+2026/01/21 08:40:41 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:40:41 [INFO] Executing: blsd hide
+2026/01/21 08:40:42 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:40:42 [INFO] Executing: blsd hide
+2026/01/21 08:40:49 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:40:49 [INFO] Executing: blsd hide
+2026/01/21 08:40:50 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:40:50 [INFO] Executing: blsd hide
+2026/01/21 08:44:18 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:44:18 [INFO] Executing: blsd hide
+2026/01/21 08:44:18 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:44:18 [INFO] Executing: blsd hide
+2026/01/21 08:44:33 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:44:33 [INFO] Executing: blsd hide
+2026/01/21 08:44:33 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:44:33 [INFO] Executing: blsd hide
+2026/01/21 08:44:34 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:44:34 [INFO] Executing: blsd hide
+2026/01/21 08:44:34 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:44:34 [INFO] Executing: blsd hide
+2026/01/21 08:44:36 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/01/21 08:44:36 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/01/21 08:44:39 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"delete-ops\"}}"
+2026/01/21 08:44:39 [INFO] Executing: blsd -t 0.06 -b 6 red
+2026/01/21 08:44:39 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"delete-ops-shifted\"}}"
+2026/01/21 08:44:39 [INFO] Executing: blsd -t 0.11 -b 6 pink
+2026/01/21 08:44:39 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/01/21 08:44:39 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/01/21 08:44:46 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"delete-ops\"}}"
+2026/01/21 08:44:46 [INFO] Executing: blsd -t 0.06 -b 6 red
+2026/01/21 08:44:47 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"delete-ops-shifted\"}}"
+2026/01/21 08:44:47 [INFO] Executing: blsd -t 0.11 -b 6 pink
+2026/01/21 08:44:48 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/01/21 08:44:48 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/01/21 08:44:56 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:44:56 [INFO] Executing: blsd hide
+2026/01/21 08:44:58 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/01/21 08:44:58 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/01/21 08:45:05 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"delete-ops\"}}"
+2026/01/21 08:45:05 [INFO] Executing: blsd -t 0.06 -b 6 red
+2026/01/21 08:45:06 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"delete-ops-shifted\"}}"
+2026/01/21 08:45:06 [INFO] Executing: blsd -t 0.11 -b 6 pink
+2026/01/21 08:45:06 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/01/21 08:45:06 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/01/21 08:45:09 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"delete-ops\"}}"
+2026/01/21 08:45:09 [INFO] Executing: blsd -t 0.06 -b 6 red
+2026/01/21 08:45:09 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"delete-ops-shifted\"}}"
+2026/01/21 08:45:09 [INFO] Executing: blsd -t 0.11 -b 6 pink
+2026/01/21 08:45:09 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/01/21 08:45:09 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/01/21 08:45:25 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"delete-ops\"}}"
+2026/01/21 08:45:25 [INFO] Executing: blsd -t 0.06 -b 6 red
+2026/01/21 08:45:25 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/01/21 08:45:25 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/01/21 08:45:29 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:45:29 [INFO] Executing: blsd hide
+2026/01/21 08:45:31 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:45:31 [INFO] Executing: blsd hide
+2026/01/21 08:45:32 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:45:32 [INFO] Executing: blsd hide
+2026/01/21 08:45:38 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:45:38 [INFO] Executing: blsd hide
+2026/01/21 08:45:38 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:45:38 [INFO] Executing: blsd hide
+2026/01/21 08:46:03 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:46:03 [INFO] Executing: blsd hide
+2026/01/21 08:46:03 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:46:03 [INFO] Executing: blsd hide
+2026/01/21 08:47:35 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:47:35 [INFO] Executing: blsd hide
+2026/01/21 08:47:36 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:47:36 [INFO] Executing: blsd hide
+2026/01/21 08:47:36 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:47:36 [INFO] Executing: blsd hide
+2026/01/21 08:47:37 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:47:37 [INFO] Executing: blsd hide
+2026/01/21 08:47:38 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/01/21 08:47:38 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/01/21 08:47:38 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:47:38 [INFO] Executing: blsd hide
+2026/01/21 08:47:43 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:47:43 [INFO] Executing: blsd hide
+2026/01/21 08:47:45 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:47:45 [INFO] Executing: blsd hide
+2026/01/21 08:47:46 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:47:46 [INFO] Executing: blsd hide
+2026/01/21 08:47:46 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:47:46 [INFO] Executing: blsd hide
+2026/01/21 08:47:46 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/01/21 08:47:46 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/01/21 08:47:47 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:47:47 [INFO] Executing: blsd hide
+2026/01/21 08:47:50 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/01/21 08:47:50 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/01/21 08:47:52 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:47:52 [INFO] Executing: blsd hide
+2026/01/21 08:47:53 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/01/21 08:47:53 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/01/21 08:47:58 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:47:58 [INFO] Executing: blsd hide
+2026/01/21 08:47:58 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:47:58 [INFO] Executing: blsd hide
+2026/01/21 08:47:59 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:47:59 [INFO] Executing: blsd hide
+2026/01/21 08:48:00 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:48:00 [INFO] Executing: blsd hide
+2026/01/21 08:48:00 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:48:00 [INFO] Executing: blsd hide
+2026/01/21 08:48:06 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:48:06 [INFO] Executing: blsd hide
+2026/01/21 08:48:06 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:48:06 [INFO] Executing: blsd hide
+2026/01/21 08:48:35 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:48:35 [INFO] Executing: blsd hide
+2026/01/21 08:48:35 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:48:35 [INFO] Executing: blsd hide
+2026/01/21 08:48:39 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:48:39 [INFO] Executing: blsd hide
+2026/01/21 08:48:40 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:48:40 [INFO] Executing: blsd hide
+2026/01/21 08:48:45 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:48:45 [INFO] Executing: blsd hide
+2026/01/21 08:48:45 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:48:45 [INFO] Executing: blsd hide
+2026/01/21 08:48:48 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:48:48 [INFO] Executing: blsd hide
+2026/01/21 08:48:48 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:48:48 [INFO] Executing: blsd hide
+2026/01/21 08:48:49 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:48:49 [INFO] Executing: blsd hide
+2026/01/21 08:48:49 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:48:49 [INFO] Executing: blsd hide
+2026/01/21 08:49:01 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:49:01 [INFO] Executing: blsd hide
+2026/01/21 08:49:02 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:49:02 [INFO] Executing: blsd hide
+2026/01/21 08:49:04 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:49:04 [INFO] Executing: blsd hide
+2026/01/21 08:49:04 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:49:04 [INFO] Executing: blsd hide
+2026/01/21 08:49:05 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:49:05 [INFO] Executing: blsd hide
+2026/01/21 08:49:06 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:49:06 [INFO] Executing: blsd hide
+2026/01/21 08:50:13 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/01/21 08:50:13 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/01/21 08:50:19 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:50:19 [INFO] Executing: blsd hide
+2026/01/21 08:50:20 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/01/21 08:50:20 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/01/21 08:50:29 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:50:29 [INFO] Executing: blsd hide
+2026/01/21 08:50:49 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:50:49 [INFO] Executing: blsd hide
+2026/01/21 08:50:50 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:50:50 [INFO] Executing: blsd hide
+2026/01/21 08:50:54 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:50:54 [INFO] Executing: blsd hide
+2026/01/21 08:50:54 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:50:54 [INFO] Executing: blsd hide
+2026/01/21 08:50:58 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:50:58 [INFO] Executing: blsd hide
+2026/01/21 08:50:58 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:50:58 [INFO] Executing: blsd hide
+2026/01/21 08:51:09 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:51:09 [INFO] Executing: blsd hide
+2026/01/21 08:51:11 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:51:11 [INFO] Executing: blsd hide
+2026/01/21 08:52:42 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:52:42 [INFO] Executing: blsd hide
+2026/01/21 08:52:43 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:52:43 [INFO] Executing: blsd hide
+2026/01/21 08:52:43 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/01/21 08:52:43 [INFO] Executing: blsd hide
+2026/01/21 08:52:44 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/01/21 08:52:44 [INFO] Executing: blsd hide
