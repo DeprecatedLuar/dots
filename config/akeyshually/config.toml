@@ -9,6 +9,8 @@ env_file = "~/.profile"
 "super+k" = "edit_config"
 "ctrl+shift+k" = "kill_switch"
 
+#"ctrl+shift+a.repeat-toggle(10)" = "ydotool click 0xC0"
+
 #-[LAUNCHERS]--------------------------------
 
 "super.onrelease" = "hotline"
@@ -47,6 +49,8 @@ env_file = "~/.profile"
 "102nd" = "notify-send penis"
 "ctrl+shift+alt+h" = "xdotool mousemove_relative 2 0"
 
+
+
 #-[MEDIA KEYS]-------------------------------
 
 # Uncomment the keys you want to use
@@ -55,8 +59,10 @@ env_file = "~/.profile"
 #   - brightnessctl (brightness control)
 #   - playerctl (optional, for media playback control)
 
-"volumeup" = "volume_up"
-"volumedown" = "volume_down"
+#"volumeup" = "volume_up"
+"volumeup.repeat-whileheld(100)" = "volume_up"
+#"volumedown" = "volume_down"
+"volumedown.repeat-whileheld(100)" = "volume_down"
 "mute" = "mute_toggle"
 "brightnessup" = "brightness_up"
 "brightnessdown" = "brightness_down"

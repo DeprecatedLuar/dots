@@ -1,13 +1,40 @@
-# Test config for whileheld behavior
+# Demo config for akeyshually video
+# Enable with: akeyshually enable test
+
 [settings]
-default_interval = 200
+default_interval = 150
 
 [shortcuts]
-# Test whileheld - file browser closes when released
-"super+t.whileheld" = "$FILEMANAGER"
+"super+k" = "edit_test_config"
+"ctrl+shift+k" = "kill_switch"
 
-# Test repeat-whileheld - opens and closes file browser repeatedly
-"super+r.repeat-whileheld" = "$FILEMANAGER && sleep 0.3 && pkill thunar"
 
-# Test normal for comparison
-"super+n" = "notify-send 'normal' 'Fire and forget'"
+"super+n" = "silly_cat"
+"super.onrelease" = "hotline"
+"super.doubletap(250)" = "$LAUNCHER"
+
+"super+t.whileheld" = "silly_cat"
+"super+t" = "silly_cat"
+
+"volumeup.repeat-whileheld(100)" = "volume_up"
+"volumedown.repeat-whileheld(200)" = "volume_down"
+
+# 6. REPEAT-TOGGLE - start/stop loop on each press
+#    First press starts loop, second press stops it
+#    Loop continues even after key released
+"super+g.repeat-toggle(500)" = "feh /home/luar/Workspace/projects/cli/akeyshually/other/assets/cat_schlopjpeg & sleep 0.3 && pkill feh"
+"super+c.repeat-toggle(100)" = "ydotool mousemove -- 100 0 && sleep 0.02 && ydotool mousemove -- 0 100 && sleep 0.02 && ydotool mousemove -- -100 0 && sleep 0.02 && ydotool mousemove -- 0 -100"
+
+# 7. SWITCH - cycle through array of commands
+#    Each press executes next command in the list
+#    Wraps around after last command
+"super+s.switch" = ["blsd yellow", "blsd blue", "blsd purple", "blsd pink", "blsd hide"]
+
+[command_variables]
+edit_test_config = "kitty micro ~/.config/akeyshually/test.toml"
+kill_switch = "akeyshually stop; pkill -9 akeyshually"
+volume_up = "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 2%+"
+volume_down = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-"
+
+silly_cat = "feh --auto-zoom --geometry 400x400 /home/luar/Workspace/projects/cli/akeyshually/other/assets/cat_schlopjpeg"
+errm_cat = ""

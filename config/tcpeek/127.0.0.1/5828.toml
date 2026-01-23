@@ -4,7 +4,7 @@
 "vim-shifted" = "blsd -t 0.06 -b 6 cyan"
 "visual-mode" = "blsd -t 0.06 -b 6 purple"
 "visual-shifted" = "blsd -t 0.06 -b 6 magenta"
-"escape" = "blsd -t 0.06 -b 6 yellow"
+"escape" = "blsd -t 0 -b 6 black"
 "meta-layer" = "blsd hide"
 "delete-ops" = "blsd -t 0.06 -b 6 red"
 "delete-ops-shifted" = "blsd -t 0.11 -b 6 pink"

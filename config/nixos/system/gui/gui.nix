@@ -15,6 +15,7 @@ in
     firefox
     vscode-fhs
     rofi
+    feh
     imagemagick
     pavucontrol
     libnotify

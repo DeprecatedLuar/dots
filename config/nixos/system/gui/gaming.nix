@@ -8,6 +8,7 @@
     enable = true;
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
+    extraPackages = with pkgs; [ icu ];  # Required for .NET games (tModLoader, etc.)
   };
 
   #──[Graphics]──────────────────────────────────────────────────────────────
