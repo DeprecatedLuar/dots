@@ -5,6 +5,8 @@ let
   hasHyprland = builtins.elem "hyprland" compositors;
   hasNiri = builtins.elem "niri" compositors;
   hasXfce = builtins.elem "xfce" compositors;
+  hasOpenbox = builtins.elem "openbox" compositors;
+  hasI3 = builtins.elem "i3" compositors;
 in
 {
   #──[GUI Packages]──────────────────────────────────────────────────────────
@@ -25,8 +27,12 @@ in
     xorg.xinit
     celluloid
     grimblast
-
+    adwaita-icon-theme
     zathura
+    wl-clipboard
+
+    i3
+    picom    
   ]
   # Hyprland-specific packages
   ++ lib.optionals hasHyprland [
@@ -39,16 +45,27 @@ in
   services.flatpak.enable = true;
   xdg.portal.enable = true;  # Required for Flatpak and desktop integration
 
-  # Enable GTK theme sync with xfsettingsd (like GNOME does)
-  environment.sessionVariables.GTK_MODULES = "xfsettingsd-gtk-settings-sync";
+  # Thunar file manager
+  programs.thunar = {
+    enable = true;
+    plugins = with pkgs.xfce; [
+      thunar-volman
+      thunar-archive-plugin
+    ];
+  };
+  services.gvfs.enable = true;
 
   #──[Desktop Environment]───────────────────────────────────────────────────
 
   services.xserver = {
     enable = true;
-    displayManager.lightdm.enable = false;
+    displayManager.startx.enable = true;  # Proper startx support with module paths
     desktopManager.xfce.enable = hasXfce;
+    windowManager.openbox.enable = hasOpenbox;
+    windowManager.i3.enable = hasI3;
   };
+
+  services.libinput.enable = true;  # X11 input driver (keyboard/mouse)
 
   programs.niri.enable = hasNiri;
   programs.hyprland.enable = hasHyprland;

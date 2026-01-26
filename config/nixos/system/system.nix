@@ -31,6 +31,7 @@
          at
          btop
          lm_sensors
+         pciutils
          evtest
          gh
          zip

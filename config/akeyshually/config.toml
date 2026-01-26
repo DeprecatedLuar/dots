@@ -101,7 +101,7 @@ mute_mic = "pactl set-source-mute @DEFAULT_SOURCE@ toggle || wpctl set-mute @DEF
 
 #-[MEDIA COMMANDS]---------------------------
 
-volume_up = "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
+volume_up = "wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"
 volume_down = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
 mute_toggle = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
 brightness_up = "~/.config/hypr/scripts/sunset +5"

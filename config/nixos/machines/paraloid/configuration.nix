@@ -3,7 +3,7 @@
 let
   mainUser = "luar";
   hostName = "paraloid";
-  compositors = [ "hyprland" "niri" "xfce" ]; # "hyprland", "niri", "xfce"
+  compositors = [ "hyprland" "niri" "openbox" "i3" ]; # "hyprland", "niri", "openbox"
   configDir = "/home/${mainUser}/.config/nixos";
 
 in
