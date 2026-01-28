@@ -28,6 +28,13 @@
   # Enable general power management
   powerManagement.enable = true;
 
+  # Lid switch behavior
+  services.logind = {
+    lidSwitch = "suspend";              # Default: suspend on lid close
+    lidSwitchExternalPower = "suspend"; # On AC power (change to "ignore" if preferred)
+    lidSwitchDocked = "ignore";         # With external display: do nothing
+  };
+
   #──[Graphics]──────────────────────────────────────────────────────────────
 
   services.xserver.videoDrivers = ["nvidia"];

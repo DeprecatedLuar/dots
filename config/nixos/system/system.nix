@@ -93,6 +93,7 @@
 
      #──[Services]──────────────────────────────────────────────────────────────
 
+       services.upower.enable = true;
        services.openssh.enable = true;
        services.atd.enable = true;
        virtualisation.docker.enable = true;
