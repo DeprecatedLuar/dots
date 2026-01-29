@@ -7,6 +7,8 @@
   
     thunderbird
     megacmd
+    anki
+    nwg-wrapper
     
   ];
 

@@ -69,4 +69,12 @@ in
 
   programs.niri.enable = hasNiri;
   programs.hyprland.enable = hasHyprland;
+
+  #──[Qt Theming]────────────────────────────────────────────────────────────
+
+  qt = {
+    enable = true;
+    platformTheme = "qt5ct";
+    style = "adwaita-dark";
+  };
 }
