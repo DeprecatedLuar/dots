@@ -30,6 +30,7 @@ in
     adwaita-icon-theme
     zathura
     wl-clipboard
+    playerctl
 
     i3
     picom    
