@@ -38,10 +38,11 @@ env_file = "~/.profile"
 #-[UTILS]------------------------------------
 
 "print" = "grimblast -f copy area"
-"print.doubletap" = "notify-send amogus"
+"print.doubletap" = ""
+"shift+print" = "grimblast -f save area"
 "super+p" = "grimblast copy area"
 "super+shift+p" = "grimblast copy"
-"shift+print" = "grimblast copy"
+
 "super+h" = "yap toggle"
 
 "ctrl+print" = "bash -c \"xdg-open ~/Media/Pictures/temp.png\""

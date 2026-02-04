@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-SCRIPT_PATH="$HOME/.config/hypr/scripts/quotes"
-CSS_PATH="$HOME/.config/nwg-wrapper/quote.css"
+DIR="$HOME/.config/nwg-wrapper/quotes"
+SCRIPT_PATH="$DIR/quotes.sh"
+CSS_PATH="$DIR/quotes.css"
+FETCH_SCRIPT="$DIR/fetch-quote.sh"
 
 if [[ "$NWG_QUOTE_OUTPUT" == "1" ]]; then
-    response=$(curl -s "https://dummyjson.com/quotes/random")
-    quote=$(echo "$response" | jq -r '.quote')
-    author=$(echo "$response" | jq -r '.author')
+    { read -r quote; read -r author; } < <("$FETCH_SCRIPT")
     echo "<span font='Sans 12' foreground='#f0f0f099'>\"$quote\"</span>"
     echo "<span font='Sans 9' foreground='#ffffff50'>— $author</span>"
 else
