@@ -1,0 +1,41 @@
+server {
+    server_name theparaloid.com;
+    client_max_body_size 100M;
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+    
+    # PDF viewer location
+    location ~ ^/pdf/(.+)$ {
+    alias /var/www/public-documents/$1;
+}
+    
+    # Handle .mjs files specifically in /pdf/ path
+    location ~ ^/pdf.*\.mjs$ {
+        alias /var/www/public-documents/;
+        add_header Content-Type "application/javascript";
+    }
+
+    # Root location for static content
+    location / {
+        try_files $uri $uri/ =404;
+
+    }
+
+    include /etc/nginx/sites-available/api;
+
+    listen 443 ssl;
+    ssl_certificate /etc/letsencrypt/live/theparaloid.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/theparaloid.com/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+}
+
+server {
+    if ($host = theparaloid.com) {
+        return 301 https://$host$request_uri;
+    }
+
+    listen 80;
+    server_name theparaloid.com;
+    return 404;
+}
