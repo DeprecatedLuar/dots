@@ -29,10 +29,10 @@
   powerManagement.enable = true;
 
   # Lid switch behavior
-  services.logind = {
-    lidSwitch = "suspend";              # Default: suspend on lid close
-    lidSwitchExternalPower = "suspend"; # On AC power (change to "ignore" if preferred)
-    lidSwitchDocked = "ignore";         # With external display: do nothing
+  services.logind.settings.Login = {
+    HandleLidSwitch = "suspend";              # Default: suspend on lid close
+    HandleLidSwitchExternalPower = "suspend"; # On AC power (change to "ignore" if preferred)
+    HandleLidSwitchDocked = "ignore";         # With external display: do nothing
   };
 
   #──[Graphics]──────────────────────────────────────────────────────────────

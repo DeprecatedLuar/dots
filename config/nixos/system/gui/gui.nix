@@ -30,6 +30,7 @@ in
     adwaita-icon-theme
     zathura
     wl-clipboard
+    wtype
     playerctl
 
     i3
@@ -75,7 +76,7 @@ in
 
   qt = {
     enable = true;
-    platformTheme = "qt5ct";
+    platformTheme = "gnome";
     style = "adwaita-dark";
   };
 }

@@ -14,10 +14,10 @@ env_file = "~/.profile"
 #-[LAUNCHERS]--------------------------------
 
 "super.onrelease" = "hotline"
-"super.doubletap" = "$LAUNCHER"
+"super.doubletap(270)" = "$LAUNCHER"
 
 "super+enter" = "kitty"
-"super+b" = "nvidia-offload $BROWSER"
+"super+b" = "$BROWSER"
 "super+shift+b" = "offload brave"
 "super+e" = "thunderbird"
 "super+w" = "whatsapp"
@@ -43,7 +43,7 @@ env_file = "~/.profile"
 "super+p" = "grimblast copy area"
 "super+shift+p" = "grimblast copy"
 
-"super+h" = "yap toggle"
+"super+y" = "yap toggle"
 
 "ctrl+print" = "bash -c \"xdg-open ~/Media/Pictures/temp.png\""
 "f9" = "yap"
@@ -60,10 +60,10 @@ env_file = "~/.profile"
 #   - brightnessctl (brightness control)
 #   - playerctl (optional, for media playback control)
 
-#"volumeup" = "volume_up"
-"volumeup.repeat-whileheld(100)" = "volume_up"
-#"volumedown" = "volume_down"
-"volumedown.repeat-whileheld(100)" = "volume_down"
+"volumeup" = "volume_up"
+#"volumeup.repeat-whileheld(100)" = "volume_up"
+"volumedown" = "volume_down"
+#"volumedown.repeat-whileheld(100)" = "volume_down"
 "mute" = "mute_toggle"
 "brightnessup" = "brightness_up"
 "brightnessdown" = "brightness_down"
