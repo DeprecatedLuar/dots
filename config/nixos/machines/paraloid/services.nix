@@ -1,0 +1,7 @@
+{ ... }:
+
+{
+  enabledServices = [
+    "vimsanity"
+  ];
+}

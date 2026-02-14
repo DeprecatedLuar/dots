@@ -3781,3 +3781,27 @@
 2026/02/13 11:27:59 [INFO] Executing: blsd hide
 2026/02/13 11:28:00 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
 2026/02/13 11:28:00 [INFO] Executing: blsd hide
+2026/02/14 09:50:38 [INFO] tcpeek starting
+2026/02/14 09:50:38 [INFO] Connected to 127.0.0.1:5828 (13 events configured)
+2026/02/14 09:50:38 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/02/14 09:50:38 [INFO] Executing: blsd hide
+2026/02/14 09:50:39 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/02/14 09:50:39 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/02/14 09:50:40 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/02/14 09:50:40 [INFO] Executing: blsd hide
+2026/02/14 09:50:40 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/02/14 09:50:40 [INFO] Executing: blsd hide
+2026/02/14 09:50:41 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/02/14 09:50:41 [INFO] Executing: blsd hide
+2026/02/14 09:50:41 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/02/14 09:50:41 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/02/14 09:50:42 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/02/14 09:50:42 [INFO] Executing: blsd hide
+2026/02/14 09:50:42 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/02/14 09:50:42 [INFO] Executing: blsd hide
+2026/02/14 09:50:42 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/02/14 09:50:42 [INFO] Executing: blsd hide
+2026/02/14 09:50:57 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/02/14 09:50:57 [INFO] Executing: blsd hide
+2026/02/14 09:50:57 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/02/14 09:50:57 [INFO] Executing: blsd hide

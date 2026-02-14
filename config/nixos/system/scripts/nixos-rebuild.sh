@@ -67,6 +67,43 @@ if [[ ! -L "$CONVENIENCE_LINK" ]] || [[ "$(readlink -f "$CONVENIENCE_LINK")" != 
     ln -s "$MACHINE_CONFIG" "$CONVENIENCE_LINK"
 fi
 
+# Service symlink-farm: Self-healing service management
+SERVICES_DIR="${CONFIG_DIR}/services"
+SERVICES_AVAILABLE="${SERVICES_DIR}/available"
+MACHINE_SERVICES_DIR="${CONFIG_DIR}/machines/${HOSTNAME}/services"
+MACHINE_SERVICES_CONFIG="${CONFIG_DIR}/machines/${HOSTNAME}/services.nix"
+
+# Ensure directories exist
+mkdir -p "$SERVICES_AVAILABLE"
+
+# Clean broken symlinks in services/available/
+find "$SERVICES_AVAILABLE" -type l ! -exec test -e {} \; -delete 2>/dev/null || true
+
+# Symlink machine services.nix → services/services.nix
+if [[ -f "$MACHINE_SERVICES_CONFIG" ]]; then
+    SERVICES_CONFIG_LINK="${SERVICES_DIR}/services.nix"
+    if [[ ! -L "$SERVICES_CONFIG_LINK" ]] || [[ "$(readlink -f "$SERVICES_CONFIG_LINK")" != "$MACHINE_SERVICES_CONFIG" ]]; then
+        echo "Symlinking services config: machines/${HOSTNAME}/services.nix → services/services.nix"
+        rm -f "$SERVICES_CONFIG_LINK"
+        ln -s "$MACHINE_SERVICES_CONFIG" "$SERVICES_CONFIG_LINK"
+    fi
+fi
+
+# Symlink machine-specific services: machines/${HOSTNAME}/services/*.nix → services/available/local_*.nix
+if [[ -d "$MACHINE_SERVICES_DIR" ]]; then
+    for service_file in "$MACHINE_SERVICES_DIR"/*.nix; do
+        if [[ -f "$service_file" ]]; then
+            service_name=$(basename "$service_file")
+            local_link="${SERVICES_AVAILABLE}/local_${service_name}"
+            if [[ ! -L "$local_link" ]] || [[ "$(readlink -f "$local_link")" != "$service_file" ]]; then
+                echo "Symlinking machine service: ${service_name} → local_${service_name}"
+                rm -f "$local_link"
+                ln -s "$service_file" "$local_link"
+            fi
+        fi
+    done
+fi
+
 # Call the real nixos-rebuild from nixpkgs
 rebuild_bin=$(nix-build '<nixpkgs/nixos>' -A config.system.build.nixos-rebuild --no-out-link)/bin/nixos-rebuild
 exec "$rebuild_bin" "$@"

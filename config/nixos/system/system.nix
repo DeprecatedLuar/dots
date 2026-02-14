@@ -3,6 +3,7 @@
 {
   imports = [
     /etc/nixos/hardware-configuration.nix  # Auto-generated filesystems
+    ./service-loader.nix                   # Dynamic service imports
   ];
 
      #──[Packages]──────────────────────────────────────────────────────────────
@@ -97,14 +98,6 @@
        services.openssh.enable = true;
        services.atd.enable = true;
        virtualisation.docker.enable = true;
-       services.kanata.enable = true;
-
-       services.kanata.keyboards.vimsanity = {
-         devices = [ ];
-         configFile = /home/${mainUser}/Workspace/projects/cli/going-vimsane/vimsanity.kbd;
-         port = 5828;
-       };
-
 
        systemd.services = { };
 

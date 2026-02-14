@@ -1,3 +1,7 @@
 /configuration.nix
 CLAUDE.md
 idea.txt
+
+# Service management (auto-generated symlinks)
+/services/services.nix
+/services/available/local_*.nix
