@@ -3805,3 +3805,23 @@
 2026/02/14 09:50:57 [INFO] Executing: blsd hide
 2026/02/14 09:50:57 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
 2026/02/14 09:50:57 [INFO] Executing: blsd hide
+2026/02/14 09:51:29 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/02/14 09:51:29 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/02/14 09:51:37 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"visual-mode\"}}"
+2026/02/14 09:51:37 [INFO] Executing: blsd -t 0.06 -b 6 purple
+2026/02/14 09:51:43 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/02/14 09:51:43 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/02/14 09:51:48 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"visual-mode\"}}"
+2026/02/14 09:51:48 [INFO] Executing: blsd -t 0.06 -b 6 purple
+2026/02/14 09:51:52 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/02/14 09:51:52 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/02/14 09:52:36 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-shifted\"}}"
+2026/02/14 09:52:36 [INFO] Executing: blsd -t 0.06 -b 6 cyan
+2026/02/14 09:52:36 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"vim-normal\"}}"
+2026/02/14 09:52:36 [INFO] Executing: blsd -t 0.06 -b 6 blue
+2026/02/14 09:52:53 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/02/14 09:52:53 [INFO] Executing: blsd hide
+2026/02/14 09:53:27 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"meta-layer\"}}"
+2026/02/14 09:53:27 [INFO] Executing: blsd hide
+2026/02/14 09:53:27 [INFO] [127.0.0.1:5828] Received: "{\"LayerChange\":{\"new\":\"default\"}}"
+2026/02/14 09:53:27 [INFO] Executing: blsd hide
