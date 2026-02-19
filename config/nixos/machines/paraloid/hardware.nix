@@ -3,9 +3,6 @@
 {
   #──[Power Management]──────────────────────────────────────────────────────
 
-  # Thermal management for Intel CPU (prevents overheating)
-  services.thermald.enable = true;
-
   # auto-cpufreq for intelligent CPU scaling (better than TLP for mixed workloads)
   # services.auto-cpufreq.enable = true;
   # services.auto-cpufreq.settings = {

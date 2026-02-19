@@ -28,13 +28,21 @@ in
     celluloid
     grimblast
     adwaita-icon-theme
+    adw-gtk3    
     zathura
     wl-clipboard
     wtype
     playerctl
 
     i3
-    picom    
+    picom
+
+    # Qt theming - active theme managed via dotfiles (~/.config/qt6ct/)
+    qt6Packages.qt6ct
+    darkly
+    papirus-icon-theme
+    kdePackages.breeze
+    adwaita-qt6
   ]
   # Hyprland-specific packages
   ++ lib.optionals hasHyprland [
@@ -71,12 +79,4 @@ in
 
   programs.niri.enable = hasNiri;
   programs.hyprland.enable = hasHyprland;
-
-  #──[Qt Theming]────────────────────────────────────────────────────────────
-
-  qt = {
-    enable = true;
-    platformTheme = "gnome";
-    style = "adwaita-dark";
-  };
 }

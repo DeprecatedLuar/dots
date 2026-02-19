@@ -3,6 +3,10 @@
 # Monitors Wayland clipboard and triggers notification/sound on changes
 
 wl-paste --watch sh -c '
+    if [ ! -f /tmp/clipboard-daemon-started ]; then
+        touch /tmp/clipboard-daemon-started
+        exit 0
+    fi
     # content=$(wl-paste | head -c 200)
     # notify-send -t 1500 "Clipboard" "$content"
     mpv --no-video --really-quiet ~/.config/hypr/sounds/flint-and-steel.ogg &

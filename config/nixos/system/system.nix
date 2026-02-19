@@ -15,6 +15,7 @@
           (pkgs.writeShellScriptBin "nixos-rebuild" (builtins.readFile ./scripts/nixos-rebuild.sh))
 
          micro
+         ncdu
          git
          wget
          lsof

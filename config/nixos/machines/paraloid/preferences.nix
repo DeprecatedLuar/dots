@@ -4,12 +4,13 @@
   #──[Packages]───────────────────────────────────────────────────────────────
 
   environment.systemPackages = with pkgs; [
-  
+
     thunderbird
     megacmd
     anki
     nwg-wrapper
-    
+    pcmanfm-qt
+
   ];
 
   #──[Keyboard / Input]───────────────────────────────────────────────────────

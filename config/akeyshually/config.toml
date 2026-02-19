@@ -37,15 +37,15 @@ env_file = "~/.profile"
 
 #-[UTILS]------------------------------------
 
-"print" = "grimblast -f copy area"
-"print.doubletap" = ""
-"shift+print" = "grimblast -f save area"
+"print" = "grimblast -f -n copysave area ~/Media/Pictures/screenshots/latest.png"
+"print.doubletap" = "last_screenshot"
+"super+shift+p" = "last_screenshot"
+"super+ctrl+p" = "grimblast -f -n copysave area"
+"shift+print" = "grimblast -f -n -o save area "
 "super+p" = "grimblast copy area"
-"super+shift+p" = "grimblast copy"
 
 "super+y" = "yap toggle"
 
-"ctrl+print" = "bash -c \"xdg-open ~/Media/Pictures/temp.png\""
 "f9" = "yap"
 "102nd" = "notify-send penis"
 "ctrl+shift+alt+h" = "xdotool mousemove_relative 2 0"
@@ -98,6 +98,7 @@ notetaker = "bash -c \"source ~/.bashrc && /home/user/.config/bash/bin/notetaker
 prtscr = "/home/user/Workspace/tools/bin/screenshot-save --temp"
 yap = "notify-send 'yap'"
 mute_mic = "pactl set-source-mute @DEFAULT_SOURCE@ toggle || wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+last_screenshot = "$IMAGE_VIEWER ~/Media/Pictures/screenshots/latest.png"
 
 
 #-[MEDIA COMMANDS]---------------------------

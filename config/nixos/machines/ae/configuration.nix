@@ -3,7 +3,7 @@
 let
   mainUser = "user";
   hostName = "ae";
-  compositors = [ ]; # Headless server - no GUI
+  compositors = [ ];
   configDir = "/home/${mainUser}/.config/nixos";
 
 in
@@ -13,9 +13,8 @@ in
 
   imports = [
 
-    # GUI modules - won't activate due to empty compositors
-    "${configDir}/system/gui/gui.nix"
-    # Intentionally NOT importing gaming.nix - server doesn't need it
+    #"${configDir}/system/gui/gui.nix"
+   
 
 
     #dont touch
