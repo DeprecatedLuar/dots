@@ -16,6 +16,8 @@
 
          micro
          ncdu
+
+         sshfs
          git
          wget
          lsof

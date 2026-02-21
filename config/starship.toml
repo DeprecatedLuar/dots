@@ -6,7 +6,7 @@ add_newline = false
 
 # A minimal left prompt
 format = """
-$username$python$nodejs$git_state$git_status$fill\
+$username$hostname$python$nodejs$git_state$git_status$fill\
 $directory$git_metrics\
 $jobs$time
 $character
@@ -97,11 +97,12 @@ soft_lavender = "#E0D6FF"
 
 [hostname]
 ssh_only = true
-format = "[$hostname]($style)[❯](green)"
+format = "[$hostname]($style) "
 style = "blue"
 disabled = false
 
 [username]
+ssh_only = true
 disabled = false
-format = "[$user]($style)"
+format = "[$user@]($style)"
 style_user = "blue"

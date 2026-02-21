@@ -10,6 +10,10 @@
     anki
     nwg-wrapper
     pcmanfm-qt
+    whisper-cpp
+
+    scrcpy
+    android-tools
 
   ];
 
