@@ -5,12 +5,14 @@
 
   environment.systemPackages = with pkgs; [
 
+    betterbird
     thunderbird
     megacmd
     anki
     nwg-wrapper
     pcmanfm-qt
     whisper-cpp
+    libreoffice
 
     scrcpy
     android-tools

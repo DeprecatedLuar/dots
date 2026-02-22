@@ -14,7 +14,6 @@
         ];
       })
       copyq
-      libreoffice
       brave     
       dstask
       usql

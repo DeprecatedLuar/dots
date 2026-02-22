@@ -102,7 +102,6 @@ style = "blue"
 disabled = false
 
 [username]
-ssh_only = true
 disabled = false
 format = "[$user@]($style)"
 style_user = "blue"
