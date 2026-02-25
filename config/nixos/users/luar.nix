@@ -7,14 +7,8 @@
     packages = with pkgs; [
       quickshell
       matugen
-      pinta
-      (wrapOBS {
-        plugins = with obs-studio-plugins; [
-          obs-pipewire-audio-capture
-        ];
-      })
       copyq
-      brave     
+      brave
       dstask
       usql
     ];

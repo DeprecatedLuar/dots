@@ -5,7 +5,7 @@
 
   environment.systemPackages = with pkgs; [
 
-    betterbird
+    mailspring
     thunderbird
     megacmd
     anki
@@ -17,6 +17,10 @@
     scrcpy
     android-tools
 
+    audacity
+    (wrapOBS {
+      plugins = with obs-studio-plugins; [ obs-pipewire-audio-capture ];
+    })
   ];
 
   #──[Keyboard / Input]───────────────────────────────────────────────────────
