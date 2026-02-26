@@ -50,6 +50,7 @@ in
     grimblast
     hypridle
     hyprlandPlugins.hyprscrolling
+    hyprlandPlugins.hyprsplit
   ];
 
   services.flatpak.enable = true;

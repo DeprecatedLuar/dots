@@ -5,7 +5,7 @@
 
   services.kanata.keyboards.vimsanity = {
     devices = [ ];
-    configFile = /home/${mainUser}/Workspace/projects/cli/going-vimsane/vimsanity.kbd;
+    configFile = /home/${mainUser}/Workspace/dev/going-vimsane/vimsanity.kbd;
     port = 5828;
   };
 }
