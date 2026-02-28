@@ -5,19 +5,21 @@
 
   environment.systemPackages = with pkgs; [
 
+    libreoffice
+    audacity
     mailspring
     thunderbird
-    megacmd
     anki
-    nwg-wrapper
     pcmanfm-qt
+    
+    megacmd
     whisper-cpp
-    libreoffice
-
     scrcpy
     android-tools
-
-    audacity
+     
+    nwg-wrapper
+	quickshell
+            
     (wrapOBS {
       plugins = with obs-studio-plugins; [ obs-pipewire-audio-capture ];
     })

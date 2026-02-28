@@ -1,0 +1,245 @@
+# interpreter for shell commands (needs to be POSIX compatible)
+set shell bash
+
+set shellopts '-eu'
+set ifs "\n"
+set scrolloff 10
+set previewer ~/.config/lf/previewer
+set cleaner ~/.config/lf/cleaner
+set info size
+set dircounts
+set timefmt "2006-01-02 15:04"
+set statfmt "\033[36m%p\033[0m| %c| %u| %g| %t| -> %l"
+# use enter for shell commands
+map <enter> shell
+
+# execute current file (must be executable)
+map x $$f
+map X !$f
+
+###########################################################################
+#                             Basic                                       #
+###########################################################################
+
+map Q quit
+map q quit
+map ZZ quit
+map ZQ quit
+
+map R reload
+map <C-r> reload
+map <C-l> redraw
+map <C-c> cmd-interrupt
+map <esc> cmd-escape
+
+map ? doc
+map S push :shell<enter>$SHELL<enter>
+
+map \:  read
+map \;  read
+map \!  shell
+map @   shell
+map \#  shell-wait
+map s   shell
+map f find
+map c
+map cd push :read<enter>cd<space>
+
+## Change the line mode
+map Mf :set info
+map Mm :set info time
+map Mh :set info time
+map Ms :set info size:time
+map MH :set size:time
+
+# Tagging / Marking
+map <space> :toggle; down
+map v       invert
+map u
+map uv      push :glob-select<space>*<enter>
+
+# For the nostalgics: Midnight Commander bindings
+map <f-1> doc
+map <f-2> rename
+map <f-4> open
+map <f-5> copy
+map <f-6> cut
+map <f-7> push :mkdir<space>
+map <f-8> push :delete<space>
+map <f-10> quit
+
+# Arrow keys
+map <up>    up
+map <down>  down
+map <left>  updir
+map <right> open
+map <home>  top
+map <end>   bottom
+map <pgup>  page-up
+map <pgdn>  page-down
+map <cr>    open
+
+map <insert> push :shell<enter>touch<space>
+
+# VIM-like (fixed from original)
+map h updir
+map j down
+map k up
+map l open
+
+# Jumping around
+map ]  push hkl
+map [  push hjl
+
+map gh cd ~
+map ge cd /etc
+map gu cd /usr
+map gd cd /dev
+map go cd /opt
+map gv cd /var
+map gm cd /media
+map gM cd /mnt
+map gs cd /srv
+map gp cd /tmp
+map gr cd /
+cmd z ${{
+    result="$($LIBDIR/nav-engine.sh "$@" 2>/dev/null)"
+    [ -n "$result" ] && lf -remote "send $id cd '$result'"
+}}
+map gz push :z<space>
+map g/ cd /
+
+# External Programs
+map E $$EDITOR "$f"
+map d
+map du push :shell-wait<enter>du<space>--max-depth=1<space>-h<space>--apparent-size<enter>
+map dU push :shell-wait<enter>du<space>--max-depth=1<space>-h<space>--apparent-size<space>|sort<space>-rh<enter>
+
+# Filesystem Operations
+map cw push :rename<space>
+map a  rename
+map A  rename
+map I  rename
+
+map p
+map pp paste
+
+map dD delete
+map dT trash
+
+map dd cut
+
+map y
+map yy copy
+
+# Searching
+map /  search
+map n  search-next
+map N  search-prev
+
+# Sorting (note: multiline {{ }} required — inline breaks config parsing)
+map or set reverse!
+map os :{{
+    set sortby size
+    set noreverse
+}}
+map on :{{
+    set sortby natural
+    set noreverse
+}}
+map om :{{
+    set sortby time
+    set noreverse
+}}
+map oc :{{
+    set sortby ctime
+    set noreverse
+}}
+map oa :{{
+    set sortby atime
+    set noreverse
+}}
+map oe :{{
+    set sortby ext
+    set noreverse
+}}
+map oS :{{
+    set sortby size
+    set reverse
+}}
+map oN :{{
+    set sortby natural
+    set reverse
+}}
+map oM :{{
+    set sortby time
+    set reverse
+}}
+map oC :{{
+    set sortby ctime
+    set reverse
+}}
+map oA :{{
+    set sortby atime
+    set reverse
+}}
+map oE :{{
+    set sortby ext
+    set reverse
+}}
+
+# Settings
+map zc :{{
+    set preview!
+}}
+map zd    set dirfirst!
+map zh    set hidden!
+map <C-h> set hidden!
+map <backspace>  set hidden!
+map <backspace2> set hidden!
+map zs    set ignoredia!
+
+###########################################################################
+#                           Commands                                      #
+###########################################################################
+
+cmd open ${{
+    case $(file --mime-type $f -b) in
+        text/*) $EDITOR $fx;;
+        *) for f in $fx; do setsid $OPENER $f > /dev/null 2> /dev/null & done;;
+    esac
+}}
+
+cmd trash %set -f; mv $fx ~/.trash
+
+cmd extract ${{
+    set -f
+    case $f in
+        *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf $f;;
+        *.tar.gz|*.tgz) tar xzvf $f;;
+        *.tar.xz|*.txz) tar xJvf $f;;
+        *.zip) unzip $f;;
+        *.rar) unrar x $f;;
+        *.7z) 7z x $f;;
+    esac
+}}
+
+cmd tar ${{
+    set -f
+    mkdir $1
+    cp -r $fx $1
+    tar czf $1.tar.gz $1
+    rm -rf $1
+}}
+
+cmd zip ${{
+    set -f
+    mkdir $1
+    cp -r $fx $1
+    zip -r $1.zip $1
+    rm -rf $1
+}}
+
+# % runs in status bar — avoids UI flash unlike $
+cmd mkdir %mkdir "$1"
+cmd touch ${{ touch $1 }}
