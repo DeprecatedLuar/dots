@@ -1,0 +1,7 @@
+reconnect = false
+[events]
+"recording" = "blsd -t 0.06 -b 6 red"
+"processing" = "blsd -t 0.06 -b 6 orange"
+"ready" = "blsd -t 0.06 -b 6 red"
+"paused" = "blsd hide"
+"warming_up" = "blsd -t 0.06 -b 6 yellow"
