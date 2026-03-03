@@ -5,7 +5,13 @@
   powerManagement.enable = true;
   
   services.power-profiles-daemon.enable = false;
-  services.auto-cpufreq.enable = true;
+  services.auto-cpufreq = {
+    enable = true;
+    settings = {
+      charger.turbo = "never";
+      battery.turbo = "never";
+    };
+  };
   services.tlp.enable = false;
 
   services.logind.settings.Login = { # Lid switch behavior

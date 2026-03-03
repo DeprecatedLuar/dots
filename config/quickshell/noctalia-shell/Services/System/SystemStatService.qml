@@ -41,14 +41,7 @@ Singleton {
   property real prevTxBytes: 0
   property real prevTime: 0
 
-  // Cpu temperature is the most complex
-  readonly property var supportedTempCpuSensorNames: ["coretemp", "k10temp", "zenpower"]
-  property string cpuTempSensorName: ""
-  property string cpuTempHwmonPath: ""
-  // For Intel coretemp averaging of all cores/sensors
-  property var intelTempValues: []
-  property int intelTempFilesChecked: 0
-  property int intelTempMaxFiles: 20 // Will test up to temp20_input
+  // Cpu temperature via `sensors -j`
 
   // GPU temperature detection
   // On dual-GPU systems, we prioritize discrete GPUs over integrated GPUs
@@ -62,9 +55,6 @@ Singleton {
   // --------------------------------------------
   Component.onCompleted: {
     Logger.i("SystemStat", "Service started with custom polling intervals");
-
-    // Kickoff the cpu name detection for temperature
-    cpuTempNameReader.checkNext();
 
     // Kickoff the gpu sensor detection for temperature
     gpuTempNameReader.checkNext();
@@ -124,7 +114,7 @@ Singleton {
         restart();
       }
     }
-    onTriggered: updateCpuTemperature()
+    onTriggered: sensorsProcess.running = true
   }
 
   // Timer for memory stats
@@ -251,78 +241,13 @@ Singleton {
 
   // --------------------------------------------
   // --------------------------------------------
-  // CPU Temperature
-  // It's more complex.
-  // ----
-  // #1 - Find a common cpu sensor name ie: "coretemp", "k10temp", "zenpower"
-  FileView {
-    id: cpuTempNameReader
-    property int currentIndex: 0
-    printErrors: false
-
-    function checkNext() {
-      if (currentIndex >= 16) {
-        // Check up to hwmon10
-        Logger.w("No supported temperature sensor found");
-        return;
-      }
-
-      //Logger.i("SystemStat", "---- Probing: hwmon", currentIndex)
-      cpuTempNameReader.path = `/sys/class/hwmon/hwmon${currentIndex}/name`;
-      cpuTempNameReader.reload();
-    }
-
-    onLoaded: {
-      const name = text().trim();
-      if (root.supportedTempCpuSensorNames.includes(name)) {
-        root.cpuTempSensorName = name;
-        root.cpuTempHwmonPath = `/sys/class/hwmon/hwmon${currentIndex}`;
-        Logger.i("SystemStat", `Found ${root.cpuTempSensorName} CPU thermal sensor at ${root.cpuTempHwmonPath}`);
-      } else {
-        currentIndex++;
-        Qt.callLater(() => {
-                       // Qt.callLater is mandatory
-                       checkNext();
-                     });
-      }
-    }
-
-    onLoadFailed: function (error) {
-      currentIndex++;
-      Qt.callLater(() => {
-                     // Qt.callLater is mandatory
-                     checkNext();
-                   });
-    }
-  }
-
-  // ----
-  // #2 - Read sensor value
-  FileView {
-    id: cpuTempReader
-    printErrors: false
-
-    onLoaded: {
-      const data = text().trim();
-      if (root.cpuTempSensorName === "coretemp") {
-        // For Intel, collect all temperature values
-        const temp = parseInt(data) / 1000.0;
-        //console.log(temp, cpuTempReader.path)
-        root.intelTempValues.push(temp);
-        Qt.callLater(() => {
-                       // Qt.callLater is mandatory
-                       checkNextIntelTemp();
-                     });
-      } else {
-        // For AMD sensors (k10temp and zenpower), directly set the temperature
-        root.cpuTemp = Math.round(parseInt(data) / 1000.0);
-      }
-    }
-    onLoadFailed: function (error) {
-      Qt.callLater(() => {
-                     // Qt.callLater is mandatory
-                     checkNextIntelTemp();
-                   });
+  // CPU Temperature via `sensors -j`
+  Process {
+    id: sensorsProcess
+    command: ["sensors", "-j"]
+    running: false
+    stdout: StdioCollector {
+      onStreamFinished: parseSensorsTemp(text)
     }
   }
 
@@ -732,44 +657,42 @@ Singleton {
   }
 
   // -------------------------------------------------------
-  // Function to start fetching and computing the cpu temperature
-  function updateCpuTemperature() {
-    // For AMD sensors (k10temp and zenpower), only use Tctl sensor
-    // temp1_input corresponds to Tctl (Temperature Control) on these sensors
-    if (root.cpuTempSensorName === "k10temp" || root.cpuTempSensorName === "zenpower") {
-      cpuTempReader.path = `${root.cpuTempHwmonPath}/temp1_input`;
-      cpuTempReader.reload();
-    } // For Intel coretemp, start averaging all available sensors/cores
-    else if (root.cpuTempSensorName === "coretemp") {
-      root.intelTempValues = [];
-      root.intelTempFilesChecked = 0;
-      checkNextIntelTemp();
-    }
-  }
+  // Parse CPU temperature from `sensors -j` output
+  function parseSensorsTemp(jsonText) {
+    try {
+      const data = JSON.parse(jsonText);
+      const cpuChips = ["coretemp", "k10temp", "zenpower"];
 
-  // -------------------------------------------------------
-  // Function to check next Intel temperature sensor
-  function checkNextIntelTemp() {
-    if (root.intelTempFilesChecked >= root.intelTempMaxFiles) {
-      // Calculate average of all found temperatures
-      if (root.intelTempValues.length > 0) {
-        let sum = 0;
-        for (var i = 0; i < root.intelTempValues.length; i++) {
-          sum += root.intelTempValues[i];
+      for (const chipKey of Object.keys(data)) {
+        const chipName = chipKey.split("-")[0];
+        if (!cpuChips.includes(chipName)) continue;
+
+        const chip = data[chipKey];
+
+        // Intel: prefer "Package id N" (authoritative hotspot temp)
+        const pkgKey = Object.keys(chip).find(k => k.startsWith("Package id"));
+        if (pkgKey) {
+          const sensor = chip[pkgKey];
+          const tempKey = Object.keys(sensor).find(k => k.endsWith("_input"));
+          if (tempKey) {
+            root.cpuTemp = Math.round(sensor[tempKey]);
+            return;
+          }
         }
-        root.cpuTemp = Math.round(sum / root.intelTempValues.length);
-        //Logger.i("SystemStat", `Averaged ${root.intelTempValues.length} CPU thermal sensors: ${root.cpuTemp}°C`)
-      } else {
-        Logger.w("SystemStat", "No temperature sensors found for coretemp");
-        root.cpuTemp = 0;
-      }
-      return;
-    }
 
-    // Check next temperature file
-    root.intelTempFilesChecked++;
-    cpuTempReader.path = `${root.cpuTempHwmonPath}/temp${root.intelTempFilesChecked}_input`;
-    cpuTempReader.reload();
+        // AMD: Tctl
+        if (chip["Tctl"]) {
+          const sensor = chip["Tctl"];
+          const tempKey = Object.keys(sensor).find(k => k.endsWith("_input"));
+          if (tempKey) {
+            root.cpuTemp = Math.round(sensor[tempKey]);
+            return;
+          }
+        }
+      }
+    } catch (e) {
+      Logger.w("SystemStat", "Failed to parse sensors JSON: " + e);
+    }
   }
 
   // -------------------------------------------------------

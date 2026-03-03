@@ -33,6 +33,7 @@ in
     wl-clipboard
     wtype
     playerctl
+    xfce.tumbler
 
     i3
     picom
