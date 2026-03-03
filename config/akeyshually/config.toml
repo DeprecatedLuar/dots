@@ -44,7 +44,7 @@ env_file = "~/.profile"
 "shift+print" = "grimblast -f -n -o save area "
 "super+p" = "grimblast copy area"
 
-"super+y" = "yap toggle & tcpeek reconnect"
+"super+y" = "yap toggle & sleep 1 && tcpeek reconnect"
 
 "102nd" = "notify-send penis"
 "ctrl+shift+alt+h" = "xdotool mousemove_relative 2 0"

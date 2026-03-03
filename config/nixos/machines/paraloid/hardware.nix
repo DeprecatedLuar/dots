@@ -2,34 +2,16 @@
 
 {
   #──[Power Management]──────────────────────────────────────────────────────
-
-  # auto-cpufreq for intelligent CPU scaling (better than TLP for mixed workloads)
-  # services.auto-cpufreq.enable = true;
-  # services.auto-cpufreq.settings = {
-  #   battery = {
-  #     governor = "powersave";
-  #     turbo = "auto";
-  #   };
-  #   charger = {
-  #     governor = "performance";
-  #     turbo = "auto";
-  #   };
-  # };
-
-  # Manual power profiles (switch with: powerprofilesctl set performance|balanced|power-saver)
-  services.power-profiles-daemon.enable = true;
-
-  # Disable conflicting services
+  powerManagement.enable = true;
+  
+  services.power-profiles-daemon.enable = false;
+  services.auto-cpufreq.enable = true;
   services.tlp.enable = false;
 
-  # Enable general power management
-  powerManagement.enable = true;
-
-  # Lid switch behavior
-  services.logind.settings.Login = {
-    HandleLidSwitch = "suspend";              # Default: suspend on lid close
-    HandleLidSwitchExternalPower = "suspend"; # On AC power (change to "ignore" if preferred)
-    HandleLidSwitchDocked = "ignore";         # With external display: do nothing
+  services.logind.settings.Login = { # Lid switch behavior
+    HandleLidSwitch = "suspend";
+    HandleLidSwitchExternalPower = "suspend";
+    HandleLidSwitchDocked = "ignore";
   };
 
   #──[Graphics]──────────────────────────────────────────────────────────────
