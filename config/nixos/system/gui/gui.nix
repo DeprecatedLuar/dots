@@ -57,14 +57,6 @@ in
   services.flatpak.enable = true;
   xdg.portal.enable = true;  # Required for Flatpak and desktop integration
 
-  # Thunar file manager
-  programs.thunar = {
-    enable = true;
-    plugins = with pkgs.xfce; [
-      thunar-volman
-      thunar-archive-plugin
-    ];
-  };
   services.gvfs.enable = true;
 
   #──[Desktop Environment]───────────────────────────────────────────────────
