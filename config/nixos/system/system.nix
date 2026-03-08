@@ -16,6 +16,8 @@ in
        environment.systemPackages = with pkgs; [
          # Self-healing nixos-rebuild wrapper
           (pkgs.writeShellScriptBin "nixos-rebuild" (builtins.readFile ./scripts/nixos-rebuild.sh))
+         # Dead man's switch for rebuilds
+          (pkgs.writeShellScriptBin "meltdown" (builtins.readFile ./scripts/lib/meltdown))
 
          micro
          ncdu
