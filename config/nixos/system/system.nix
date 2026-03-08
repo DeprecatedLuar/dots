@@ -1,5 +1,8 @@
-{ config, pkgs, lib, mainUser, hostName, ... }:
+{ config, pkgs, lib, mainUser, hostName, compositors, ... }:
 
+let
+  hasDesktop = compositors != [];
+in
 {
   imports = [
     /etc/nixos/hardware-configuration.nix  # Auto-generated filesystems
@@ -16,15 +19,12 @@
 
          micro
          ncdu
-
          sshfs
          git
          wget
          lsof
          fd
          ffmpeg
-         xdotool
-         ydotool
          tailscale
          ranger
          zoxide
@@ -36,11 +36,9 @@
          btop
          lm_sensors
          pciutils
-         evtest
          gh
          zip
          devbox
-         mpv
          unzip
 
          go
@@ -51,17 +49,23 @@
          gcc
          claude-code
 
+       ] ++ lib.optionals hasDesktop [
+         xdotool
+         ydotool
+         evtest
          appimage-run
-
+         mpv
        ];
+
        programs.nix-ld.enable = true;
 
      #──[Audio & Bluetooth]─────────────────────────────────────────────────────
 
-       services.pulseaudio.enable = false;
-       security.rtkit.enable = true;
+       security.rtkit.enable = lib.mkIf hasDesktop true;
 
-       services.pipewire = {
+       services.pulseaudio.enable = lib.mkIf hasDesktop false;
+
+       services.pipewire = lib.mkIf hasDesktop {
          enable = true;
          alsa.enable = true;
          alsa.support32Bit = true;
@@ -76,7 +80,7 @@
          };
        };
 
-       hardware.bluetooth = {
+       hardware.bluetooth = lib.mkIf hasDesktop {
          enable = true;
          powerOnBoot = true;
          settings.General.Experimental = true;
@@ -92,28 +96,17 @@
 
      #──[Input Devices]─────────────────────────────────────────────────────────
 
-       boot.kernelModules = [ "uinput" ];
-       hardware.uinput.enable = true;
+       boot.kernelModules = lib.optionals hasDesktop [ "uinput" ];
+       hardware.uinput.enable = lib.mkIf hasDesktop true;
 
      #──[Services]──────────────────────────────────────────────────────────────
 
-       services.upower.enable = true;
+       services.upower.enable = lib.mkIf hasDesktop true;
        services.openssh.enable = true;
        services.atd.enable = true;
        virtualisation.docker.enable = true;
 
        systemd.services = { };
-
-     #──[Bootloader]────────────────────────────────────────────────────────────
-
-       boot.loader.grub = {
-         enable = true;
-         efiSupport = true;
-         device = "nodev";
-         useOSProber = true;
-       };
-       boot.loader.efi.canTouchEfiVariables = true;
-
 
      #──[System]────────────────────────────────────────────────────────────────
 
@@ -121,4 +114,4 @@
 
        nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-      }
+     }

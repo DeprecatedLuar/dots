@@ -1,6 +1,16 @@
 { config, pkgs, ... }:
 
 {
+  #──[Bootloader]────────────────────────────────────────────────────────────
+
+  boot.loader.grub = {
+    enable = true;
+    efiSupport = true;
+    device = "nodev";
+    useOSProber = true;
+  };
+  boot.loader.efi.canTouchEfiVariables = true;
+
   #──[Power Management]──────────────────────────────────────────────────────
   powerManagement.enable = true;
   
