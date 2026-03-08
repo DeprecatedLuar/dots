@@ -4,12 +4,15 @@ set -euo pipefail
 # Self-healing nixos-rebuild wrapper
 # Ensures /etc/nixos/configuration.nix symlink points to correct machine config
 
-# Parse --bypass flag
+# Parse flags
 args=()
 bypass=false
+meltdown=false
 for arg; do
     if [[ "$arg" == "--bypass" ]]; then
         bypass=true
+    elif [[ "$arg" == "--meltdown" ]]; then
+        meltdown=true
     else
         args+=("$arg")
     fi
@@ -106,4 +109,9 @@ fi
 
 # Call the real nixos-rebuild from nixpkgs
 rebuild_bin=$(nix-build '<nixpkgs/nixos>' -A config.system.build.nixos-rebuild --no-out-link)/bin/nixos-rebuild
-exec "$rebuild_bin" "$@"
+
+if $meltdown; then
+    exec meltdown "$rebuild_bin" "${args[@]}"
+else
+    exec "$rebuild_bin" "${args[@]}"
+fi
