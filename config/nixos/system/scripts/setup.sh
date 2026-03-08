@@ -4,7 +4,7 @@
 
 set -e
 
-NIXOS_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
+NIXOS_DIR="$(cd "$(dirname "$(realpath "$0")")/../.." && pwd)"
 MACHINES_DIR="$NIXOS_DIR/machines"
 HOST="$(hostname)"
 
