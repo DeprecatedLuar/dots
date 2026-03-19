@@ -11,6 +11,7 @@
     thunderbird
     anki
     pcmanfm-qt
+    netlogo
     
     megacmd
     whisper-cpp

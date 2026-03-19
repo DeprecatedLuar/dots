@@ -7,8 +7,11 @@
     packages = with pkgs; [
          
       matugen
+     #pandoc
+      python3Packages.markitdown
       copyq
       brave
+      kanata
       dstask
       usql
       lf

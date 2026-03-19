@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# Hyprland plugin manager for NixOS — wraps hyprctl plugin
+# Usage:
+#   hyprplugin load <name|path> ...
+#   hyprplugin unload <name|path> ...
+#   hyprplugin restart <name|path|all> ...
+#   hyprplugin list
+
+resolve() {
+  local plugin="$1"
+  if [[ "$plugin" == /* ]]; then
+    echo "$plugin"
+  else
+    ls /nix/store/*-${plugin}-*/lib/*.so 2>/dev/null | head -1
+  fi
+}
+
+cmd="${1:-list}"
+shift
+
+# aliases
+[[ "$cmd" == "enable" ]] && cmd="load"
+[[ "$cmd" == "disable" ]] && cmd="unload"
+
+case "$cmd" in
+  list)
+    hyprctl plugin list
+    ;;
+  load|unload)
+    for plugin in "$@"; do
+      so=$(resolve "$plugin")
+      if [[ -f "$so" ]]; then
+        hyprctl plugin "$cmd" "$so"
+      else
+        echo "error: plugin '$plugin' not found" >&2
+      fi
+    done
+    ;;
+  restart)
+    if [[ "$1" == "all" ]]; then
+      mapfile -t paths < <(hyprctl plugin list | awk '/^Plugin/ {name=$2} /Handle:/ {print name}')
+      set -- "${paths[@]}"
+    fi
+    for plugin in "$@"; do
+      so=$(resolve "$plugin")
+      if [[ -f "$so" ]]; then
+        hyprctl plugin unload "$so"
+        hyprctl plugin load "$so"
+      else
+        echo "error: plugin '$plugin' not found" >&2
+      fi
+    done
+    ;;
+  *)
+    echo "usage: hyprplugin <load|unload|restart|list> <name|path|all>" >&2
+    exit 1
+    ;;
+esac

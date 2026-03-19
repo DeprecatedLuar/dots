@@ -25,6 +25,11 @@ in
     blueman
     swaybg
     xorg.xinit
+    xorg.libXext
+    xorg.libX11
+    xorg.libXrender
+    xorg.libXtst
+    xorg.libXi
     celluloid
     grimblast
     adwaita-icon-theme
@@ -50,6 +55,7 @@ in
     hyprsunset
     grimblast
     hypridle
+    hyprpicker
     hyprlandPlugins.hyprscrolling
     hyprlandPlugins.hyprsplit
   ];
