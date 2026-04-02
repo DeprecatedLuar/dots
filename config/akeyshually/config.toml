@@ -88,7 +88,7 @@ kill_switch = "akeyshually stop && pkill -9 akeyshually"
 
 rofi = "~/.config/rofi/scripts/launcher_t7"
 thunderbird = "thunderbird"
-whatsapp = "flatpak run com.rtosta.zapzap"
+whatsapp = "flatpak override --user --filesystem=home com.rtosta.zapzap"
 browser2 = "brave-browser --user-data-dir=/home/user/.config/BraveSoftware/2"
 notetaker = "bash -c \"source ~/.bashrc && /home/user/.config/bash/bin/notetaker/notetaker\""
 

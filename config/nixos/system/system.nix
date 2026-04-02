@@ -49,7 +49,7 @@ in
          cargo
          rustc
          gcc
-         claude-code
+        # claude-code
 
        ] ++ lib.optionals hasDesktop [
          xdotool
