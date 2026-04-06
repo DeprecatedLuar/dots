@@ -39,6 +39,7 @@ in
     wtype
     playerctl
     xfce.tumbler
+    ffmpegthumbnailer
 
     i3
     picom
@@ -58,6 +59,7 @@ in
     hyprpicker
     hyprlandPlugins.hyprscrolling
     hyprlandPlugins.hyprsplit
+    swayimg
   ];
 
   services.flatpak.enable = true;
@@ -79,4 +81,13 @@ in
 
   programs.niri.enable = hasNiri;
   programs.hyprland.enable = hasHyprland;
+
+  #──[Fonts]────────────────────────────────────────────────────────────────
+
+  fonts.packages = with pkgs; [
+    noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-color-emoji
+    nerd-fonts.symbols-only
+  ];
 }

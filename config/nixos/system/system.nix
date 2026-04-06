@@ -112,6 +112,8 @@ in
 
      #──[System]────────────────────────────────────────────────────────────────
 
+       zramSwap.enable = true; # 50% RAM compressed swap, no disk needed
+
        system.stateVersion = "25.05";
 
        nix.settings.experimental-features = [ "nix-command" "flakes" ];

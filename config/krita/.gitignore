@@ -1,0 +1,19 @@
+# Generated/cache
+share/resourcecache.sqlite
+share/preset_icons/
+share/KRITA_RESOURCE_VERSION
+
+# Default bundles (shipped with Krita, not yours)
+share/Krita_3_Default_Resources.bundle
+share/Krita_4_Default_Resources.bundle
+share/Krita_Artists_SeExpr_examples.bundle
+share/RGBA_brushes.bundle
+
+# Default patterns (shipped with Krita)
+share/patterns/
+
+# Sessions (runtime state)
+share/sessions/
+
+# Logs
+*.log
