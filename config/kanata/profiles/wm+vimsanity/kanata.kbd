@@ -1,0 +1,72 @@
+(include vimsanity.kbd)
+
+(defcfg
+  process-unmapped-keys yes
+  log-layer-changes yes
+  linux-device-detect-mode keyboard-only
+)
+
+(defoverrides
+  (lctl caps) (caps)
+  (rctl caps) (caps)
+)
+
+(defsrc
+  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft 102d z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lmet lalt           spc            ralt rmet rctl
+)
+
+(defvar
+  Tt 200 ;; tap time
+  Ht 200 ;; hold time
+)
+
+;; ============ FAKE KEYS ============
+(deffakekeys
+  metl (multi lmet (layer-while-held meta-layer))
+)
+
+;; ============ ALIASES ============
+(defalias
+  meta (multi (on-release tap-vkey def) lmet (layer-while-held meta-layer))
+  wm-cap (tap-hold-press $Tt $Ht (layer-switch vim-normal) @meta)
+  super-exit (multi lmet @def)
+
+  ;; Homerow mods
+  a^ a
+  s^ (tap-hold 200 250 s lalt)
+  d^ (tap-hold 200 250 d lsft)
+  f^ (tap-hold 200 250 f lctl)
+  j^ (tap-hold 200 300 j lctl)
+  k^ (tap-hold 200 300 k lsft)
+  l^ (tap-hold 200 300 l lalt)
+
+  ;; Meta-layer homerow
+  a-meta a
+  s-meta (tap-hold 110 110 s lalt)
+  d-meta (tap-hold 110 110 d lsft)
+  f-meta (tap-hold 110 110 f lctl)
+)
+
+;; ============ LAYERS ============
+(deflayer default
+  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  @wm-cap @a^  @s^  @d^  @f^  g    h    @j^  @k^  @l^  ;    '    ret
+  lsft 102d z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl @super-exit lalt           spc            ralt @super-exit rctl
+)
+
+(deflayer meta-layer
+  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  _    @a-meta @s-meta @d-meta @f-meta g left down up right ; ' ret
+  lsft 102d z    x    c    v    b    n    m    ,    .    /    caps
+  lctl _    lalt           spc            ralt _    rctl
+)
