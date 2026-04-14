@@ -12,6 +12,7 @@
     anki
     pcmanfm-qt
     netlogo
+    xournalpp
     
     megacmd
     whisper-cpp

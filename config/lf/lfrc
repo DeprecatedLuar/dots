@@ -120,6 +120,7 @@ map cw push :rename<space>
 map a  rename
 map A  rename
 map I  rename
+map r
 
 map p
 map pp paste
