@@ -1,0 +1,11 @@
+[settings]
+devices = ["Tablet Monitor Pad"]
+
+[shortcuts]
+"btn_0" = "notify-send huion btn_0"
+"btn_1" = "notify-send huion btn_1"
+"btn_2" = "notify-send huion btn_2"
+"btn_3" = "notify-send huion btn_3"
+"btn_4" = "notify-send huion btn_4"
+
+"btn_0.hold" = "notify-send 'amogus very sus'"

@@ -11,9 +11,12 @@ class z(Command):
         if not query:
             self.fm.open_console('z ')
             return
-        libdir = os.environ.get('LIBDIR', '/home/luar/.config/lushrc/bin/lib')
+        libdir = os.environ.get('LIBDIR')
+        if not libdir:
+            self.fm.notify('LIBDIR not set', bad=True)
+            return
         result = subprocess.run(
-            [os.path.join(libdir, 'nav-engine.sh'), query],
+            [os.path.join(libdir, 'shared', 'nav-engine.sh'), query],
             capture_output=True, text=True
         )
         path = result.stdout.strip()

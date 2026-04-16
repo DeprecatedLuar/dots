@@ -30,6 +30,17 @@ default_interval = 150
 #    Wraps around after last command
 "super+s.switch" = ["blsd yellow", "blsd blue", "blsd purple", "blsd pink", "blsd hide"]
 
+# Tap-vs-hold: quick press = tap, held 500ms+ = hold
+"f1"      = "notify-send 'f1 TAP'"
+"f1.hold(500)" = "notify-send 'f1 HOLD'"
+
+"f2"      = "notify-send 'f2 TAP'"
+"f2.hold(500)" = "notify-send 'f2 HOLD'"
+
+# Baselines
+"f3.hold(500)" = "notify-send 'f3 hold-only (no tap)'"
+"f4" = "notify-send 'f4 normal-only'"
+
 [command_variables]
 edit_test_config = "kitty micro ~/.config/akeyshually/test.toml"
 kill_switch = "akeyshually stop; pkill -9 akeyshually"
