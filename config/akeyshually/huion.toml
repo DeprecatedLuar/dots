@@ -5,8 +5,9 @@ devices = ["Tablet Monitor Pad"]
 "btn_0" = ">ctrl+z"
 "btn_0.hold" = ">ctrl+shift+z"
 
-"btn_1" = "ydotool key 17:1 17:0"
-"btn_1.hold" = "ydotool key 25:1 25:0"
+"btn_1" = ">w"
+"btn_1.whileheld" = ">ctrl"
+"btn_1.tapwhileheld" = ">shift"
 #"btn_1.onrelease" = "notify-send huion btn_1"
 
 "btn_2" = "ydotool key 44:1 44:0"

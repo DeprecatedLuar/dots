@@ -1,0 +1,7 @@
+[settings]
+devices = ["QCY H3"]
+
+[shortcuts]
+
+"playcd" = ">playpause"
+

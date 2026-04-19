@@ -1,3 +1,5 @@
+reconnect = true
+
 [events]
 "default" = "blsd hide"
 "vim-normal" = "blsd -t 0.06 -b 6 blue"

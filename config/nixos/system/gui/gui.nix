@@ -64,6 +64,7 @@ in
 
   services.flatpak.enable = true;
   xdg.portal.enable = true;  # Required for Flatpak and desktop integration
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
   services.gvfs.enable = true;
 

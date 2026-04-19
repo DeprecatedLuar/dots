@@ -1,7 +1,5 @@
 { ... }:
 
 {
-  enabledServices = [
-    "vimsanity"
-  ];
+  enabledServices = [];
 }

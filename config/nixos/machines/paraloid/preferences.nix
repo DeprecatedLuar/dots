@@ -18,6 +18,7 @@
     whisper-cpp
     scrcpy
     android-tools
+    wf-recorder
      
     nwg-wrapper
 	quickshell

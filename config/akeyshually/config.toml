@@ -16,7 +16,7 @@ env_file = "~/.profile"
 "super.onrelease" = "hotline"
 "super.doubletap(270)" = "$LAUNCHER"
 
-"super+enter" = "kitty"
+"super+enter" = "$TERMINAL"
 "super+b" = "$BROWSER"
 "super+shift+b" = "brave"
 "super+e" = "thunderbird"
