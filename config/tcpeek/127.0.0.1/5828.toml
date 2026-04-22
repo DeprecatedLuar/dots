@@ -1,16 +1,1 @@
-reconnect = true
-
-[events]
-"default" = "blsd hide"
-"vim-normal" = "blsd -t 0.06 -b 6 blue"
-"vim-shifted" = "blsd -t 0.06 -b 6 cyan"
-"visual-mode" = "blsd -t 0.06 -b 6 purple"
-"visual-shifted" = "blsd -t 0.06 -b 6 magenta"
-"escape" = "blsd -t 0 -b 6 black"
-"meta-layer" = "blsd hide"
-"delete-ops" = "blsd -t 0.06 -b 6 red"
-"delete-ops-shifted" = "blsd -t 0.11 -b 6 pink"
-"yank-ops" = "blsd -t 0.06 -b 6 yellow"
-"yank-ops-shifted" = "blsd -t 0.06 -b 6 orange"
-"g-ops" = "blsd -t 0.06 -b 6 teal"
-"g-ops-shifted" = "blsd -t 0.06 -b 6 green"
+/home/luar/Workspace/dev/going-vimsane/5828.toml

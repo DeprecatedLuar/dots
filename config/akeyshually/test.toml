@@ -5,47 +5,10 @@
 default_interval = 150
 
 [shortcuts]
-"super+k" = "edit_test_config"
-"ctrl+shift+k" = "kill_switch"
 
-
-"super+n" = "silly_cat"
-"super.onrelease" = "hotline"
-"super.doubletap(250)" = "$LAUNCHER"
-
-"super+t.whileheld" = "silly_cat"
-"super+t" = "silly_cat"
-
-"volumeup.repeat-whileheld(100)" = "volume_up"
-"volumedown.repeat-whileheld(200)" = "volume_down"
-
-# 6. REPEAT-TOGGLE - start/stop loop on each press
-#    First press starts loop, second press stops it
-#    Loop continues even after key released
-"super+g.repeat-toggle(500)" = "feh /home/luar/Workspace/projects/cli/akeyshually/other/assets/cat_schlopjpeg & sleep 0.3 && pkill feh"
-"super+c.repeat-toggle(100)" = "ydotool mousemove -- 100 0 && sleep 0.02 && ydotool mousemove -- 0 100 && sleep 0.02 && ydotool mousemove -- -100 0 && sleep 0.02 && ydotool mousemove -- 0 -100"
-
-# 7. SWITCH - cycle through array of commands
-#    Each press executes next command in the list
-#    Wraps around after last command
-"super+s.switch" = ["blsd yellow", "blsd blue", "blsd purple", "blsd pink", "blsd hide"]
-
-# Tap-vs-hold: quick press = tap, held 500ms+ = hold
-"f1"      = "notify-send 'f1 TAP'"
-"f1.hold(500)" = "notify-send 'f1 HOLD'"
-
-"f2"      = "notify-send 'f2 TAP'"
-"f2.hold(500)" = "notify-send 'f2 HOLD'"
-
-# Baselines
-"f3.hold(500)" = "notify-send 'f3 hold-only (no tap)'"
-"f4" = "notify-send 'f4 normal-only'"
+	"f1.hold" = "notify-send 'f1 HOLD'"
+	"f1.pressrelease" = ["notify-send 'f1 PRESS'", "notify-send 'f1 RELEASE'"]
+	"f1.taphold" = "notify-send 'f1 TAPHOLD'"
+	#"f1.doubletap" = "notify-send 'f1 DOUBLETAP'"
 
 [command_variables]
-edit_test_config = "kitty micro ~/.config/akeyshually/test.toml"
-kill_switch = "akeyshually stop; pkill -9 akeyshually"
-volume_up = "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 2%+"
-volume_down = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-"
-
-silly_cat = "feh --auto-zoom --geometry 400x400 /home/luar/Workspace/projects/cli/akeyshually/other/assets/cat_schlopjpeg"
-errm_cat = ""

@@ -1,5 +1,9 @@
 {
     "Alt-/": "lua:comment.comment",
     "CtrlUnderscore": "lua:comment.comment",
-    "CtrlR": "Redo"
+    "CtrlR": "Redo",
+    "Ctrl-Shift-Right": "SelectWordRight",
+    "Ctrl-Shift-Left": "SelectWordLeft",
+    "Ctrl-Shift-Up": "SelectUp",
+    "Ctrl-Shift-Down": "SelectDown"
 }
