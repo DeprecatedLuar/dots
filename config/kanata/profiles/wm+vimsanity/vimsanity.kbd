@@ -1,1 +1,286 @@
-/home/luar/Workspace/dev/going-vimsane/vimsanity.kbd
+;; ============ FAKE KEYS ============
+(deffakekeys
+  vshift lsft  ;; Virtual key to hold shift
+  vimk (layer-switch vim-normal)
+  vismode (layer-switch visual-mode)
+  def  (layer-switch default)
+  escaps (layer-switch escape)
+)
+
+;; ============ ALIASES ============
+(defalias
+  vimn (layer-switch vim-normal)
+  def (layer-switch default)
+  escaps (layer-switch escape)
+  vsft (layer-while-held vim-shifted)
+  vvsft (layer-while-held visual-shifted)
+  dopsft (layer-while-held delete-ops-shifted)
+  yopsft (layer-while-held yank-ops-shifted)
+  gopsft (layer-while-held g-ops-shifted)
+  vgopsft (layer-while-held visual-g-ops-shifted)
+
+  cap (tap-hold-press $Tt $Ht (tap-dance $Ht (@vimn @escaps)) lmet)
+  pac (tap-hold-press $Tt $Ht (tap-dance $Ht (@def @escaps)) lmet)
+  cap-esc (tap-hold-press $Tt $Ht (tap-dance $Ht (esc @def)) lmet)
+
+  ctrl-exit (multi lctl @def)
+
+  vis (multi (layer-switch visual-mode) (on-press press-vkey vshift))   ;; Visual mode: switch layer + hold shift
+
+  vexit (macro (on-press tap-vkey vimk) 10 (on-press release-vkey vshift) 10 left)   ;; Exit visual mode: release shift + switch to vim-normal + press left
+
+  insert-exit @def
+  vcp (macro (on-press release-vkey vshift) 10 C-c 10 (on-press tap-vkey vimk) left)
+  vcut (macro (on-press release-vkey vshift) 10 C-x 10 (on-press tap-vkey vimk))
+  vdel (macro (on-press release-vkey vshift) 10 del 10 (on-press tap-vkey vimk))
+  vpaste (macro (on-press release-vkey vshift) 10 C-v 10 (on-press tap-vkey vimk))
+
+  ;; Visual mode caps lock handling (releases vshift, deselects, then switches layer)
+  vdef (macro (on-press release-vkey vshift) 10 left 10 (on-press tap-vkey def))
+  vescaps (macro (on-press release-vkey vshift) 10 left 10 (on-press tap-vkey escaps))
+  vmeta (multi (on-press release-vkey vshift) lmet)
+  vcaps (tap-hold-press $Tt $Ht (tap-dance $Ht (@vdef @vescaps)) @vmeta)
+
+  fnd (macro C-f 10 (on-press tap-vkey def))
+
+  ;; Operators switch to their layer
+  d (layer-switch delete-ops)
+  y (layer-switch yank-ops)
+  g (layer-switch g-ops)
+  vg (layer-switch visual-g-ops)
+  r (layer-switch replace-layer)
+
+  ;; Replace operations (del + replacement char + left to stay on char + return to vim-normal)
+  r-a (macro del a left (on-press tap-vkey vimk))
+  r-b (macro del b left (on-press tap-vkey vimk))
+  r-c (macro del c left (on-press tap-vkey vimk))
+  r-d (macro del d left (on-press tap-vkey vimk))
+  r-e (macro del e left (on-press tap-vkey vimk))
+  r-f (macro del f left (on-press tap-vkey vimk))
+  r-g (macro del g left (on-press tap-vkey vimk))
+  r-h (macro del h left (on-press tap-vkey vimk))
+  r-i (macro del i left (on-press tap-vkey vimk))
+  r-j (macro del j left (on-press tap-vkey vimk))
+  r-k (macro del k left (on-press tap-vkey vimk))
+  r-l (macro del l left (on-press tap-vkey vimk))
+  r-m (macro del m left (on-press tap-vkey vimk))
+  r-n (macro del n left (on-press tap-vkey vimk))
+  r-o (macro del o left (on-press tap-vkey vimk))
+  r-p (macro del p left (on-press tap-vkey vimk))
+  r-q (macro del q left (on-press tap-vkey vimk))
+  r-r (macro del r left (on-press tap-vkey vimk))
+  r-s (macro del s left (on-press tap-vkey vimk))
+  r-t (macro del t left (on-press tap-vkey vimk))
+  r-u (macro del u left (on-press tap-vkey vimk))
+  r-v (macro del v left (on-press tap-vkey vimk))
+  r-w (macro del w left (on-press tap-vkey vimk))
+  r-x (macro del x left (on-press tap-vkey vimk))
+  r-y (macro del y left (on-press tap-vkey vimk))
+  r-z (macro del z left (on-press tap-vkey vimk))
+  r-0 (macro del Digit0 left (on-press tap-vkey vimk))
+  r-1 (macro del Digit1 left (on-press tap-vkey vimk))
+  r-2 (macro del Digit2 left (on-press tap-vkey vimk))
+  r-3 (macro del Digit3 left (on-press tap-vkey vimk))
+  r-4 (macro del Digit4 left (on-press tap-vkey vimk))
+  r-5 (macro del Digit5 left (on-press tap-vkey vimk))
+  r-6 (macro del Digit6 left (on-press tap-vkey vimk))
+  r-7 (macro del Digit7 left (on-press tap-vkey vimk))
+  r-8 (macro del Digit8 left (on-press tap-vkey vimk))
+  r-9 (macro del Digit9 left (on-press tap-vkey vimk))
+  r-spc (macro del spc left (on-press tap-vkey vimk))
+  r-min (macro del - left (on-press tap-vkey vimk))
+  r-eql (macro del = left (on-press tap-vkey vimk))
+  r-lbr (macro del [ left (on-press tap-vkey vimk))
+  r-rbr (macro del ] left (on-press tap-vkey vimk))
+  r-bsl (macro del \ left (on-press tap-vkey vimk))
+  r-sem (macro del ; left (on-press tap-vkey vimk))
+  r-quo (macro del ' left (on-press tap-vkey vimk))
+  r-com (macro del , left (on-press tap-vkey vimk))
+  r-dot (macro del . left (on-press tap-vkey vimk))
+  r-sls (macro del / left (on-press tap-vkey vimk))
+
+  ;; Delete operations (execute + return to vim-normal)
+  dw (macro C-S-right bspc (on-press tap-vkey vimk))
+  db (macro C-S-left bspc (on-press tap-vkey vimk))
+  dd (macro spc 5  home S-end del 10 bspc 5 home (on-press tap-vkey vimk))
+  d$ (macro S-end del (on-press tap-vkey vimk))
+
+  ;; Delete shifted operations (execute + return to vim-normal)
+  d0 (macro S-home del (on-press tap-vkey vimk))
+  dW (macro S-C-right del (on-press tap-vkey vimk))
+  dB (macro S-C-left del (on-press tap-vkey vimk))
+  dL (macro S-end del (on-press tap-vkey vimk))
+  dH (macro S-home del (on-press tap-vkey vimk))
+
+  ;; Yank operations (execute + return to vim-normal)
+  yw (macro C-S-right C-c left (on-press tap-vkey vimk))
+  yb (macro C-S-left C-c right (on-press tap-vkey vimk))
+  yy (macro home S-end C-c left (on-press tap-vkey vimk))
+
+  ;; Yank shifted operations (execute + return to vim-normal)
+  y0 (macro S-home C-c right (on-press tap-vkey vimk))
+  yW (macro S-C-right C-c left (on-press tap-vkey vimk))
+  yB (macro S-C-left C-c right (on-press tap-vkey vimk))
+  yL (macro S-end C-c left (on-press tap-vkey vimk))
+  yH (macro S-home C-c right (on-press tap-vkey vimk))
+
+  ;; G operations (execute + return to vim-normal)
+  gg (macro C-home (on-press tap-vkey vimk))
+
+  ;; G shifted operations (execute + return to vim-normal)
+  gG (macro C-end (on-press tap-vkey vimk))
+
+  ;; Visual G operations (extend selection, stay in visual mode)
+  vgg (macro C-home (on-press tap-vkey vismode))
+  vgG (macro C-end (on-press tap-vkey vismode))
+
+  ;; Escape from ops layers
+  ops-esc (layer-switch vim-normal)
+
+  D (macro S-end del)
+
+  o (macro end S-ret (on-press tap-vkey def))
+  O (macro home S-ret up (on-press tap-vkey def))
+
+  app    (macro right (on-press tap-vkey def))        ;; a: append after cursor
+  A-ins  (macro end (on-press tap-vkey def))           ;; A: append at end of line
+  I-ins  (macro home (on-press tap-vkey def))          ;; I: insert at line start
+  chgend (macro S-end del (on-press tap-vkey def))     ;; C: change to end of line
+  redo   C-S-z                                         ;; u (shifted): redo
+)
+
+;; ============ LAYERS ============
+;; (deflayer default
+;;   esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+;;   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+;;   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+;;   @cap a    s    d    f    g    h    j    k    l    ;    '    ret
+;;   lsft 102d z    x    c    v    b    n    m    ,    .    /    rsft
+;;   lctl lmet lalt           spc            ralt lmet rctl
+;; )
+
+(deflayer vim-normal
+  @def XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   1    2    3    XX   5    6    7    8    9    0    XX   XX   bspc
+  XX   XX   C-right XX   @r   XX   @y  C-z  @insert-exit @o  C-v  [    ]    XX
+  @pac @app XX   @d  XX   @g   left down up right XX   '    ret
+  @vsft 102d XX   del  XX   @vis C-left   C-g  XX   XX   XX   @fnd  @vsft
+  @ctrl-exit lmet lalt           spc            ralt lmet @ctrl-exit
+)
+
+(deflayer vim-shifted
+  @ops-esc XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   end  XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   @redo XX   @I-ins XX   XX   XX   XX
+  XX   @A-ins XX   @D   XX   C-end   home   XX   XX   end   XX   XX   XX
+  _    102d XX   XX   @chgend XX   XX   XX   XX   XX   XX   XX   _
+  XX   XX   XX              XX              XX   XX   XX
+)
+
+(deflayer visual-mode
+  @vexit XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   @vdel
+  XX   XX   S-C-right XX   XX   XX   @vcp  XX   XX   XX   @vpaste XX   XX   XX
+  @vcaps XX   XX  @vcut XX   @vg   S-left S-down S-up S-right XX   XX   ret
+  @vvsft 102d XX   @vdel XX   @vexit S-C-left   XX   XX   XX   XX   XX   @vvsft
+  XX   @vcaps XX              XX              XX   @vcaps XX
+)
+
+(deflayer escape
+  esc  _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  @cap-esc _    _    _    _    _    _    _    _    _    _    _    _
+  _    102d _    _    _    _    _    _    _    _    _    _    _
+  _    _    _              _              _    _    _
+)
+
+(deflayer delete-ops
+  @ops-esc XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   @dw  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  @ops-esc XX   XX   @dd  XX   XX   XX   XX   XX   XX   @d$  XX   XX
+  @dopsft 102d XX   XX   XX   @db  XX   XX   XX   XX   XX   XX   @dopsft
+  XX   XX   XX              XX              XX   XX   XX
+)
+
+(deflayer yank-ops
+  @ops-esc XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   @yw  XX   XX   XX   @yy  XX   XX   XX   XX   XX   XX   XX
+  @ops-esc XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  @yopsft 102d XX   XX   XX   @yb  XX   XX   XX   XX   XX   XX   @yopsft
+  XX   XX   XX              XX              XX   XX   XX
+)
+
+(deflayer g-ops
+  @ops-esc XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  @ops-esc XX   XX   XX   XX   @gg  XX   XX   XX   XX   XX   XX   XX
+  @gopsft 102d XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   @gopsft
+  XX   XX   XX              XX              XX   XX   XX
+)
+
+(deflayer delete-ops-shifted
+  @ops-esc XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   @d0  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   @dW  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  @ops-esc XX   XX   XX   XX   XX   @dH  XX   XX   @dL  XX   XX   XX
+  _    102d XX   XX   XX   @dB  XX   XX   XX   XX   XX   XX   _
+  XX   XX   XX              XX              XX   XX   XX
+)
+
+(deflayer yank-ops-shifted
+  @ops-esc XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   @y0  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   @yW  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  @ops-esc XX   XX   XX   XX   XX   @yH  XX   XX   @yL  XX   XX   XX
+  _    102d XX   XX   XX   @yB  XX   XX   XX   XX   XX   XX   _
+  XX   XX   XX              XX              XX   XX   XX
+)
+
+(deflayer g-ops-shifted
+  @ops-esc XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  @ops-esc XX   XX   XX   XX   @gG  XX   XX   XX   XX   XX   XX   XX
+  _    102d XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   _
+  XX   XX   XX              XX              XX   XX   XX
+)
+
+(deflayer visual-shifted
+  @vexit XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   S-end   XX   XX   XX   XX   XX   XX   XX   XX   @vdel
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   @vpaste XX   XX   XX
+  @vcaps XX   XX   XX   XX   S-C-end   S-home   XX   XX   S-end   XX   XX   ret
+  _    102d XX   @vdel XX   @vexit XX   XX   XX   XX   XX   XX   _
+  XX   @vcaps XX              XX              XX   @vcaps XX
+)
+
+(deflayer visual-g-ops
+  @vexit XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  @vcaps XX   XX   XX   XX   @vgg  XX   XX   XX   XX   XX   XX   XX
+  @vgopsft 102d XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   @vgopsft
+  XX   @vcaps XX              XX              XX   @vcaps XX
+)
+
+(deflayer visual-g-ops-shifted
+  @vexit XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+  @vcaps XX   XX   XX   XX   @vgG  XX   XX   XX   XX   XX   XX   XX
+  _    102d XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   _
+  XX   @vcaps XX              XX              XX   @vcaps XX
+)
+
+(deflayer replace-layer
+  @ops-esc XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX
+  XX     @r-1   @r-2   @r-3   @r-4   @r-5   @r-6   @r-7   @r-8   @r-9   @r-0   @r-min @r-eql XX
+  XX     @r-q   @r-w   @r-e   @r-r   @r-t   @r-y   @r-u   @r-i   @r-o   @r-p   @r-lbr @r-rbr @r-bsl
+  @ops-esc @r-a  @r-s   @r-d   @r-f   @r-g   @r-h   @r-j   @r-k   @r-l   @r-sem @r-quo ret
+  XX     102d   @r-z   @r-x   @r-c   @r-v   @r-b   @r-n   @r-m   @r-com @r-dot @r-sls XX
+  XX     XX     XX                @r-spc              XX     XX     XX
+)

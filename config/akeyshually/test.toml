@@ -9,6 +9,8 @@ default_interval = 150
 	"f1.hold" = "notify-send 'f1 HOLD'"
 	"f1.pressrelease" = ["notify-send 'f1 PRESS'", "notify-send 'f1 RELEASE'"]
 	"f1.taphold" = "notify-send 'f1 TAPHOLD'"
-	#"f1.doubletap" = "notify-send 'f1 DOUBLETAP'"
+	"f1.doubletap" = "notify-send 'f1 DOUBLETAP'"
 
+	#"super.doubletap" = "notify-send 'ctrl HOLD'"
+    
 [command_variables]

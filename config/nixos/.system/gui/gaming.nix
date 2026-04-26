@@ -30,7 +30,6 @@
     gamemode
     protonup-qt
     gamescope
-
-    equibop
+    
   ];
 }

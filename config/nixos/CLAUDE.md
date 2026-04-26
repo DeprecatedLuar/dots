@@ -10,32 +10,46 @@ This is a **NixOS configuration repository** embedded within a larger dotfiles m
 
 ### Critical Symlinks
 ```
-/etc/nixos/configuration.nix → machines/${hostName}/configuration.nix
+/etc/nixos → ~/.config/nixos (folder symlink)
 ~/.config/nixos → ~/.config/dots/config/nixos (this repository)
+~/.config/nixos/*.nix → .system/machines/${hostName}/*.nix (machine files)
+~/.config/nixos/${mainUser}.nix → .system/users/${mainUser}.nix (user file)
+~/.config/nixos/services → .system/services (services folder)
 ```
 
-The active system configuration is a symlink to the machine-specific configuration file in this repo.
+The `/etc/nixos` folder symlink points to this repo, and root-level files are symlinked from `.system/` for easy access.
 
 ## Configuration Structure
 
 ### Entry Point Pattern
 ```
-/etc/nixos/configuration.nix (active system config)
-    ↓ (symlinked from)
-machines/${hostName}/configuration.nix (machine-specific variables + imports)
-    ↓ (imports)
-    ├── machines/${hostName}/default.nix → imports hardware.nix
-    ├── system.nix (core: packages, services, users)
-    │   └── imports /etc/nixos/hardware-configuration.nix (auto-generated)
-    ├── gui/gui.nix (desktop environment - conditional based on compositors)
-    └── gui/gaming.nix (gaming setup)
+/etc/nixos → ~/.config/nixos (folder symlink)
+~/.config/nixos/
+├── .system/ (all infrastructure - hidden)
+│   ├── machines/${hostName}/
+│   ├── users/
+│   ├── gui/
+│   ├── services/
+│   └── system.nix
+├── configuration.nix → .system/machines/${hostName}/configuration.nix (symlink)
+├── ${mainUser}.nix → .system/users/${mainUser}.nix (symlink)
+└── services/ → .system/services/ (symlink)
+
+configuration.nix imports:
+    ├── ${sysDir}/machines/${hostName}/default.nix → imports hardware.nix
+    ├── ${sysDir}/system.nix (core: packages, services, users)
+    ├── ${sysDir}/gui/gui.nix (desktop environment - conditional based on compositors)
+    ├── ${sysDir}/gui/gaming.nix (gaming setup)
+    └── ${sysDir}/users/${mainUser}.nix (user configuration)
 ```
 
 ### Variable Injection Pattern
-`machines/${hostName}/configuration.nix` defines variables in a `let` binding:
+`.system/machines/${hostName}/configuration.nix` defines variables in a `let` binding:
 - `mainUser`: Username for the system
 - `hostName`: Machine identifier
 - `compositors`: Array of enabled desktop compositors (e.g., `[ "hyprland" "niri" "xfce" ]`)
+- `configDir`: Root config path (`/home/${mainUser}/.config/nixos`)
+- `sysDir`: System directory path (`${configDir}/.system`)
 
 These are passed to all modules via `_module.args = { inherit mainUser hostName compositors; }`. Child modules receive these as function parameters: `{ mainUser, hostName, compositors, ... }:`.
 
@@ -88,28 +102,31 @@ nixos-rebuild dry-build
 
 ## Module Organization
 
-### system.nix
+### .system/system.nix
 Core system packages, services, users, networking, bootloader.
 Imports `/etc/nixos/hardware-configuration.nix` for auto-generated filesystem config.
 
-### gui/gui.nix
+### .system/gui/gui.nix
 Uses `compositors` array for conditional logic:
 - Compositor-agnostic packages always installed
 - Compositor-specific packages via `lib.optionals hasHyprland [...]`
 - Desktop managers enabled conditionally
 - XDG portals for Flatpak
 
-### gui/gaming.nix
+### .system/gui/gaming.nix
 Steam, Gamemode, graphics drivers.
 
-### machines/${hostName}/configuration.nix
-Entry point. Defines `mainUser`, `hostName`, `compositors` variables. DO NOT import from other modules.
+### .system/machines/${hostName}/configuration.nix
+Entry point. Defines `mainUser`, `hostName`, `compositors`, `configDir`, `sysDir` variables. DO NOT import from other modules.
 
-### machines/${hostName}/default.nix
+### .system/machines/${hostName}/default.nix
 Imports machine-specific configs (hardware.nix, etc.)
 
-### machines/${hostName}/hardware.nix
+### .system/machines/${hostName}/hardware.nix
 Custom hardware config (GPU, power, etc.). Does NOT include filesystems.
+
+### .system/users/${mainUser}.nix
+User-specific configuration (packages, shell, etc.).
 
 ## Planned Architecture (Not Yet Implemented)
 
@@ -123,7 +140,7 @@ See `idea.txt` for the **systemd-to-nix** integration plan:
 ### Adding Packages
 Add to appropriate section based on purpose:
 
-**Compositor-agnostic packages** (gui/gui.nix):
+**Compositor-agnostic packages** (.system/gui/gui.nix):
 ```nix
 environment.systemPackages = with pkgs; [
   # Shared GUI apps (always installed when gui.nix is imported)
@@ -131,7 +148,7 @@ environment.systemPackages = with pkgs; [
 ];
 ```
 
-**Compositor-specific packages** (gui/gui.nix):
+**Compositor-specific packages** (.system/gui/gui.nix):
 ```nix
 # Add to the conditional section
 ++ lib.optionals hasHyprland [ hyprland-only-package ]
@@ -139,7 +156,7 @@ environment.systemPackages = with pkgs; [
 ++ lib.optionals hasXfce [ xfce-only-package ]
 ```
 
-**CLI/system packages** (system.nix):
+**CLI/system packages** (.system/system.nix):
 ```nix
 environment.systemPackages = with pkgs; [
   # System-level packages

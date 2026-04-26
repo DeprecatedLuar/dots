@@ -13,6 +13,7 @@
     pcmanfm-qt
     netlogo
     xournalpp
+    dorion
     
     megacmd
     whisper-cpp

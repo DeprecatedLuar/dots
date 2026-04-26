@@ -5,23 +5,17 @@ let
   hostName = "ae";
   compositors = [ ];
   configDir = "/home/${mainUser}/.config/nixos";
-
+  sysDir = "${configDir}/.system";
 in
 {
   time.timeZone = "America/Sao_Paulo";
   i18n.defaultLocale = "en_US.UTF-8";
 
   imports = [
-
-    #"${configDir}/system/gui/gui.nix"
-   
-
-
-    #dont touch
-    "${configDir}/system/system.nix"
-    "${configDir}/machines/${hostName}/default.nix"
-    "${configDir}/users/${mainUser}.nix"
-
+    #"${sysDir}/gui/gui.nix"
+    "${sysDir}/system.nix"
+    "${sysDir}/machines/${hostName}/default.nix"
+    "${sysDir}/users/${mainUser}.nix"
   ];
 
   networking.hostName = hostName;

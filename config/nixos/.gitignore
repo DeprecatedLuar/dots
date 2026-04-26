@@ -1,7 +1,10 @@
-/configuration.nix
+# Auto-generated symlinks at root
+/*.nix
+/services
+
 CLAUDE.md
 idea.txt
 
-# Service management (auto-generated symlinks)
-/services/services.nix
-/services/available/local_*.nix
+# Service management (auto-generated symlinks in .system)
+/.system/services/services.nix
+/.system/services/available/local_*.nix
