@@ -41,9 +41,23 @@ echo "  Main user: $MAIN_USER"
 ln -sfn "$NIXOS_DIR" "$HOME/.config/nixos"
 echo "  ~/.config/nixos -> $NIXOS_DIR"
 
-# /etc/nixos folder symlink (needs sudo)
-sudo ln -sfn "$NIXOS_DIR" /etc/nixos
-echo "  /etc/nixos -> $NIXOS_DIR"
+# Ensure /etc/nixos is a real directory with only configuration.nix symlinked
+# If /etc/nixos is a symlink (old behavior), remove it
+if [ -L "/etc/nixos" ]; then
+  echo "  Converting /etc/nixos from symlink to real directory..."
+  sudo rm -f /etc/nixos
+fi
+
+# Ensure /etc/nixos exists as a real directory
+if [ ! -d "/etc/nixos" ]; then
+  echo "  Creating /etc/nixos directory..."
+  sudo mkdir -p /etc/nixos
+fi
+
+# Symlink only configuration.nix to the machine-specific config
+echo "  Symlinking /etc/nixos/configuration.nix -> $MACHINES_DIR/$MACHINE/configuration.nix"
+sudo rm -f /etc/nixos/configuration.nix
+sudo ln -sf "$MACHINES_DIR/$MACHINE/configuration.nix" /etc/nixos/configuration.nix
 
 # Symlink machine files to root (except default.nix and services.nix)
 echo "  Symlinking machine files..."

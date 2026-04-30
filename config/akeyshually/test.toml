@@ -1,6 +1,3 @@
-# Demo config for akeyshually video
-# Enable with: akeyshually enable test
-
 [settings]
 default_interval = 150
 

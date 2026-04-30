@@ -14,7 +14,8 @@ env_file = "~/.profile"
 #-[LAUNCHERS]--------------------------------
 
 "super.pressrelease" = ["", "hotline"]
-"super.doubletap(270)" = "$LAUNCHER"
+"super.doubletap(185)" = "$LAUNCHER"
+
 #"super.taphold" = "notify-send amogus"
 
 "super+enter" = "$TERMINAL"
@@ -38,7 +39,7 @@ env_file = "~/.profile"
 
 #-[UTILS]------------------------------------
 
-"print" = "grimblast -f -n copysave area ~/Media/Pictures/screenshots/latest.png"
+"print" = "grimblast -f -n copysave area ~/Media/screenshots/latest.png"
 "print.doubletap" = "last_screenshot"
 "super+shift+p" = "last_screenshot"
 "super+ctrl+p" = "grimblast -f -n copysave area"
@@ -96,7 +97,7 @@ notetaker = "bash -c \"source ~/.bashrc && /home/user/.config/bash/bin/notetaker
 
 prtscr = "/home/user/Workspace/tools/bin/screenshot-save --temp"
 mute_mic = "pactl set-source-mute @DEFAULT_SOURCE@ toggle || wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-last_screenshot = "$IMAGE_VIEWER ~/Media/Pictures/screenshots/latest.png"
+last_screenshot = "$IMAGE_VIEWER ~/Media/screenshots/latest.png"
 
 
 #-[MEDIA COMMANDS]---------------------------

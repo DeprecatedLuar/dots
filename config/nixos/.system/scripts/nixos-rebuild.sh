@@ -61,12 +61,36 @@ if [[ -z "$MAIN_USER" ]]; then
     exit 1
 fi
 
-# Ensure /etc/nixos folder symlink is correct
-if [[ ! -L "/etc/nixos" ]] || [[ "$(readlink -f /etc/nixos)" != "$CONFIG_DIR" ]]; then
-    echo "Updating /etc/nixos symlink for machine: $HOSTNAME"
-    sudo rm -rf /etc/nixos
-    sudo ln -s "$CONFIG_DIR" /etc/nixos
-fi
+# Ensure /etc/nixos is a real directory with only configuration.nix symlinked
+# This is idempotent and self-heals any misconfigurations
+ensure_etc_nixos() {
+    local config_dir="$1"
+    local machine_config="$2"
+
+    # If /etc/nixos is a symlink (old behavior), remove it
+    if [[ -L "/etc/nixos" ]]; then
+        echo "Converting /etc/nixos from symlink to real directory..."
+        sudo rm -f /etc/nixos
+    fi
+
+    # Ensure /etc/nixos exists as a real directory
+    if [[ ! -d "/etc/nixos" ]]; then
+        echo "Creating /etc/nixos directory..."
+        sudo mkdir -p /etc/nixos
+    fi
+
+    # Ensure /etc/nixos/configuration.nix points to the machine-specific config
+    local target="$machine_config"
+    local link="/etc/nixos/configuration.nix"
+
+    if [[ ! -L "$link" ]] || [[ "$(readlink -f "$link")" != "$target" ]]; then
+        echo "Symlinking /etc/nixos/configuration.nix → $target"
+        sudo rm -f "$link"
+        sudo ln -sf "$target" "$link"
+    fi
+}
+
+ensure_etc_nixos "$CONFIG_DIR" "$MACHINE_DIR/configuration.nix"
 
 # Auto-heal root-level symlinks: machine files (except default.nix and services.nix)
 for file in "$MACHINE_DIR"/*.nix; do
