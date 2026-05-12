@@ -3,7 +3,7 @@
 {
   users.users.luar = {
     isNormalUser = true;
-    extraGroups = [ "networkmanager" "wheel" "docker" "input" "uinput" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "input" "uinput" "video" ];
     packages = with pkgs; [
          
       matugen

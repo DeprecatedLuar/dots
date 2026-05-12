@@ -68,6 +68,10 @@ in
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
   services.gvfs.enable = true;
+  programs.appimage = {
+  	enable = true;
+  	binfmt = true;
+  };
 
   #──[Desktop Environment]───────────────────────────────────────────────────
 

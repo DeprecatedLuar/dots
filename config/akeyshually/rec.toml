@@ -1,0 +1,9 @@
+[settings]
+default_interval = 150
+
+[shortcuts]
+
+	"calc.pressrelease" = ["rec mic --notify", "rec stop"]
+	"calc.tappressrelease" = ["rec audio --notify", "rec stop"]  
+
+[command_variables]

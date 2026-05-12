@@ -21,27 +21,33 @@ in
 
          micro
          ncdu
+         tailscale
+         docker
+         ranger
+         zoxide
+         starship
+         btop
+         gh
+                 
          sshfs
          git
          wget
          lsof
-         fd
          ffmpeg
-         tailscale
-         ranger
-         zoxide
-         starship
-         docker
+         fd
          jq
          tmux
          at
-         btop
          lm_sensors
          pciutils
-         gh
-         zip
-         devbox
+         zip        
          unzip
+         dnsutils
+         file
+         nmap
+         socat
+         entr
+         tree
 
          go
          python3
@@ -111,6 +117,12 @@ in
        systemd.services = { };
 
      #──[System]────────────────────────────────────────────────────────────────
+
+       # tmpfs for /tmp - clears on reboot (modern standard)
+       boot.tmp = {
+         useTmpfs = true;
+         tmpfsSize = "50%";  # limit to 50% of RAM
+       };
 
        zramSwap.enable = true; # 50% RAM compressed swap, no disk needed
 

@@ -13,17 +13,21 @@
     pcmanfm-qt
     netlogo
     xournalpp
-    dorion
-    
+
+
     megacmd
     whisper-cpp
     scrcpy
     android-tools
     wf-recorder
-     
+
     nwg-wrapper
 	quickshell
-            
+
+    # Hardware video acceleration diagnostics
+    libva-utils
+    v4l-utils
+
     (wrapOBS {
       plugins = with obs-studio-plugins; [ obs-pipewire-audio-capture ];
     })
@@ -49,6 +53,7 @@
     XMODIFIERS = "@im=fcitx";
     QT_IM_MODULE = "fcitx";
     GTK_IM_MODULE = "fcitx";
+    LIBVA_DRIVER_NAME = "iHD";  # Intel hardware video acceleration
   };
 
   #──[Network]────────────────────────────────────────────────────────────────

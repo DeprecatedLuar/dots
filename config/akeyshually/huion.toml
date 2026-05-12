@@ -1,18 +1,23 @@
 [settings]
-devices = ["Tablet Monitor Pad"]
+devices = ["Tablet Monitor Pad", "Tablet Monitor Touch Strip"]
 
 [shortcuts]
+
+#ABS
+"rx-" = ">scrollup"
+"rx+" = ">scrolldown"
+
+
+
 "btn_0" = ">ctrl+z"
 "btn_0.hold" = ">ctrl+shift+z"
 
 "btn_1" = ">w"
-"btn_1.whileheld" = ">ctrl"
-"btn_1.tapwhileheld" = ">shift"
+"btn_1.hold" = ">ctrl"
+"btn_1.taphold" = ">shift"
 #"btn_1.onrelease" = "notify-send huion btn_1"
 
-"btn_2" = "ydotool key 44:1 44:0"
-
+"btn_2" = ""
 "btn_3" = "notify-send huion btn_3"
-
 "btn_4" = "notify-send huion btn_4"
 

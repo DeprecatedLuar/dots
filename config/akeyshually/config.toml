@@ -83,7 +83,7 @@ env_file = "~/.profile"
 [command_variables]#--------------------------
 
 edit_config = "kitty micro ~/.config/akeyshually/config.toml"
-kill_switch = "akeyshually stop && pkill -9 akeyshually"
+kill_switch = "akeyshually stop ; pkill -9 akeyshually"
 
 #-[LAUNCHERS]--------------------------------
 

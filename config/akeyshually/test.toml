@@ -8,6 +8,4 @@ default_interval = 150
 	"f1.taphold" = "notify-send 'f1 TAPHOLD'"
 	"f1.doubletap" = "notify-send 'f1 DOUBLETAP'"
 
-	#"super.doubletap" = "notify-send 'ctrl HOLD'"
-    
 [command_variables]
