@@ -5,7 +5,7 @@
 
   environment.systemPackages = with pkgs; [
 
-    libreoffice
+#    libreoffice
     audacity
     mailspring
     thunderbird

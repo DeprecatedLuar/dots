@@ -59,7 +59,7 @@ in
     hyprpicker
     hyprlandPlugins.hyprscrolling
     hyprlandPlugins.hyprsplit
-    hyprmon
+    #hyprmon
     swayimg
   ];
 
