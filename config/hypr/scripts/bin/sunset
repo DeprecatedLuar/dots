@@ -1,31 +1,267 @@
 #!/usr/bin/env bash
-change=${1:?Usage: sunset <value> (e.g., -10 or +10)}
+
+# Temperature range constants
+MIN_TEMP=1000  # hyprsunset minimum
+MAX_TEMP=6500  # neutral daylight (design choice)
+TEMP_RANGE=$((MAX_TEMP - MIN_TEMP))  # 5500K
+
+check_hyprsunset() {
+    if ! hyprctl hyprsunset gamma &> /dev/null; then
+        echo "Error: hyprsunset not available (is Hyprland running with hyprsunset plugin?)" >&2
+        exit 1
+    fi
+}
+
+# Convert temperature percentage to Kelvin (flipped: 100% = warmest)
+# 0% = 6500K (no filtering), 100% = 1000K (max filtering)
+percent_to_kelvin() {
+    local percent=$1
+    echo $((MAX_TEMP - (percent * TEMP_RANGE / 100)))
+}
+
+# Convert Kelvin to percentage (flipped)
+kelvin_to_percent() {
+    local kelvin=$1
+    echo $(((MAX_TEMP - kelvin) * 100 / TEMP_RANGE))
+}
+
+show_help() {
+    cat <<EOF
+sunset - Unified brightness, gamma, and temperature controller
+
+USAGE:
+    sunset <value>
+    sunset temp <value>
+    sunset status
+    sunset -h | --help
+
+DESCRIPTION:
+    Brightness Mode (default):
+        Controls hardware brightness and gamma using two-stage approach.
+
+        Decreasing (-N):
+            1. Lowers hardware brightness first (exponential curve)
+            2. When brightness reaches 0%, reduces gamma
+
+        Increasing (+N):
+            1. Restores gamma to 100% first
+            2. Then raises hardware brightness
+
+    Temperature Mode (sunset temp):
+        Controls color temperature (blue-light filter).
+        Uses percentage scale: 0% = neutral (6500K), 100% = warmest (1000K).
+
+ARGUMENTS:
+    <value>         Brightness: absolute (50) or relative (+10, -10)
+    temp <value>    Temperature: percentage (0-100) or relative (+10, -10)
+    <value>K        Temperature: absolute (3000K) or relative (+500K, -500K)
+    status          Show current brightness, gamma, and temperature
+    -h, --help      Show this help message
+
+EXAMPLES:
+    sunset status       Show current settings
+
+    Brightness (without % = relative, with % = absolute signed):
+    sunset 50           Set brightness to 50% (absolute)
+    sunset +10          Increase by 10% (relative)
+    sunset -10          Decrease by 10% (relative)
+    sunset +10%         Set to 10% brightness (absolute positive)
+    sunset -10%         Set to -10% (absolute negative: 0% brightness + 90% gamma)
+    sunset -50%         Set to -50% (0% brightness + 50% gamma, very dim)
+
+    Temperature (bare = %, signed = relative K inverted):
+    sunset temp 0       No filtering (6500K neutral daylight)
+    sunset temp 50      Medium filtering (3750K)
+    sunset temp 100     Maximum filtering (1000K warmest/candlelight)
+    sunset temp +200    More filtering: warmer by 200K (current - 200K)
+    sunset temp -200    Less filtering: cooler by 200K (current + 200K)
+    sunset 3000K        Set to 3000K (warm, absolute)
+    sunset 6500K        Set to 6500K (neutral, absolute)
+    sunset +500K        Cooler by 500K (current + 500K)
+    sunset -500K        Warmer by 500K (current - 500K)
+
+EOF
+}
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+    show_help
+    exit 0
+fi
+
+# Status mode
+if [[ "$1" == "status" ]]; then
+    check_hyprsunset
+    current_temp=$(hyprctl hyprsunset temperature)
+    temp_percent=$(kelvin_to_percent "$current_temp")
+    echo "brightness: $(brightnessctl -m | cut -d',' -f4)"
+    echo "gamma: $(hyprctl hyprsunset gamma)"
+    echo "temperature: ${current_temp}K (${temp_percent}% filtering)"
+    exit 0
+fi
+
+# Temperature mode - K suffix (absolute or relative)
+if [[ "$1" =~ ^[+-]?[0-9]+[Kk]$ ]]; then
+    check_hyprsunset
+    input="$1"
+    value="${input%[Kk]}"  # Strip K/k suffix
+    current_temp=$(hyprctl hyprsunset temperature)
+
+    if [[ $value == +* || $value == -* ]]; then
+        # Relative adjustment in Kelvin
+        if [[ $value == -* ]]; then
+            # Going warmer (lower K)
+            val="${value#-}"
+            new_temp=$((current_temp - val))
+            (( new_temp < MIN_TEMP )) && new_temp=$MIN_TEMP
+        else
+            # Going cooler (higher K)
+            val="${value#+}"
+            new_temp=$((current_temp + val))
+            (( new_temp > MAX_TEMP )) && new_temp=$MAX_TEMP
+        fi
+    else
+        # Absolute value
+        new_temp="$value"
+        (( new_temp < MIN_TEMP )) && new_temp=$MIN_TEMP
+        (( new_temp > MAX_TEMP )) && new_temp=$MAX_TEMP
+    fi
+
+    # Warn if at limits
+    if [[ $new_temp -eq $current_temp ]]; then
+        if (( new_temp == MAX_TEMP )); then
+            echo "temperature: ${new_temp}K (already at maximum - neutral daylight)" >&2
+        elif (( new_temp == MIN_TEMP )); then
+            echo "temperature: ${new_temp}K (already at minimum - warmest)" >&2
+        fi
+        exit 0
+    fi
+
+    hyprctl hyprsunset temperature "$new_temp" > /dev/null
+    temp_percent=$(kelvin_to_percent "$new_temp")
+    echo "temperature: ${new_temp}K (${temp_percent}% filtering)"
+    exit 0
+fi
+
+# Temperature mode - percentage or relative Kelvin
+if [[ "$1" == "temp" ]]; then
+    check_hyprsunset
+    value=${2:?Usage: sunset temp <value> (e.g., 50, +200, -200)}
+    current_temp=$(hyprctl hyprsunset temperature)
+
+    if [[ $value == +* || $value == -* ]]; then
+        # Relative adjustment in Kelvin (inverted: + = warmer/lower K, - = cooler/higher K)
+        # +200 means MORE filtering = warmer = subtract 200K
+        # -200 means LESS filtering = cooler = add 200K
+        if [[ $value == +* ]]; then
+            # Increase filtering = warmer = lower K
+            kelvin_change="${value#+}"
+            new_temp=$((current_temp - kelvin_change))
+            (( new_temp < MIN_TEMP )) && new_temp=$MIN_TEMP
+        else
+            # Decrease filtering = cooler = higher K
+            kelvin_change="${value#-}"
+            new_temp=$((current_temp + kelvin_change))
+            (( new_temp > MAX_TEMP )) && new_temp=$MAX_TEMP
+        fi
+    else
+        # Absolute percentage (bare number)
+        new_percent="$value"
+        (( new_percent < 0 )) && new_percent=0
+        (( new_percent > 100 )) && new_percent=100
+        new_temp=$(percent_to_kelvin "$new_percent")
+    fi
+
+    # Warn if at limits
+    if [[ $new_temp -eq $current_temp ]]; then
+        if (( new_temp == MAX_TEMP )); then
+            echo "temperature: ${new_temp}K (already at minimum filtering - neutral daylight)" >&2
+        elif (( new_temp == MIN_TEMP )); then
+            echo "temperature: ${new_temp}K (already at maximum filtering - warmest)" >&2
+        fi
+        exit 0
+    fi
+
+    hyprctl hyprsunset temperature "$new_temp" > /dev/null
+    temp_percent=$(kelvin_to_percent "$new_temp")
+    echo "temperature: ${new_temp}K (${temp_percent}% filtering)"
+    exit 0
+fi
+
+# Brightness mode (default)
+check_hyprsunset
+value=${1:?Usage: sunset <value> (e.g., 50, +10, -10, +10%, -10%)}
 brightness=$(brightnessctl -m | cut -d',' -f4 | tr -d '%')
 gamma=$(hyprctl hyprsunset gamma | cut -d'.' -f1)
 
-if [[ $change == -* ]]; then
-    val=${change#-}
-    if (( brightness < 1 )); then
-        hyprctl hyprsunset gamma "$change" > /dev/null
-    elif (( val > brightness )); then
-        brightnessctl -q -e4 -n2 set 0%
-        remainder=$((val - brightness))
-        hyprctl hyprsunset gamma "-$remainder" > /dev/null
+# Check if value has % suffix (means absolute signed value)
+if [[ $value =~ ^[+-]?[0-9]+%$ ]]; then
+    # Strip % suffix
+    target="${value%\%}"
+
+    if (( target >= 0 )); then
+        # Positive: hardware brightness (0-100%)
+        (( target > 100 )) && target=100
+
+        # Reset gamma to 100% first
+        if (( gamma < 100 )); then
+            hyprctl hyprsunset gamma 100 > /dev/null
+        fi
+
+        # Set brightness
+        brightnessctl -q -e4 -n2 set "${target}%"
     else
-        brightnessctl -q -e4 -n2 set "${val}%-"
+        # Negative: gamma dimming (-1% to -100%)
+        # -10% means: brightness 0%, gamma 90%
+        # -100% means: brightness 0%, gamma 0%
+        abs_target=${target#-}
+        (( abs_target > 100 )) && abs_target=100
+
+        # Set brightness to 0%
+        brightnessctl -q -e4 -n2 set 0%
+
+        # Calculate gamma: 100 - abs_target
+        target_gamma=$((100 - abs_target))
+        hyprctl hyprsunset gamma "$target_gamma" > /dev/null
+    fi
+elif [[ $value == +* || $value == -* ]]; then
+    # Relative brightness adjustment (no % suffix)
+    if [[ $value == -* ]]; then
+        val=${value#-}
+        if (( brightness < 1 )); then
+            hyprctl hyprsunset gamma "$value" > /dev/null
+        elif (( val > brightness )); then
+            brightnessctl -q -e4 -n2 set 0%
+            remainder=$((val - brightness))
+            hyprctl hyprsunset gamma "-$remainder" > /dev/null
+        else
+            brightnessctl -q -e4 -n2 set "${val}%-"
+        fi
+    else
+        val=${value#+}
+        gamma_deficit=$((100 - gamma))
+        if (( gamma < 100 )) && (( val > gamma_deficit )); then
+            hyprctl hyprsunset gamma 100 > /dev/null
+            remainder=$((val - gamma_deficit))
+            brightnessctl -q -e4 -n2 set "${remainder}%+"
+        elif (( gamma < 100 )); then
+            hyprctl hyprsunset gamma "+$val" > /dev/null
+        else
+            brightnessctl -q -e4 -n2 set "${val}%+"
+        fi
     fi
 else
-    val=${change#+}
-    gamma_deficit=$((100 - gamma))
-    if (( gamma < 100 )) && (( val > gamma_deficit )); then
+    # Absolute brightness (bare number, no sign, no %)
+    target=$value
+    (( target < 0 )) && target=0
+    (( target > 100 )) && target=100
+
+    # Reset gamma first if it's not at 100%
+    if (( gamma < 100 )); then
         hyprctl hyprsunset gamma 100 > /dev/null
-        remainder=$((val - gamma_deficit))
-        brightnessctl -q -e4 -n2 set "${remainder}%+"
-    elif (( gamma < 100 )); then
-        hyprctl hyprsunset gamma "+$val" > /dev/null
-    else
-        brightnessctl -q -e4 -n2 set "${val}%+"
     fi
+
+    # Set brightness
+    brightnessctl -q -e4 -n2 set "${target}%"
 fi
 
 echo "brightness: $(brightnessctl -m | cut -d',' -f4)"

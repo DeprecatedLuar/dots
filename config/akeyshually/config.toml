@@ -67,6 +67,10 @@ env_file = "~/.profile"
 "mute" = "mute_toggle"
 "brightnessup" = "brightness_up"
 "brightnessdown" = "brightness_down"
+
+"brightnessup.hold.repeat" = "sunset +1"
+"brightnessdown.hold.repeat" = "sunset -1"
+
 "play" = "media_play_pause"
 "nextsong" = "media_next"
 "previoussong" = "media_previous"
@@ -75,8 +79,8 @@ env_file = "~/.profile"
 "ctrl+volumeup" = "mic_up"
 "ctrl+volumedown" = "mic_down"
 
-"ctl+brightnessup" = "hyprctl hyprsunset temperature +200"
-"ctl+brightnessdown" = "hyprctl hyprsunset temperature -200"
+"ctl+brightnessup" = "sunset temp -350"
+"ctl+brightnessdown" = "sunset temp +350"
 
 #"shift+brightnessup" = "brightness_up"
 
