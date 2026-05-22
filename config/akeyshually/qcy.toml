@@ -1,7 +1,9 @@
 [settings]
-devices = ["QCY H3"]
+#devices = ["QCY H3"]
+
+[virtual_keys]
+boop = ["playcd", "pausecd"]
 
 [shortcuts]
-
-"playcd" = ">playpause"
+"boop" = ">playpause"
 

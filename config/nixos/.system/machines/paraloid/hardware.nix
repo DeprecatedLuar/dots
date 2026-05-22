@@ -18,7 +18,7 @@
   services.auto-cpufreq = {
     enable = true;
     settings = {
-      charger.turbo = "never";
+      charger.turbo = "auto";
       battery.turbo = "never";
     };
   };
@@ -39,11 +39,10 @@
     open = false;
 
   prime = {
-    offload.enable = true;
-    offload.enableOffloadCmd = true;
+    sync.enable = true;
 
-    intelBusId = "PCI:0:2:0";    
-    nvidiaBusId = "PCI:0:1:0";   
+    intelBusId = "PCI:0:2:0";
+    nvidiaBusId = "PCI:0:1:0";
     };
   };
 

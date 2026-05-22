@@ -50,7 +50,7 @@ env_file = "~/.profile"
 
 "102nd" = "notify-send penis"
 
-
+"shift+mute" = ">ctrl+shift+m"
 
 #-[MEDIA KEYS]-------------------------------
 
