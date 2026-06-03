@@ -30,6 +30,7 @@ in
          gh
                  
          sshfs
+         ripgrep
          git
          wget
          lsof
