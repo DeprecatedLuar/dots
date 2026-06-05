@@ -1,0 +1,16 @@
+# NixOS Machine Configuration
+# Edit this file and run: generate-config.sh
+
+hostName = "hostname"
+timeZone = "America/Sao_Paulo"
+locale = "en_US.UTF-8"
+
+# Desktop compositors (leave empty for headless)
+compositors = []
+
+# Users to import from .system/users/
+# First user is the main user (auto-login, home directory for configs)
+users = []
+
+# Modules to import from .system/modules/
+modules = []

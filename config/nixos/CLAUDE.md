@@ -4,91 +4,168 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Architecture
 
-This is a **NixOS configuration repository** embedded within a larger dotfiles management system. It uses a hybrid approach:
-- **NixOS** for declarative system configuration (immutable)
-- **Symlink-farm** for application dotfiles (mutable)
+This is a **NixOS configuration repository** using a TOML-based code generation system. Architecture:
+- **machine.toml** files define machine configuration (source of truth)
+- **generate-config.sh** auto-generates configuration.nix with explicit imports
+- **Self-healing nixos-rebuild wrapper** ensures consistency on every rebuild
+- **Modular system** with composable users, modules, and services
+
+### Directory Structure
+
+```
+~/.config/nixos/
+├── machine.toml → .system/machines/${hostName}/machine.toml (edit this!)
+├── hardware.nix → .system/machines/${hostName}/hardware.nix
+├── preferences.nix → .system/machines/${hostName}/preferences.nix
+├── services/ → .system/services/
+└── .system/
+    ├── machines/${hostName}/
+    │   ├── machine.toml (source of truth)
+    │   ├── configuration.nix (auto-generated - DO NOT EDIT)
+    │   ├── default.nix (imports hardware, preferences)
+    │   ├── hardware.nix (machine-specific hardware config)
+    │   ├── preferences.nix (machine preferences)
+    │   └── services.nix (enabled services list)
+    ├── modules/
+    │   ├── gui.nix (desktop environment)
+    │   └── gaming.nix (gaming setup)
+    ├── users/
+    │   ├── luar.nix
+    │   └── user.nix
+    ├── services/
+    │   ├── available/ (service definitions)
+    │   └── services.nix → machines/${hostName}/services.nix
+    ├── scripts/
+    │   ├── generate-config.sh (TOML → Nix generator)
+    │   └── nixos-rebuild.sh (self-healing wrapper)
+    ├── system.nix (core system config)
+    └── service-loader.nix (dynamic service imports)
+```
 
 ### Critical Symlinks
+
+The self-healing script (`nixos-rebuild.sh`) automatically manages:
+- `/etc/nixos/configuration.nix` → auto-generated config
+- `~/.config/nixos/machine.toml` → machine-specific TOML
+- `~/.config/nixos/services/` → `.system/services/`
+- Machine files (hardware.nix, preferences.nix) symlinked to root
+
+## Configuration System
+
+### TOML-Based Configuration (Primary Workflow)
+
+**Edit machine configuration:**
+```bash
+micro ~/.config/nixos/machine.toml
 ```
-/etc/nixos → ~/.config/nixos (folder symlink)
-~/.config/nixos → ~/.config/dots/config/nixos (this repository)
-~/.config/nixos/*.nix → .system/machines/${hostName}/*.nix (machine files)
-~/.config/nixos/${mainUser}.nix → .system/users/${mainUser}.nix (user file)
-~/.config/nixos/services → .system/services (services folder)
+
+**Example machine.toml:**
+```toml
+# Users (first user is main user for auto-login)
+users = ["luar"]
+hostName = "paraloid"
+timeZone = "America/Sao_Paulo"
+locale = "en_US.UTF-8"
+
+# Desktop compositors (empty for headless)
+compositors = ["hyprland", "niri", "i3", "xfce"]
+
+# Modules to import from .system/modules/
+modules = ["gui", "gaming"]
 ```
 
-The `/etc/nixos` folder symlink points to this repo, and root-level files are symlinked from `.system/` for easy access.
-
-## Configuration Structure
-
-### Entry Point Pattern
+**Apply changes:**
+```bash
+sudo nixos-rebuild switch
 ```
-/etc/nixos → ~/.config/nixos (folder symlink)
-~/.config/nixos/
-├── .system/ (all infrastructure - hidden)
-│   ├── machines/${hostName}/
-│   ├── users/
-│   ├── gui/
-│   ├── services/
-│   └── system.nix
-├── configuration.nix → .system/machines/${hostName}/configuration.nix (symlink)
-├── ${mainUser}.nix → .system/users/${mainUser}.nix (symlink)
-└── services/ → .system/services/ (symlink)
 
-configuration.nix imports:
-    ├── ${sysDir}/machines/${hostName}/default.nix → imports hardware.nix
-    ├── ${sysDir}/system.nix (core: packages, services, users)
-    ├── ${sysDir}/gui/gui.nix (desktop environment - conditional based on compositors)
-    ├── ${sysDir}/gui/gaming.nix (gaming setup)
-    └── ${sysDir}/users/${mainUser}.nix (user configuration)
+Behind the scenes:
+1. Self-healing script runs `generate-config.sh`
+2. Validates TOML structure
+3. Auto-generates `configuration.nix` with explicit imports
+4. Derives `mainUser` from first user in array
+5. Ensures all symlinks are correct
+6. Proceeds with NixOS rebuild
+
+### Code Generation Flow
+
+```
+machine.toml (human-editable)
+    ↓
+generate-config.sh (bash TOML parser)
+    ↓
+configuration.nix (auto-generated with explicit imports)
+    ↓
+NixOS rebuild
+```
+
+**Generated configuration.nix structure:**
+```nix
+let
+  mainUser = "luar";  # Derived from users[0]
+  hostName = "paraloid";
+  compositors = [ "hyprland" "niri" "i3" "xfce" ];
+in
+{
+  imports = [
+    ../../system.nix
+    ./default.nix
+    ../../users/luar.nix      # Explicit from users array
+    ../../modules/gui.nix     # Explicit from modules array
+    ../../modules/gaming.nix
+  ];
+
+  _module.args = { inherit mainUser hostName compositors; };
+}
 ```
 
 ### Variable Injection Pattern
-`.system/machines/${hostName}/configuration.nix` defines variables in a `let` binding:
-- `mainUser`: Username for the system
-- `hostName`: Machine identifier
-- `compositors`: Array of enabled desktop compositors (e.g., `[ "hyprland" "niri" "xfce" ]`)
-- `configDir`: Root config path (`/home/${mainUser}/.config/nixos`)
-- `sysDir`: System directory path (`${configDir}/.system`)
 
-These are passed to all modules via `_module.args = { inherit mainUser hostName compositors; }`. Child modules receive these as function parameters: `{ mainUser, hostName, compositors, ... }:`.
+Variables are passed to all modules via `_module.args`:
+- `mainUser`: First user in users array (for auto-login, home paths)
+- `hostName`: Machine identifier
+- `compositors`: Array of enabled compositors for conditional imports
+
+Child modules receive these as function parameters:
+```nix
+{ mainUser, hostName, compositors, ... }:
+```
 
 This allows machine-agnostic module reuse without hardcoding values.
 
-## Common Development Commands
+## Common Commands
 
 ### Applying NixOS Changes
-```bash
-# Edit configuration
-micro ~/.config/nixos/system.nix
 
-# Apply immediately
+```bash
+# Edit configuration (RECOMMENDED)
+micro ~/.config/nixos/machine.toml
 sudo nixos-rebuild switch
 
-# Test without making default
+# Test without making default (reverts on reboot)
 sudo nixos-rebuild test
 
 # Build without activating
 sudo nixos-rebuild build
+
+# Check what would change
+sudo nixos-rebuild dry-build
 ```
 
-### Dotfile Management
+### Managing Configuration
+
 ```bash
-# Reload shell + regenerate all symlinks
-reload
+# Regenerate configuration.nix manually (usually automatic)
+~/.config/nixos/.system/scripts/generate-config.sh ~/.config/nixos/.system/machines/paraloid
 
-# Also sync system-level symlinks (requires sudo)
-reload --system
+# Edit other configs directly
+micro ~/.config/nixos/hardware.nix
+micro ~/.config/nixos/.system/system.nix
+micro ~/.config/nixos/.system/modules/gui.nix
 ```
-
-The `reload` command (from lushrc framework) runs `symlink-farm.sh` which:
-1. Cleans broken symlinks
-2. Links scripts to `~/bin`
-3. Links systemd user services
-4. Links fonts, XDG configs, autostart files
-5. With `--system`: Links to `/usr/local/bin`, `/etc/systemd/system`
 
 ### Querying NixOS
+
 ```bash
 # List installed packages
 nix-env -qa --installed
@@ -96,135 +173,261 @@ nix-env -qa --installed
 # Search for packages
 nix search nixpkgs <package>
 
-# Check what changed
-nixos-rebuild dry-build
+# Check syntax without building
+nix-instantiate --parse <file.nix>
 ```
 
 ## Module Organization
 
 ### .system/system.nix
-Core system packages, services, users, networking, bootloader.
-Imports `/etc/nixos/hardware-configuration.nix` for auto-generated filesystem config.
+Core system configuration:
+- System packages (CLI tools, dev tools)
+- Core services (SSH, Docker, audio via PipeWire)
+- User definitions (auto-login for mainUser)
+- Boot configuration (tmpfs, zram)
+- Imports hardware-configuration.nix and service-loader.nix
 
-### .system/gui/gui.nix
-Uses `compositors` array for conditional logic:
-- Compositor-agnostic packages always installed
-- Compositor-specific packages via `lib.optionals hasHyprland [...]`
-- Desktop managers enabled conditionally
-- XDG portals for Flatpak
+**Does NOT handle:**
+- Module/user imports (handled by generated configuration.nix)
+- Machine-specific hardware (in machines/${hostName}/default.nix)
+- Networking hostname (set in generated configuration.nix)
 
-### .system/gui/gaming.nix
-Steam, Gamemode, graphics drivers.
+### .system/modules/gui.nix
+Desktop environment configuration using compositor-based conditional logic:
+```nix
+let
+  hasHyprland = builtins.elem "hyprland" compositors;
+  hasNiri = builtins.elem "niri" compositors;
+  hasXfce = builtins.elem "xfce" compositors;
+in
+{
+  # Compositor-agnostic packages
+  environment.systemPackages = [ ... ]
+  # Compositor-specific packages
+  ++ lib.optionals hasHyprland [ hypridle hyprpicker ... ];
 
-### .system/machines/${hostName}/configuration.nix
-Entry point. Defines `mainUser`, `hostName`, `compositors`, `configDir`, `sysDir` variables. DO NOT import from other modules.
+  # Enable compositor programs
+  programs.hyprland.enable = hasHyprland;
+  programs.niri.enable = hasNiri;
+  services.xserver.desktopManager.xfce.enable = hasXfce;
+}
+```
 
-### .system/machines/${hostName}/default.nix
-Imports machine-specific configs (hardware.nix, etc.)
+### .system/modules/gaming.nix
+Gaming-specific configuration:
+- Steam with Proton GE
+- Gamemode integration
+- Kernel optimizations (swappiness, compaction)
+- Graphics hardware acceleration
 
-### .system/machines/${hostName}/hardware.nix
-Custom hardware config (GPU, power, etc.). Does NOT include filesystems.
+### .system/service-loader.nix
+Dynamic service import system:
+1. Reads `services/services.nix` for `enabledServices` list
+2. Maps service names to `services/available/*.nix`
+3. Dynamically imports enabled services
 
-### .system/users/${mainUser}.nix
-User-specific configuration (packages, shell, etc.).
+### .system/machines/${hostName}/
+Machine-specific configuration:
+- **machine.toml**: Source of truth (edit this)
+- **configuration.nix**: Auto-generated entry point (DO NOT EDIT)
+- **default.nix**: Imports hardware.nix and preferences.nix
+- **hardware.nix**: Custom hardware config (GPU, power, etc.)
+- **preferences.nix**: Machine-specific settings
+- **services.nix**: Defines `enabledServices = [ "service1" "service2" ]`
 
-## Planned Architecture (Not Yet Implemented)
-
-See `idea.txt` for the **systemd-to-nix** integration plan:
-- Keep `.service` files as portable source of truth
-- Auto-generate NixOS service configs from `~/.config/systemd/nix/*.service`
-- Currently using native NixOS modules instead (e.g., `services.kanata`)
+### .system/users/${username}.nix
+User-specific configuration:
+```nix
+{ pkgs, mainUser, ... }:
+{
+  users.users.${username} = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" "docker" "video" ];
+    packages = with pkgs; [ ... ];
+    openssh.authorizedKeys.keys = [ ... ];
+  };
+}
+```
 
 ## Configuration Patterns
 
 ### Adding Packages
-Add to appropriate section based on purpose:
 
-**Compositor-agnostic packages** (.system/gui/gui.nix):
+**System packages** (.system/system.nix):
 ```nix
 environment.systemPackages = with pkgs; [
-  # Shared GUI apps (always installed when gui.nix is imported)
-  mypackage
+  git wget curl
 ];
 ```
 
-**Compositor-specific packages** (.system/gui/gui.nix):
+**Compositor-specific** (.system/modules/gui.nix):
 ```nix
-# Add to the conditional section
-++ lib.optionals hasHyprland [ hyprland-only-package ]
-++ lib.optionals hasNiri [ niri-only-package ]
-++ lib.optionals hasXfce [ xfce-only-package ]
+++ lib.optionals hasHyprland [ hyprland-package ]
+++ lib.optionals hasNiri [ niri-package ]
 ```
 
-**CLI/system packages** (.system/system.nix):
+**User packages** (.system/users/username.nix):
 ```nix
-environment.systemPackages = with pkgs; [
-  # System-level packages
-  mypackage
-];
-```
-
-### Adding System Services
-Either use native NixOS module:
-```nix
-services.serviceName = {
-  enable = true;
-  # ... config
+users.users.username = {
+  packages = with pkgs; [ firefox brave ];
 };
 ```
 
-Or define custom systemd service:
+### Adding a New Module
+
+1. Create `.system/modules/mymodule.nix`:
 ```nix
-systemd.services.myservice = {
-  description = "My Service";
-  after = [ "network.target" ];
-  wantedBy = [ "multi-user.target" ];
-  serviceConfig = {
-    ExecStart = "${pkgs.mypackage}/bin/mycommand";
-    Restart = "always";
+{ config, pkgs, lib, mainUser, compositors, ... }:
+{
+  environment.systemPackages = with pkgs; [ mypackage ];
+  services.myservice.enable = true;
+}
+```
+
+2. Add to machine.toml:
+```toml
+modules = ["gui", "gaming", "mymodule"]
+```
+
+3. Rebuild:
+```bash
+sudo nixos-rebuild switch
+```
+
+### Adding a New User
+
+1. Create `.system/users/newuser.nix`:
+```nix
+{ pkgs, ... }:
+{
+  users.users.newuser = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" ];
+    packages = with pkgs; [ ... ];
   };
-};
+}
 ```
 
-### Adding New Machine
-1. Create `machines/${newHostName}/` directory
-2. Copy `machines/paraloid/configuration.nix` as template
-3. Update variables in the new configuration.nix:
-   - `hostName = "newHostName"`
-   - `mainUser = "username"`
-   - `compositors = [ "hyprland" ]` (or desired compositors)
-4. Create `machines/${newHostName}/default.nix`:
-   ```nix
-   { ... }:
-   {
-     imports = [
-       ./hardware.nix
-     ];
-   }
-   ```
-5. Run `nixos-generate-config --show-hardware-config` on target machine, save output to `machines/${newHostName}/hardware.nix`
-6. Symlink `/etc/nixos/configuration.nix` → `~/.config/nixos/machines/${newHostName}/configuration.nix`
+2. Add to machine.toml:
+```toml
+users = ["luar", "newuser"]
+```
+
+### Adding a New Machine
+
+1. Create machine directory:
+```bash
+mkdir ~/.config/nixos/.system/machines/newmachine
+```
+
+2. Generate template:
+```bash
+~/.config/nixos/.system/scripts/generate-config.sh ~/.config/nixos/.system/machines/newmachine
+# This creates machine.toml with auto-discovered modules/users
+```
+
+3. Edit machine.toml:
+```toml
+users = ["username"]
+hostName = "newmachine"
+compositors = []  # Or ["hyprland"] for desktop
+modules = []      # Or ["gui"] for desktop
+```
+
+4. Create default.nix:
+```nix
+{ ... }:
+{
+  imports = [
+    ./hardware.nix
+    ./preferences.nix
+  ];
+}
+```
+
+5. Generate hardware config on target machine:
+```bash
+sudo nixos-generate-config --show-hardware-config > hardware.nix
+```
+
+6. On first boot, `/etc/nixos/configuration.nix` will be auto-symlinked by the self-healing wrapper
+
+### Template Auto-Discovery
+
+When generating a new machine template, the script auto-discovers available options:
+
+```toml
+# Users to import from .system/users/
+# Available:
+#   - luar
+#   - user
+users = []
+
+# Modules to import from .system/modules/
+# Available:
+#   - gaming
+#   - gui
+modules = []
+```
 
 ### Switching Compositors
-Edit `machines/${hostName}/configuration.nix` and modify the `compositors` array:
-```nix
-compositors = [ "hyprland" ];        # Only Hyprland
-compositors = [ "niri" ];            # Only Niri
-compositors = [ "xfce" ];            # Only XFCE
-compositors = [ "hyprland" "niri" ]; # Multiple compositors
+
+Edit machine.toml:
+```toml
+compositors = ["hyprland"]           # Only Hyprland
+compositors = ["hyprland", "niri"]   # Multiple
+compositors = []                     # Headless
 ```
-Then run `sudo nixos-rebuild switch` to apply changes.
 
-## Git Workflow
+Rebuild to apply.
 
-Based on commit history, changes are frequently committed with "dots push" messages. This appears automated. After making configuration changes, the workflow is:
-1. Test with `sudo nixos-rebuild test`
-2. Apply with `sudo nixos-rebuild switch`
-3. Dotfiles sync (automated or manual `dots push`)
+## Self-Healing System
 
-## Current Machine
+The custom `nixos-rebuild` wrapper (`.system/scripts/nixos-rebuild.sh`) automatically:
 
-- **Hostname**: paraloid
-- **User**: luar
-- **Hardware**: NVIDIA GPU (hybrid graphics), Intel CPU
-- **Desktop**: XFCE, Hyprland, Niri available
+1. **Generates configuration.nix** from machine.toml
+2. **Validates** TOML structure
+3. **Ensures /etc/nixos/configuration.nix** symlink exists
+4. **Symlinks machine.toml** to root for easy access
+5. **Manages service symlinks** (machines/${hostName}/services/*.nix → services/available/)
+6. **Calls real nixos-rebuild** with all flags passed through
+
+**Bypass self-healing** (for debugging):
+```bash
+sudo nixos-rebuild --bypass switch
+```
+
+**Enable dead man's switch** (auto-rollback on failure):
+```bash
+sudo nixos-rebuild --meltdown switch
+```
+
+## Services System
+
+Services use a symlink-farm pattern:
+
+1. Define service in `.system/machines/${hostName}/services/myservice.nix`
+2. Self-healing script symlinks to `.system/services/available/local_myservice.nix`
+3. Enable in `.system/machines/${hostName}/services.nix`:
+```nix
+{
+  enabledServices = [
+    "local_myservice"
+  ];
+}
+```
+4. service-loader.nix dynamically imports enabled services
+
+## Current Machines
+
+- **paraloid**: Desktop (NVIDIA GPU, Hyprland/Niri/XFCE/i3, user: luar)
+- **ae**: Headless server (user: user)
+- **nuremberg**: Headless server (user: luar)
+
+## Important Notes
+
+- **Never edit configuration.nix directly** - it's auto-generated from machine.toml
+- **First user in users array** becomes mainUser (auto-login, home paths)
+- **Compositors array** controls desktop environment via conditional imports
+- **Self-healing runs on every rebuild** - symlinks and configs auto-fixed
+- **TOML validation** ensures required keys exist before generation

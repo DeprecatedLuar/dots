@@ -1,0 +1,13 @@
+# NixOS Machine Configuration - paraloid
+
+# Users to import (first user is main user)
+users = ["luar"]
+hostName = "paraloid"
+timeZone = "America/Sao_Paulo"
+locale = "en_US.UTF-8"
+
+# Desktop compositors
+compositors = ["hyprland", "niri", "i3", "xfce"]
+
+# Modules to import
+modules = ["gui", "gaming"]

@@ -1,0 +1,13 @@
+# NixOS Machine Configuration - ae (headless)
+
+# Users (first user is main user)
+users = ["user"]
+hostName = "ae"
+timeZone = "America/Sao_Paulo"
+locale = "en_US.UTF-8"
+
+# Headless machine - no compositors
+compositors = []
+
+# No GUI modules for headless
+modules = []

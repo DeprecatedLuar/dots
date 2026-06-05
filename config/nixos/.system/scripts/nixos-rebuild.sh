@@ -54,6 +54,16 @@ if [[ ! -d "$MACHINE_DIR" ]]; then
     exit 1
 fi
 
+# Auto-generate configuration.nix from machine.toml
+GENERATOR="$SYS_DIR/scripts/generate-config.sh"
+if [[ -f "$GENERATOR" && -f "$MACHINE_DIR/machine.toml" ]]; then
+    echo "Generating configuration.nix from machine.toml..."
+    "$GENERATOR" "$MACHINE_DIR" || {
+        echo "Error: Failed to generate configuration.nix" >&2
+        exit 1
+    }
+fi
+
 # Parse mainUser from configuration.nix
 MAIN_USER=$(awk '/mainUser = / {match($0, /"([^"]+)"/, arr); print arr[1]}' "$MACHINE_DIR/configuration.nix")
 if [[ -z "$MAIN_USER" ]]; then
@@ -92,11 +102,12 @@ ensure_etc_nixos() {
 
 ensure_etc_nixos "$CONFIG_DIR" "$MACHINE_DIR/configuration.nix"
 
-# Auto-heal root-level symlinks: machine files (except default.nix and services.nix)
+# Auto-heal root-level symlinks: machine files (exclude auto-generated and internal files)
 for file in "$MACHINE_DIR"/*.nix; do
     if [[ -f "$file" ]]; then
         filename=$(basename "$file")
-        if [[ "$filename" != "default.nix" && "$filename" != "services.nix" ]]; then
+        # Skip: default.nix, services.nix, configuration.nix (auto-generated)
+        if [[ "$filename" != "default.nix" && "$filename" != "services.nix" && "$filename" != "configuration.nix" ]]; then
             target=".system/machines/$HOSTNAME/$filename"
             link="$CONFIG_DIR/$filename"
 
@@ -108,17 +119,6 @@ for file in "$MACHINE_DIR"/*.nix; do
     fi
 done
 
-# Auto-heal root-level symlink: user file
-if [[ -f "$USERS_DIR/$MAIN_USER.nix" ]]; then
-    target=".system/users/$MAIN_USER.nix"
-    link="$CONFIG_DIR/$MAIN_USER.nix"
-
-    if [[ ! -L "$link" ]] || [[ "$(readlink "$link")" != "$target" ]]; then
-        rm -f "$link"
-        ln -s "$target" "$link"
-    fi
-fi
-
 # Auto-heal root-level symlink: services folder
 target=".system/services"
 link="$CONFIG_DIR/services"
@@ -126,6 +126,17 @@ link="$CONFIG_DIR/services"
 if [[ ! -L "$link" ]] || [[ "$(readlink "$link")" != "$target" ]]; then
     rm -f "$link"
     ln -s "$target" "$link"
+fi
+
+# Auto-heal root-level symlink: machine.toml
+if [[ -f "$MACHINE_DIR/machine.toml" ]]; then
+    target=".system/machines/$HOSTNAME/machine.toml"
+    link="$CONFIG_DIR/machine.toml"
+
+    if [[ ! -L "$link" ]] || [[ "$(readlink "$link")" != "$target" ]]; then
+        rm -f "$link"
+        ln -s "$target" "$link"
+    fi
 fi
 
 # Service symlink-farm: Self-healing service management

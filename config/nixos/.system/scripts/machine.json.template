@@ -1,0 +1,9 @@
+{
+  "mainUser": "username",
+  "hostName": "hostname",
+  "compositors": [],
+  "users": [],
+  "modules": [],
+  "timeZone": "America/Sao_Paulo",
+  "locale": "en_US.UTF-8"
+}
