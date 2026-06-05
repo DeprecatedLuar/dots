@@ -1,5 +1,5 @@
 { ... }:
 
 {
-  enabledServices = [ "n8n" ];
+  enabledServices = [];
 }
