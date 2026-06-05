@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Enable better error reporting
+trap 'echo "Error on line $LINENO: $BASH_COMMAND" >&2' ERR
+
 # Generate configuration.nix from machine.toml
 # Usage: generate-config.sh <machine-dir>
 
@@ -86,7 +89,7 @@ parse_string() {
 parse_array() {
     local file=$1
     local key=$2
-    grep "^$key" "$file" | sed 's/.*= *\[\(.*\)\].*/\1/' | tr ',' '\n' | sed 's/^[" \t]*//; s/[" \t]*$//' | grep -v '^$'
+    grep "^$key" "$file" | sed 's/.*= *\[\(.*\)\].*/\1/' | tr ',' '\n' | sed 's/^[" \t]*//; s/[" \t]*$//' | grep -v '^$' || true
 }
 
 # Convert array to Nix list format ("a" "b" "c")
@@ -95,7 +98,12 @@ to_nix_list() {
     while IFS= read -r line; do
         [[ -n "$line" ]] && items+=("\"$line\"")
     done
-    echo "${items[@]}"
+    # Handle empty arrays
+    if [[ ${#items[@]} -eq 0 ]]; then
+        echo ""
+    else
+        echo "${items[@]}"
+    fi
 }
 
 # Validate TOML file structure
