@@ -37,9 +37,31 @@ fi
 
 echo "  Main user: $MAIN_USER"
 
-# ~/.config/nixos symlink (no sudo needed)
-ln -sfn "$NIXOS_DIR" "$HOME/.config/nixos"
-echo "  ~/.config/nixos -> $NIXOS_DIR"
+# Determine target home directory based on who's running the script
+if [ "$EUID" -eq 0 ]; then
+  # Running as root - set up for mainUser
+  TARGET_HOME="/home/$MAIN_USER"
+  echo "  Running as root. Setting up for user: $MAIN_USER"
+else
+  # Running as regular user - set up for current user
+  TARGET_HOME="$HOME"
+  CURRENT_USER="$(whoami)"
+  if [ "$CURRENT_USER" != "$MAIN_USER" ]; then
+    echo "  Warning: Current user ($CURRENT_USER) doesn't match mainUser ($MAIN_USER) from config"
+    read -p "  Continue anyway? [y/N] " -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+      exit 1
+    fi
+  fi
+fi
+
+# Create target .config directory if it doesn't exist
+mkdir -p "$TARGET_HOME/.config"
+
+# Create symlink in target home directory
+ln -sfn "$NIXOS_DIR" "$TARGET_HOME/.config/nixos"
+echo "  $TARGET_HOME/.config/nixos -> $NIXOS_DIR"
 
 # Ensure /etc/nixos is a real directory with only configuration.nix symlinked
 # If /etc/nixos is a symlink (old behavior), remove it
