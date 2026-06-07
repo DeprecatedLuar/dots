@@ -98,6 +98,13 @@ ensure_etc_nixos() {
         sudo rm -f "$link"
         sudo ln -sf "$target" "$link"
     fi
+
+    # Ensure /etc/nixos/env exists (even if empty) for service environmentFiles
+    if [[ ! -f "/etc/nixos/env" ]]; then
+        echo "Creating /etc/nixos/env..."
+        sudo touch /etc/nixos/env
+        sudo chmod 600 /etc/nixos/env
+    fi
 }
 
 ensure_etc_nixos "$CONFIG_DIR" "$MACHINE_DIR/configuration.nix"
