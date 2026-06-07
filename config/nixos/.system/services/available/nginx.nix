@@ -10,6 +10,9 @@
     '';
   };
 
+  # Allow nginx to bind to privileged ports
+  systemd.services.nginx.serviceConfig.AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
+
   # Create sites-available and sites-enabled directories
   systemd.tmpfiles.rules = [
     "d /etc/nginx 0755 root root -"
