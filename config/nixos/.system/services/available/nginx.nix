@@ -10,6 +10,11 @@
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
 
+    # Disable access log to avoid permission issues
+    appendHttpConfig = ''
+      access_log off;
+    '';
+
     # Virtual hosts
     virtualHosts = {
       "n8n.theparaloid.com" = {
