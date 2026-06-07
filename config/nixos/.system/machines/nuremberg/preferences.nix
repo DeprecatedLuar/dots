@@ -4,7 +4,7 @@
   #──[Packages]───────────────────────────────────────────────────────────────
 
   environment.systemPackages = with pkgs; [
-    # VPS-specific packages can go here if needed
+  nginx   
   ];
 
   #──[Network]────────────────────────────────────────────────────────────────
