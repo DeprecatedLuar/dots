@@ -30,6 +30,7 @@ in
          gh
                  
          sshfs
+        mosh
          ripgrep
          git
          wget
@@ -115,7 +116,12 @@ in
        services.atd.enable = true;
        virtualisation.docker.enable = true;
 
-       systemd.services = { };
+       # Firewall configuration
+      networking.firewall.allowedUDPPortRanges = [
+        { from = 60000; to = 61000; }  # mosh
+      ];
+
+      systemd.services = { };
 
      #──[System]────────────────────────────────────────────────────────────────
 
