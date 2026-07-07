@@ -22,7 +22,6 @@ in
          micro
          ncdu
          tailscale
-         docker
          ranger
          zoxide
          starship
