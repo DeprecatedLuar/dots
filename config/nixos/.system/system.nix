@@ -48,6 +48,7 @@ in
          file
          nmap
          socat
+         tcpdump
          entr
          tree
          squashfsTools
