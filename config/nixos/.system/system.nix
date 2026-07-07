@@ -50,7 +50,7 @@ in
          socat
          entr
          tree
-         squashfs-tools
+         squashfsTools
 
          go
          python3
