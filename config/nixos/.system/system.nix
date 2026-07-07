@@ -117,6 +117,7 @@ in
        services.atd.enable = true;
        services.cron.enable = true;
        virtualisation.docker.enable = true;
+       virtualisation.docker.package = pkgs.docker_29;
 
        # Firewall configuration
       networking.firewall.allowedUDPPortRanges = [
