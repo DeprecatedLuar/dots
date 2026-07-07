@@ -48,9 +48,11 @@ env_file = "~/.profile"
 
 "super+y" = "yap toggle & sleep 3 && tcpeek reconnect"
 
-"102nd" = "notify-send penis"
+"102nd.pressrelease" = [">>lclick", "<lclick"]
 
 "shift+mute" = ">ctrl+shift+m"
+
+"ro" = "nix-shell -p tesseract translate-shell --run '~/Workspace/dev/scripts/scrtrans/scrtrans rus en'"
 
 #-[MEDIA KEYS]-------------------------------
 

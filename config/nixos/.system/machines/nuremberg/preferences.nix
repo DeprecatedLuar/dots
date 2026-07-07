@@ -12,6 +12,7 @@
   networking = {
     networkmanager.enable = true;
     firewall.allowedTCPPorts = [ ];  # Add ports as needed
+    firewall.checkReversePath = "loose";
   };
 
   #──[Services]───────────────────────────────────────────────────────────────
@@ -27,6 +28,7 @@
   # Tailscale VPN
   services.tailscale.enable = true;
   services.tailscale.extraSetFlags = [ "--accept-dns=false" ];
+  services.tailscale.useRoutingFeatures = "server";
 
   # SSH authorized keys
   users.users.root.openssh.authorizedKeys.keys = [

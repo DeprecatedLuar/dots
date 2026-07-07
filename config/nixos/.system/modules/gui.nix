@@ -88,6 +88,14 @@ in
   programs.niri.enable = hasNiri;
   programs.hyprland.enable = hasHyprland;
 
+  #──[Virtual Camera Support]───────────────────────────────────────────────
+
+  boot.extraModulePackages = with pkgs; [ linuxPackages.v4l2loopback ];
+  boot.kernelModules = [ "v4l2loopback" ];
+  boot.extraModprobeConfig = ''
+    options v4l2loopback devices=1 video_nr=10 card_label="Virtual Camera" exclusive_caps=1
+  '';
+
   #──[Fonts]────────────────────────────────────────────────────────────────
 
   fonts.packages = with pkgs; [

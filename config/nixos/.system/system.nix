@@ -50,6 +50,7 @@ in
          socat
          entr
          tree
+         squashfs-tools
 
          go
          python3
@@ -114,6 +115,7 @@ in
        services.upower.enable = lib.mkIf hasDesktop true;
        services.openssh.enable = true;
        services.atd.enable = true;
+       services.cron.enable = true;
        virtualisation.docker.enable = true;
 
        # Firewall configuration

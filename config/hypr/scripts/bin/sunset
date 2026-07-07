@@ -5,10 +5,26 @@ MIN_TEMP=1000  # hyprsunset minimum
 MAX_TEMP=6500  # neutral daylight (design choice)
 TEMP_RANGE=$((MAX_TEMP - MIN_TEMP))  # 5500K
 
+# Shader path
+SHADER_DIR="$HOME/.config/hypr/shaders"
+GRAYSCALE_SHADER="$SHADER_DIR/sat-0.frag"
+
 check_hyprsunset() {
     if ! hyprctl hyprsunset gamma &> /dev/null; then
         echo "Error: hyprsunset not available (is Hyprland running with hyprsunset plugin?)" >&2
         exit 1
+    fi
+}
+
+get_saturation_status() {
+    local current_shader
+    current_shader=$(hyprctl getoption decoration:screen_shader -j | jq -r '.str')
+    if [[ "$current_shader" == "[[EMPTY]]" ]]; then
+        echo "color (100%)"
+    elif [[ "$current_shader" == *"sat-0.frag"* ]]; then
+        echo "grayscale (0%)"
+    else
+        echo "unknown"
     fi
 }
 
@@ -27,11 +43,13 @@ kelvin_to_percent() {
 
 show_help() {
     cat <<EOF
-sunset - Unified brightness, gamma, and temperature controller
+sunset - Unified brightness, gamma, temperature, and saturation controller
 
 USAGE:
     sunset <value>
     sunset temp <value>
+    sunset grayscale | color
+    sunset sat <0|100>
     sunset status
     sunset -h | --help
 
@@ -51,11 +69,17 @@ DESCRIPTION:
         Controls color temperature (blue-light filter).
         Uses percentage scale: 0% = neutral (6500K), 100% = warmest (1000K).
 
+    Saturation Mode (sunset grayscale | color | sat):
+        Toggles grayscale filter using screen shader.
+
 ARGUMENTS:
     <value>         Brightness: absolute (50) or relative (+10, -10)
     temp <value>    Temperature: percentage (0-100) or relative (+10, -10)
     <value>K        Temperature: absolute (3000K) or relative (+500K, -500K)
-    status          Show current brightness, gamma, and temperature
+    grayscale       Enable grayscale mode (same as sat 0)
+    color           Disable grayscale mode (same as sat 100)
+    sat <0|100>     Set saturation: 0 = grayscale, 100 = normal color
+    status          Show current brightness, gamma, temperature, and saturation
     -h, --help      Show this help message
 
 EXAMPLES:
@@ -80,6 +104,12 @@ EXAMPLES:
     sunset +500K        Cooler by 500K (current + 500K)
     sunset -500K        Warmer by 500K (current - 500K)
 
+    Saturation:
+    sunset grayscale    Enable grayscale
+    sunset color        Disable grayscale (normal color)
+    sunset sat 0        Enable grayscale
+    sunset sat 100      Disable grayscale
+
 EOF
 }
 
@@ -96,6 +126,49 @@ if [[ "$1" == "status" ]]; then
     echo "brightness: $(brightnessctl -m | cut -d',' -f4)"
     echo "gamma: $(hyprctl hyprsunset gamma)"
     echo "temperature: ${current_temp}K (${temp_percent}% filtering)"
+    echo "saturation: $(get_saturation_status)"
+    exit 0
+fi
+
+# Saturation mode - binary toggle
+if [[ "$1" == "grayscale" ]]; then
+    if [[ ! -f "$GRAYSCALE_SHADER" ]]; then
+        echo "Error: Grayscale shader not found at $GRAYSCALE_SHADER" >&2
+        exit 1
+    fi
+    hyprctl keyword decoration:screen_shader "$GRAYSCALE_SHADER" > /dev/null
+    echo "saturation: grayscale (0%)"
+    exit 0
+fi
+
+if [[ "$1" == "color" ]]; then
+    hyprctl keyword decoration:screen_shader "[[EMPTY]]" > /dev/null
+    echo "saturation: color (100%)"
+    exit 0
+fi
+
+# Saturation mode - percentage
+if [[ "$1" == "sat" ]]; then
+    value=${2:?Usage: sunset sat <0|100>}
+
+    case "$value" in
+        0)
+            if [[ ! -f "$GRAYSCALE_SHADER" ]]; then
+                echo "Error: Grayscale shader not found at $GRAYSCALE_SHADER" >&2
+                exit 1
+            fi
+            hyprctl keyword decoration:screen_shader "$GRAYSCALE_SHADER" > /dev/null
+            echo "saturation: grayscale (0%)"
+            ;;
+        100)
+            hyprctl keyword decoration:screen_shader "[[EMPTY]]" > /dev/null
+            echo "saturation: color (100%)"
+            ;;
+        *)
+            echo "Error: Only 0 (grayscale) and 100 (color) are supported" >&2
+            exit 1
+            ;;
+    esac
     exit 0
 fi
 

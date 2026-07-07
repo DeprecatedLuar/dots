@@ -56,6 +56,7 @@
     gamemode
     protonup-qt
     gamescope
-    
+    umu-launcher
+
   ];
 }
