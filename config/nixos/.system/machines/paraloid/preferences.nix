@@ -13,6 +13,7 @@
     pcmanfm-qt
     netlogo
     xournalpp
+    
 
 
     megacmd
@@ -20,6 +21,8 @@
     scrcpy
     android-tools
     wf-recorder
+    opencode
+    ollama
 
     nwg-wrapper
 	quickshell
@@ -45,6 +48,7 @@
     enable = true;
     fcitx5.addons = with pkgs; [
       fcitx5-mozc
+      fcitx5-m17n
       fcitx5-gtk
     ];
   };
