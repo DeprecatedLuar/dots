@@ -58,8 +58,9 @@
   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
   @wm-cap @a^  @s^  @d^  @f^  g    h    @j^  @k^  @l^  ;    '    ret
-  lsft 102d z    x    c    v    b    n    m    ,    .    /    rsft
-  lctl @super-exit lalt           spc            ralt @super-exit rctl
+  ;; Physical Shift and Ctrl disabled to encourage home-row modifiers.
+  XX   102d z    x    c    v    b    n    m    ,    .    /    XX
+  XX   @super-exit lalt           spc            ralt @super-exit XX
 )
 
 (deflayer meta-layer
