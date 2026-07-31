@@ -282,7 +282,7 @@ if [ -n "$DRY_RUN" ]; then
   echo "[dry-run] Machine '$MACHINE' resolved. Would apply (skipped):"
   echo "  link $TARGET_HOME/.config/nixos -> $NIXOS_DIR"
   echo "  link /etc/nixos/configuration.nix -> $MACHINES_DIR/$MACHINE/configuration.nix"
-  echo "  link machine *.nix (except default.nix, services.nix) into $NIXOS_DIR"
+  echo "  link machine *.nix (except default.nix, services.nix) + machine.toml into $NIXOS_DIR"
   echo "  link .system/users/$MAIN_USER.nix and .system/services into $NIXOS_DIR"
   echo ""
   echo "[dry-run] Done. Only the repo's machines/ and users/ were written."
@@ -323,6 +323,10 @@ for file in "$MACHINES_DIR/$MACHINE"/*.nix; do
     echo "    $filename -> .system/machines/$MACHINE/$filename"
   fi
 done
+
+# Symlink machine.toml to root (the edit path: micro ~/.config/nixos/machine.toml)
+ln -sfn ".system/machines/$MACHINE/machine.toml" "$NIXOS_DIR/machine.toml"
+echo "    machine.toml -> .system/machines/$MACHINE/machine.toml"
 
 # Symlink user file to root
 if [ -f "$USERS_DIR/$MAIN_USER.nix" ]; then

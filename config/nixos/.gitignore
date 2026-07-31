@@ -1,5 +1,6 @@
 # Auto-generated symlinks at root
 /*.nix
+/machine.toml
 /services
 
 CLAUDE.md
