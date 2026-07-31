@@ -117,9 +117,8 @@ create_machine() {
 
   echo "Creating new machine: $machine"
 
-  # hostName
-  read -rp "  Hostname [$machine]: " hostname_in
-  local host_name="${hostname_in:-$machine}"
+  # hostName == machine name (dir name is the network hostname)
+  local host_name="$machine"
 
   # main user (scaffold if missing)
   read -rp "  Main user [$(whoami)]: " user_in
