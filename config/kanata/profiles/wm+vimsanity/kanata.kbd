@@ -34,6 +34,9 @@
 (defalias
   meta (multi (on-release tap-vkey def) lmet (layer-while-held meta-layer))
   wm-cap (tap-hold-press $Tt $Ht (layer-switch vim-normal) @meta)
+  wm-cap-or-caps (switch
+    (lsft rsft) caps break
+    ((not lsft rsft)) @wm-cap break)
   super-exit (multi lmet @def)
 
   ;; Homerow mods
@@ -57,10 +60,9 @@
   esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
-  @wm-cap @a^  @s^  @d^  @f^  g    h    @j^  @k^  @l^  ;    '    ret
-  ;; Physical Shift and Ctrl disabled to encourage home-row modifiers.
-  XX   102d z    x    c    v    b    n    m    ,    .    /    XX
-  XX   @super-exit lalt           spc            ralt @super-exit XX
+  @wm-cap-or-caps @a^  @s^  @d^  @f^  g    h    @j^  @k^  @l^  ;    '    ret
+  lsft 102d z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl @super-exit lalt           spc            ralt @super-exit rctl
 )
 
 (deflayer meta-layer
