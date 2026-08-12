@@ -60,7 +60,7 @@ in
          gcc
         # claude-code
 
-         kitty-terminfo
+         kitty.terminfo
 
        ] ++ lib.optionals hasDesktop [
          xdotool
