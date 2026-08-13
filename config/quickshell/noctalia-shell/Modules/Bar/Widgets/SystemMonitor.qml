@@ -34,6 +34,7 @@ Rectangle {
   readonly property string barPosition: Settings.data.bar.position
   readonly property bool isVertical: barPosition === "left" || barPosition === "right"
   readonly property bool density: Settings.data.bar.density
+  readonly property int metricSpacing: Math.round(5 * Style.uiScaleRatio)
 
   readonly property bool usePrimaryColor: widgetSettings.usePrimaryColor !== undefined ? widgetSettings.usePrimaryColor : widgetMetadata.usePrimaryColor
   readonly property bool showCpuUsage: (widgetSettings.showCpuUsage !== undefined) ? widgetSettings.showCpuUsage : widgetMetadata.showCpuUsage
@@ -214,7 +215,7 @@ Rectangle {
     // CPU Usage Component
     Item {
       id: cpuUsageContainer
-      Layout.preferredWidth: isVertical ? root.width : iconSize + percentTextWidth + (Style.marginXXS)
+      Layout.preferredWidth: isVertical ? root.width : iconSize + percentTextWidth + metricSpacing
       Layout.preferredHeight: Style.capsuleHeight
       Layout.alignment: isVertical ? Qt.AlignHCenter : Qt.AlignVCenter
       visible: showCpuUsage
@@ -240,7 +241,7 @@ Rectangle {
         rows: isVertical ? 2 : 1
         columns: isVertical ? 1 : 2
         rowSpacing: Style.marginXXS
-        columnSpacing: Style.marginXXS
+        columnSpacing: metricSpacing
 
         Item {
           Layout.alignment: Qt.AlignCenter
@@ -275,7 +276,7 @@ Rectangle {
           font.weight: Style.fontWeightMedium
           Layout.alignment: Qt.AlignCenter
           Layout.preferredWidth: isVertical ? -1 : percentTextWidth
-          horizontalAlignment: isVertical ? Text.AlignHCenter : Text.AlignRight
+          horizontalAlignment: isVertical ? Text.AlignHCenter : Text.AlignLeft
           verticalAlignment: Text.AlignVCenter
           // Use highlight colors in vertical bar; otherwise invert text color to bar background when indicator active
           color: isVertical ? (cpuCritical ? criticalColor : (cpuWarning ? warningColor : textColor)) : ((cpuWarning || cpuCritical) ? Color.mSurfaceVariant : textColor)
@@ -425,7 +426,7 @@ Rectangle {
     // Memory Usage Component
     Item {
       id: memoryContainer
-      Layout.preferredWidth: isVertical ? root.width : iconSize + (showMemoryAsPercent ? percentTextWidth : memTextWidth) + (Style.marginXXS)
+      Layout.preferredWidth: isVertical ? root.width : iconSize + (showMemoryAsPercent ? percentTextWidth : memTextWidth) + metricSpacing
       Layout.preferredHeight: Style.capsuleHeight
       Layout.alignment: isVertical ? Qt.AlignHCenter : Qt.AlignVCenter
       visible: showMemoryUsage
@@ -451,7 +452,7 @@ Rectangle {
         rows: isVertical ? 2 : 1
         columns: isVertical ? 1 : 2
         rowSpacing: Style.marginXXS
-        columnSpacing: Style.marginXXS
+        columnSpacing: metricSpacing
 
         Item {
           Layout.alignment: Qt.AlignCenter
@@ -479,7 +480,7 @@ Rectangle {
           font.weight: Style.fontWeightMedium
           Layout.alignment: Qt.AlignCenter
           Layout.preferredWidth: isVertical ? -1 : (showMemoryAsPercent ? percentTextWidth : memTextWidth)
-          horizontalAlignment: isVertical ? Text.AlignHCenter : Text.AlignRight
+          horizontalAlignment: isVertical ? Text.AlignHCenter : Text.AlignLeft
           verticalAlignment: Text.AlignVCenter
           // Use highlight colors in vertical bar; otherwise invert text color to bar background when memory indicator active
           color: isVertical ? (memCritical ? criticalColor : (memWarning ? warningColor : textColor)) : ((memWarning || memCritical) ? Color.mSurfaceVariant : textColor)
