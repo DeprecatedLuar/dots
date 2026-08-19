@@ -1,0 +1,17 @@
+[shortcuts]
+# Hold an arrow key to move the pointer.
+"up.hold(20).repeat" = "ydotool mousemove -x 0 -y -12"
+"down.hold(20).repeat" = "ydotool mousemove -x 0 -y 12"
+"left.hold(20).repeat" = "ydotool mousemove -x -12 -y 0"
+"right.hold(20).repeat" = "ydotool mousemove -x 12 -y 0"
+
+# Hold Ctrl with an arrow key to scroll instead.
+"ctrl+up.hold(80).repeat" = ">scrollup"
+"ctrl+down.hold(80).repeat" = ">scrolldown"
+"ctrl+left.hold(80).repeat" = ">scrollleft"
+"ctrl+right.hold(80).repeat" = ">scrollright"
+
+# Mouse buttons.
+"102nd.pressrelease" = [">>lclick", "<lclick"]
+"shift+102nd" = ">rclick"
+"ctrl+102nd" = ">mclick"

@@ -1,0 +1,21 @@
+[settings]
+devices = ["Microsoft Xbox Series S|X Controller"]
+
+[shortcuts]
+# Left stick: relative cursor steps through ydotool.
+"lx-" = "ydotool mousemove -x -12 -y 0"
+"lx+" = "ydotool mousemove -x 12 -y 0"
+"ly-" = "ydotool mousemove -x 0 -y -12"
+"ly+" = "ydotool mousemove -x 0 -y 12"
+
+# Right stick: vertical and horizontal scrolling.
+"rx-" = ">scrollleft"
+"rx+" = ">scrollright"
+"ry-" = ">scrollup"
+"ry+" = ">scrolldown"
+
+# D-pad: hold the matching arrow key until release.
+"gp_up.pressrelease" = [">>up", "<up"]
+"gp_down.pressrelease" = [">>down", "<down"]
+"gp_left.pressrelease" = [">>left", "<left"]
+"gp_right.pressrelease" = [">>right", "<right"]

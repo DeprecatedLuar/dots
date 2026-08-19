@@ -37,6 +37,15 @@ env_file = "~/.profile"
 #"super+3" = "workspace3"
 #"super+4" = "workspace4"
 
+#"alt+h.hold(20).repeat" = "ydotool mousemove -x -12 -y 0"
+#"alt+j.hold(20).repeat" = "ydotool mousemove -x 0 -y 12"
+#"alt+k.hold(20).repeat" = "ydotool mousemove -x 0 -y -12"
+#"alt+l.hold(20).repeat" = "ydotool mousemove -x 12 -y 0"
+
+#"alt+d" = ">rclick"
+#"ctrl+f" = ">lclick"
+
+
 #-[UTILS]------------------------------------
 
 "print" = "grimblast -f -n copysave area ~/Media/screenshots/latest.png"
@@ -48,11 +57,9 @@ env_file = "~/.profile"
 
 "super+y" = "yap toggle & sleep 3 && tcpeek reconnect"
 
-"102nd.pressrelease" = [">>lclick", "<lclick"]
-
 "shift+mute" = ">ctrl+shift+m"
 
-"ro" = "nix-shell -p tesseract translate-shell --run '~/Workspace/dev/scripts/scrtrans/scrtrans rus en'"
+#"ro" = "nix-shell -p tesseract translate-shell --run '~/Workspace/dev/scripts/scrtrans/scrtrans rus en'"
 
 #-[MEDIA KEYS]-------------------------------
 
@@ -70,8 +77,8 @@ env_file = "~/.profile"
 "brightnessup" = "brightness_up"
 "brightnessdown" = "brightness_down"
 
-"brightnessup.hold.repeat" = "sunset +1"
-"brightnessdown.hold.repeat" = "sunset -1"
+#"brightnessup.hold.repeat" = "sunset +1"
+#"brightnessdown.hold.repeat" = "sunset -1"
 
 "play" = "media_play_pause"
 "nextsong" = "media_next"
@@ -81,8 +88,8 @@ env_file = "~/.profile"
 "ctrl+volumeup" = "mic_up"
 "ctrl+volumedown" = "mic_down"
 
-"ctl+brightnessup" = "sunset temp -350"
-"ctl+brightnessdown" = "sunset temp +350"
+"ctl+brightnessup" = "sunset temp -250"
+"ctl+brightnessdown" = "sunset temp +250"
 
 #"shift+brightnessup" = "brightness_up"
 

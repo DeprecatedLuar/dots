@@ -36,6 +36,12 @@ in
     adw-gtk3    
     zathura
     wl-clipboard
+    # Multi-MIME clipboard client deps: wl-copy can only advertise a single
+    # MIME type per offer, so file copies need a GTK client that advertises
+    # text/uri-list and x-special/gnome-copied-files together (like PCManFM).
+    gtk3
+    gobject-introspection
+    (python3.withPackages (ps: with ps; [ pygobject3 ]))
     wtype
     playerctl
     xfce.tumbler
@@ -62,6 +68,11 @@ in
     #hyprmon
     swayimg
   ];
+
+  # GObject-introspection typelibs are not linked into the system profile by
+  # default; PyGObject needs both the link and the path to resolve namespaces.
+  environment.pathsToLink = [ "/lib/girepository-1.0" ];
+  environment.sessionVariables.GI_TYPELIB_PATH = "/run/current-system/sw/lib/girepository-1.0";
 
   services.flatpak.enable = true;
   xdg.portal.enable = true;  # Required for Flatpak and desktop integration
