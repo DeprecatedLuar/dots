@@ -2,3 +2,6 @@
 _*
 *.pid
 *.log
+
+# Lives in its own repository (see 3ca32e8)
+config/quickshell/noctalia-shell
