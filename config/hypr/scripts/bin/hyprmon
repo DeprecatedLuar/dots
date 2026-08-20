@@ -24,9 +24,6 @@ DEFAULT_RESOLUTION="preferred"
 DEFAULT_SCALE="1.0"
 DEFAULT_POSITION="auto"
 CENTER_POSITION="0x0"
-# Below this, a query is too generic to fuzzy-match a model/description safely
-# ("1" is a substring of most descriptions).
-MIN_FUZZY_QUERY_LEN=3
 # Blank columns between the longest monitor name and the "(info)" column.
 INFO_COLUMN_GAP=2
 # Time for the DRM output to actually go down before it is brought back up.
@@ -177,12 +174,12 @@ config_sources_conf() {
 
 domain_normalize_direction() {
     case "${1,,}" in
-        left|west|l|w)         echo "left" ;;
-        right|east|r|e)        echo "right" ;;
-        up|top|north|u|n)      echo "up" ;;
-        down|bottom|south|d|s) echo "down" ;;
-        center|middle|c|m)     echo "center" ;;
-        *)                     echo "unknown" ;;
+        left|west|l|w)          echo "left" ;;
+        right|east|r|e)         echo "right" ;;
+        up|top|north|u|n)       echo "up" ;;
+        down|bottom|south|d|s)  echo "down" ;;
+        center)                 echo "center" ;;
+        *)                      echo "unknown" ;;
     esac
 }
 
@@ -194,7 +191,7 @@ domain_default_center() {
 # Resolves a user-supplied name to a canonical port. Returns 1 when nothing
 # matches, so a typo can never be written into the state file as a "port".
 domain_resolve_canonical_name() {
-    local query="$1" state="$2" live_monitors="$3"
+    local query="$1" state="$2"
 
     local aliased
     aliased=$(jq -r --arg q "$query" '.aliases[$q] // empty' <<< "$state")
@@ -211,13 +208,13 @@ domain_resolve_canonical_name() {
         fi
     done < <(drm_list_all_ports)
 
-    if (( ${#query} >= MIN_FUZZY_QUERY_LEN )); then
-        local by_desc
-        by_desc=$(jq -r --arg q "${query,,}" '
-            first(.[] | select(((.model // "") + " " + (.description // "")) | ascii_downcase | contains($q)) | .name) // empty
-        ' <<< "$live_monitors")
-        if [[ -n "$by_desc" ]]; then
-            echo "$by_desc"
+    local dir
+    dir=$(domain_normalize_direction "$query")
+    if [[ "$dir" != "unknown" ]]; then
+        local slotted
+        slotted=$(jq -r --arg d "$dir" '.slots[$d] // empty' <<< "$state")
+        if [[ -n "$slotted" ]]; then
+            echo "$slotted"
             return 0
         fi
     fi
@@ -318,9 +315,13 @@ domain_conf_body() {
 # The only resolver callers should use: turns a resolution failure into a
 # message plus a nonzero exit instead of a silently invented port name.
 app_resolve() {
-    local query="$1" state="$2" live_monitors="$3" resolved
-    if ! resolved=$(domain_resolve_canonical_name "$query" "$state" "$live_monitors"); then
-        echo "hyprmon: no such monitor '$query'" >&2
+    local query="$1" state="$2" resolved
+    if ! resolved=$(domain_resolve_canonical_name "$query" "$state"); then
+        if [[ "$(domain_normalize_direction "$query")" != "unknown" ]]; then
+            echo "hyprmon: no monitor in slot '$query'" >&2
+        else
+            echo "hyprmon: no such monitor '$query'" >&2
+        fi
         return 1
     fi
     echo "$resolved"
@@ -382,12 +383,11 @@ EOF
 app_redraw() {
     local target_query="$1"
 
-    local state live_monitors
+    local state
     state=$(store_read)
-    live_monitors=$(hypr_get_monitors)
 
     local target name
-    target=$(app_resolve "$target_query" "$state" "$live_monitors") || return 1
+    target=$(app_resolve "$target_query" "$state") || return 1
     name=$(domain_get_display_name "$target" "$state")
     app_require_connected "$target" "$name" || return 1
 
@@ -417,56 +417,24 @@ app_place() {
         return 1
     fi
 
-    local state live_monitors
+    local state
     state=$(store_read)
-    live_monitors=$(hypr_get_monitors)
 
     local target name
-    target=$(app_resolve "$target_query" "$state" "$live_monitors") || return 1
+    target=$(app_resolve "$target_query" "$state") || return 1
     name=$(domain_get_display_name "$target" "$state")
     app_require_connected "$target" "$name" || return 1
 
-    if [[ "$dir" == "center" ]]; then
-        # The displaced center (if any) falls into whichever slot the target
-        # vacated. Falling back to a default here would be wrong: an empty
-        # center means nothing to displace, not "put the default center back".
-        local old_center vacated
-        old_center=$(jq -r '.slots.center // empty' <<< "$state")
-        vacated=$(jq -r --arg t "$target" \
-            'first(.slots | to_entries[] | select(.value == $t and .key != "center") | .key) // empty' <<< "$state")
-
-        state=$(jq --arg t "$target" --arg old "$old_center" --arg vacated "$vacated" '
-            .slots.center = $t |
-            (if $vacated != "" then .slots[$vacated] = (if $old == "" then null else $old end) else . end) |
-            del(.disabled[$t])
-        ' <<< "$state")
-    else
-        # Every relative position resolves against center, so it can never be
-        # emptied by a plain move — only a swap with another monitor may take
-        # the center monitor's place.
-        if [[ "$(jq -r '.slots.center // empty' <<< "$state")" == "$target" ]]; then
-            echo "hyprmon: '$name' is the center; swap it with another monitor instead" >&2
-            echo "Use 'hyprmon mv $name <other_monitor>' to swap them." >&2
-            return 1
-        fi
-
-        local occupant
-        occupant=$(jq -r --arg s "$dir" '.slots[$s] // empty' <<< "$state")
-        if [[ -n "$occupant" && "$occupant" != "$target" \
-              && "$(drm_get_port_status "$occupant")" == "connected" ]]; then
-            local occupant_name
-            occupant_name=$(domain_get_display_name "$occupant" "$state")
-            echo "hyprmon: slot '$dir' is occupied by '$occupant_name'" >&2
-            echo "Use 'hyprmon mv $name $occupant_name' to swap them." >&2
-            return 1
-        fi
-
-        state=$(jq --arg t "$target" --arg dir "$dir" '
-            .slots |= with_entries(if .value == $t then .value = null else . end) |
-            .slots[$dir] = $t |
-            del(.disabled[$t])
-        ' <<< "$state")
-    fi
+    # Move the target into $dir. Whoever was in $dir (if anyone) falls back
+    # into the slot the target vacated (if any) — empty destination is a
+    # plain move, occupied destination is a swap, same transform either way.
+    state=$(jq --arg t "$target" --arg dir "$dir" '
+        .slots[$dir] as $occupant |
+        (first(.slots | to_entries[] | select(.value == $t) | .key) // null) as $vacated |
+        .slots[$dir] = $t |
+        (if $vacated != null and $vacated != $dir then .slots[$vacated] = $occupant else . end) |
+        del(.disabled[$t])
+    ' <<< "$state")
 
     store_write "$state"
     app_sync
@@ -482,7 +450,7 @@ app_mirror() {
     live_monitors=$(hypr_get_monitors)
 
     local target name center
-    target=$(app_resolve "$target_query" "$state" "$live_monitors") || return 1
+    target=$(app_resolve "$target_query" "$state") || return 1
     name=$(domain_get_display_name "$target" "$state")
     app_require_connected "$target" "$name" || return 1
     center=$(jq -r '.slots.center // empty' <<< "$state")
@@ -490,7 +458,7 @@ app_mirror() {
 
     local src src_name
     src="${src_query:-$center}"
-    src=$(app_resolve "$src" "$state" "$live_monitors") || return 1
+    src=$(app_resolve "$src" "$state") || return 1
     src_name=$(domain_get_display_name "$src" "$state")
     app_require_connected "$src" "$src_name" || return 1
 
@@ -512,12 +480,11 @@ app_mirror() {
 app_extend() {
     local target_query="$1"
 
-    local state live_monitors
+    local state
     state=$(store_read)
-    live_monitors=$(hypr_get_monitors)
 
     local target name
-    target=$(app_resolve "$target_query" "$state" "$live_monitors") || return 1
+    target=$(app_resolve "$target_query" "$state") || return 1
     name=$(domain_get_display_name "$target" "$state")
     app_require_connected "$target" "$name" || return 1
 
@@ -539,37 +506,6 @@ app_extend() {
     app_redraw "$target"
 }
 
-app_swap() {
-    local query1="$1" query2="$2"
-
-    local state live_monitors
-    state=$(store_read)
-    live_monitors=$(hypr_get_monitors)
-
-    local mon1 mon2
-    mon1=$(app_resolve "$query1" "$state" "$live_monitors") || return 1
-    mon2=$(app_resolve "$query2" "$state" "$live_monitors") || return 1
-    app_require_connected "$mon1" "$(domain_get_display_name "$mon1" "$state")" || return 1
-    app_require_connected "$mon2" "$(domain_get_display_name "$mon2" "$state")" || return 1
-
-    local slot1 slot2
-    slot1=$(jq -r --arg m "$mon1" 'first(.slots | to_entries[] | select(.value == $m) | .key) // empty' <<< "$state")
-    slot2=$(jq -r --arg m "$mon2" 'first(.slots | to_entries[] | select(.value == $m) | .key) // empty' <<< "$state")
-
-    if [[ -z "$slot1" && -z "$slot2" ]]; then
-        echo "hyprmon: neither monitor occupies a slot" >&2
-        return 1
-    fi
-
-    state=$(jq --arg m1 "$mon1" --arg m2 "$mon2" --arg s1 "$slot1" --arg s2 "$slot2" '
-        (if $s1 != "" then .slots[$s1] = $m2 else . end) |
-        (if $s2 != "" then .slots[$s2] = $m1 else . end)
-    ' <<< "$state")
-
-    store_write "$state"
-    app_sync
-}
-
 app_mv() {
     local target_query="$1" dest="$2"
 
@@ -580,20 +516,35 @@ app_mv() {
             ;;
     esac
 
+    # Resolved to a port up front and reused throughout: target_query may be a
+    # positional selector (e.g. "left"), and the move itself can change which
+    # monitor that word refers to, so re-resolving it afterwards would be
+    # querying stale state.
+    local state target
+    state=$(store_read)
+    target=$(app_resolve "$target_query" "$state") || return 1
+
     local dir
     dir=$(domain_normalize_direction "$dest")
-    if [[ "$dir" != "unknown" ]]; then
-        app_place "$target_query" "$dir" || return 1
-    else
-        app_swap "$target_query" "$dest" || return 1
+    if [[ "$dir" == "unknown" ]]; then
+        # Destination names a monitor, not a direction: move the target into
+        # whatever slot that monitor occupies (swapping the two).
+        local dest_port
+        dest_port=$(app_resolve "$dest" "$state") || return 1
+        dir=$(jq -r --arg p "$dest_port" \
+            'first(.slots | to_entries[] | select(.value == $p) | .key) // empty' <<< "$state")
+        if [[ -z "$dir" ]]; then
+            echo "hyprmon: '$dest' occupies no slot" >&2
+            return 1
+        fi
     fi
+
+    app_place "$target" "$dir" || return 1
 
     # A mirroring monitor's desired rule is unchanged by a slot move, so an
     # off/on cycle here would just flicker the screen for nothing.
-    local state live_monitors target name mirror_src
+    local name mirror_src
     state=$(store_read)
-    live_monitors=$(hypr_get_monitors)
-    target=$(app_resolve "$target_query" "$state" "$live_monitors") || return 1
     name=$(domain_get_display_name "$target" "$state")
     mirror_src=$(jq -r --arg t "$target" '.mirrors[$t] // empty' <<< "$state")
 
@@ -607,19 +558,18 @@ app_mv() {
     # Repositioning leaves the layer-shell surfaces bound to that output stale
     # (wallpaper goes black). Only an off/on cycle rebuilds them, so the move is
     # not finished until the output has been redrawn.
-    app_redraw "$target_query"
+    app_redraw "$target"
     report_done
 }
 
 app_set_property() {
     local field="$1" target_query="$2" value="$3"
 
-    local state live_monitors
+    local state
     state=$(store_read)
-    live_monitors=$(hypr_get_monitors)
 
     local target
-    target=$(app_resolve "$target_query" "$state" "$live_monitors") || return 1
+    target=$(app_resolve "$target_query" "$state") || return 1
     app_require_connected "$target" "$(domain_get_display_name "$target" "$state")" || return 1
 
     state=$(jq --arg f "$field" --arg t "$target" --arg v "$value" '.[$f][$t] = $v' <<< "$state")
@@ -648,12 +598,11 @@ app_set_scale() {
 app_forget() {
     local target_query="$1"
 
-    local state live_monitors
+    local state
     state=$(store_read)
-    live_monitors=$(hypr_get_monitors)
 
     local target name
-    target=$(app_resolve "$target_query" "$state" "$live_monitors") || return 1
+    target=$(app_resolve "$target_query" "$state") || return 1
     name=$(domain_get_display_name "$target" "$state")
 
     local saved
@@ -688,12 +637,11 @@ app_forget() {
 app_toggle() {
     local target_query="$1" action="$2"
 
-    local state live_monitors
+    local state
     state=$(store_read)
-    live_monitors=$(hypr_get_monitors)
 
     local target
-    target=$(app_resolve "$target_query" "$state" "$live_monitors") || return 1
+    target=$(app_resolve "$target_query" "$state") || return 1
     app_require_connected "$target" "$(domain_get_display_name "$target" "$state")" || return 1
 
     if [[ "$action" == "disable" ]]; then
@@ -714,10 +662,9 @@ app_toggle() {
 app_alias() {
     local target_query="$1" alias_name="$2"
 
-    local state live_monitors target
+    local state target
     state=$(store_read)
-    live_monitors=$(hypr_get_monitors)
-    target=$(app_resolve "$target_query" "$state" "$live_monitors") || return 1
+    target=$(app_resolve "$target_query" "$state") || return 1
 
     store_write "$(jq --arg a "$alias_name" --arg t "$target" '.aliases[$a] = $t' <<< "$state")"
     printf "+ %s (%s)\n" "$alias_name" "$target"
@@ -825,7 +772,7 @@ app_get() {
     live_monitors=$(hypr_get_monitors)
 
     local target name
-    target=$(app_resolve "$target_query" "$state" "$live_monitors") || return 1
+    target=$(app_resolve "$target_query" "$state") || return 1
     name=$(domain_get_display_name "$target" "$state")
 
     local status
@@ -956,8 +903,12 @@ Usage:
   hyprmon alias|add <port> <alias>
   hyprmon rename <old_alias> <new_alias>
 
-Directions:
+Positions:
   left, right, up, down, center
+
+A position also names whatever monitor is in that slot:
+  hyprmon mv left right      move/swap the left monitor into the right slot
+  hyprmon get center
 EOF
 }
 
