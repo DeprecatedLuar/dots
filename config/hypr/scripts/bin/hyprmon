@@ -112,6 +112,8 @@ store_ensure_initialized() {
 store_read() {
     store_ensure_initialized
     # The schema. Also backfills keys added after a state file was first written.
+    # .applied was a cache of the last pushed rules; app_sync no longer diffs
+    # against anything, so it is dropped from any state file that still has it.
     jq '
         .aliases     //= {} |
         .slots       //= {} |
@@ -119,7 +121,7 @@ store_read() {
         .disabled    //= {} |
         .resolutions //= {} |
         .scales      //= {} |
-        .applied     //= {}
+        del(.applied)
     ' "$STATE_FILE"
 }
 
@@ -180,7 +182,6 @@ domain_normalize_direction() {
         up|top|north|u|n)      echo "up" ;;
         down|bottom|south|d|s) echo "down" ;;
         center|middle|c|m)     echo "center" ;;
-        mirror|clone)          echo "mirror" ;;
         *)                     echo "unknown" ;;
     esac
 }
@@ -336,11 +337,16 @@ app_require_connected() {
     fi
 }
 
-# The ONLY function that talks to the compositor. Pushes just the monitors whose
-# desired rule differs from what was last pushed, so no-op commands stay no-ops.
-app_apply() {
-    local force="${1:-false}"
-
+# Self-heal, run on every invocation: regenerates monitors.conf from the state
+# file and pushes every rule hyprmon owns.
+#
+# Unconditionally, with no diff against a cache of what was pushed before. Such a
+# cache is a claim about state hyprmon does not own: after a prolonged DPMS-off
+# cycle or a hotplug, Hyprland re-adds the output at its own defaults, the cache
+# still says "already applied", and the drift sticks. Re-pushing an unchanged
+# rule is a no-op to the compositor, so pushing everything costs nothing and is
+# always correct.
+app_sync() {
     if ! config_sources_conf; then
         cat >&2 << EOF
 hyprmon: hyprland.conf is missing the monitors.conf source line.
@@ -356,27 +362,17 @@ EOF
     local state
     state=$(store_read)
 
-    local rules=() pairs=() applied_json="{}"
-    local port desired previous
+    local rules=() pairs=()
+    local port desired
     while IFS=$'\t' read -r port desired; do
-        applied_json=$(jq --arg p "$port" --arg r "$desired" '.[$p] = $r' <<< "$applied_json")
         pairs+=("${port}"$'\t'"${desired}")
-
-        previous=$(jq -r --arg p "$port" '.applied[$p] // empty' <<< "$state")
-        if [[ "$force" == "true" || "$desired" != "$previous" ]]; then
-            rules+=("$desired")
-        fi
+        rules+=("$desired")
     done < <(domain_desired_rules "$state")
 
     hypr_apply_rules "${rules[@]}"
 
-    # Regenerated on every apply: this is what survives the next config reload.
+    # Regenerated on every sync: this is what survives the next config reload.
     store_write_conf "$(domain_conf_body "$(jq -r '.slots.center // empty' <<< "$state")" "${pairs[@]}")"
-
-    # Rebuild .applied from scratch so ports that stopped being managed drop out.
-    store_write "$(jq --argjson a "$applied_json" '.applied = $a' <<< "$state")"
-
-    echo "${#rules[@]}"
 }
 
 # Tears the output down and brings it back with its saved rule. For monitors
@@ -409,8 +405,10 @@ app_redraw() {
     hypr_apply_rules "$rule"
 }
 
+# Position only — never touches .mirrors. A monitor's slot is where it sits
+# when extending; mirroring is an independent mode layered on top of it.
 app_place() {
-    local target_query="$1" raw_direction="$2" extra_src="${3:-}"
+    local target_query="$1" raw_direction="$2"
 
     local dir
     dir=$(domain_normalize_direction "$raw_direction")
@@ -423,6 +421,66 @@ app_place() {
     state=$(store_read)
     live_monitors=$(hypr_get_monitors)
 
+    local target name
+    target=$(app_resolve "$target_query" "$state" "$live_monitors") || return 1
+    name=$(domain_get_display_name "$target" "$state")
+    app_require_connected "$target" "$name" || return 1
+
+    if [[ "$dir" == "center" ]]; then
+        # The displaced center (if any) falls into whichever slot the target
+        # vacated. Falling back to a default here would be wrong: an empty
+        # center means nothing to displace, not "put the default center back".
+        local old_center vacated
+        old_center=$(jq -r '.slots.center // empty' <<< "$state")
+        vacated=$(jq -r --arg t "$target" \
+            'first(.slots | to_entries[] | select(.value == $t and .key != "center") | .key) // empty' <<< "$state")
+
+        state=$(jq --arg t "$target" --arg old "$old_center" --arg vacated "$vacated" '
+            .slots.center = $t |
+            (if $vacated != "" then .slots[$vacated] = (if $old == "" then null else $old end) else . end) |
+            del(.disabled[$t])
+        ' <<< "$state")
+    else
+        # Every relative position resolves against center, so it can never be
+        # emptied by a plain move — only a swap with another monitor may take
+        # the center monitor's place.
+        if [[ "$(jq -r '.slots.center // empty' <<< "$state")" == "$target" ]]; then
+            echo "hyprmon: '$name' is the center; swap it with another monitor instead" >&2
+            echo "Use 'hyprmon mv $name <other_monitor>' to swap them." >&2
+            return 1
+        fi
+
+        local occupant
+        occupant=$(jq -r --arg s "$dir" '.slots[$s] // empty' <<< "$state")
+        if [[ -n "$occupant" && "$occupant" != "$target" \
+              && "$(drm_get_port_status "$occupant")" == "connected" ]]; then
+            local occupant_name
+            occupant_name=$(domain_get_display_name "$occupant" "$state")
+            echo "hyprmon: slot '$dir' is occupied by '$occupant_name'" >&2
+            echo "Use 'hyprmon mv $name $occupant_name' to swap them." >&2
+            return 1
+        fi
+
+        state=$(jq --arg t "$target" --arg dir "$dir" '
+            .slots |= with_entries(if .value == $t then .value = null else . end) |
+            .slots[$dir] = $t |
+            del(.disabled[$t])
+        ' <<< "$state")
+    fi
+
+    store_write "$state"
+    app_sync
+}
+
+# Mode only — never touches .slots, so the monitor keeps its position for
+# when it later extends again.
+app_mirror() {
+    local target_query="$1" src_query="${2:-}"
+
+    local state live_monitors
+    state=$(store_read)
+    live_monitors=$(hypr_get_monitors)
+
     local target name center
     target=$(app_resolve "$target_query" "$state" "$live_monitors") || return 1
     name=$(domain_get_display_name "$target" "$state")
@@ -430,58 +488,55 @@ app_place() {
     center=$(jq -r '.slots.center // empty' <<< "$state")
     [[ -n "$center" ]] || center=$(domain_default_center "$live_monitors")
 
-    case "$dir" in
-        center)
-            # The displaced center falls into whichever slot the target vacated.
-            local vacated
-            vacated=$(jq -r --arg t "$target" \
-                'first(.slots | to_entries[] | select(.value == $t and .key != "center") | .key) // empty' <<< "$state")
+    local src src_name
+    src="${src_query:-$center}"
+    src=$(app_resolve "$src" "$state" "$live_monitors") || return 1
+    src_name=$(domain_get_display_name "$src" "$state")
+    app_require_connected "$src" "$src_name" || return 1
 
-            state=$(jq --arg t "$target" --arg old "$center" --arg vacated "$vacated" '
-                .slots.center = $t |
-                (if $vacated != "" then .slots[$vacated] = $old else . end) |
-                del(.mirrors[$t]) | del(.disabled[$t])
-            ' <<< "$state")
-            ;;
-        mirror)
-            local src src_name
-            src="${extra_src:-$center}"
-            src=$(app_resolve "$src" "$state" "$live_monitors") || return 1
-            src_name=$(domain_get_display_name "$src" "$state")
-            app_require_connected "$src" "$src_name" || return 1
+    if [[ "$src" == "$target" ]]; then
+        echo "hyprmon: '$name' cannot mirror itself" >&2
+        return 1
+    fi
 
-            if [[ "$src" == "$target" ]]; then
-                echo "hyprmon: '$name' cannot mirror itself" >&2
-                return 1
-            fi
-
-            state=$(jq --arg t "$target" --arg s "$src" '
-                .slots |= with_entries(if .value == $t then .value = null else . end) |
-                .mirrors[$t] = $s | del(.disabled[$t])
-            ' <<< "$state")
-            ;;
-        *)
-            local occupant
-            occupant=$(jq -r --arg s "$dir" '.slots[$s] // empty' <<< "$state")
-            if [[ -n "$occupant" && "$occupant" != "$target" \
-                  && "$(drm_get_port_status "$occupant")" == "connected" ]]; then
-                local occupant_name
-                occupant_name=$(domain_get_display_name "$occupant" "$state")
-                echo "hyprmon: slot '$dir' is occupied by '$occupant_name'" >&2
-                echo "Use 'hyprmon mv $name $occupant_name' to swap them." >&2
-                return 1
-            fi
-
-            state=$(jq --arg t "$target" --arg dir "$dir" '
-                .slots |= with_entries(if .value == $t then .value = null else . end) |
-                .slots[$dir] = $t |
-                del(.mirrors[$t]) | del(.disabled[$t])
-            ' <<< "$state")
-            ;;
-    esac
+    state=$(jq --arg t "$target" --arg s "$src" '
+        .mirrors[$t] = $s | del(.disabled[$t])
+    ' <<< "$state")
 
     store_write "$state"
-    app_apply >/dev/null
+    app_sync
+    app_redraw "$target"
+}
+
+# Drops mirror mode and returns the monitor to its saved slot.
+app_extend() {
+    local target_query="$1"
+
+    local state live_monitors
+    state=$(store_read)
+    live_monitors=$(hypr_get_monitors)
+
+    local target name
+    target=$(app_resolve "$target_query" "$state" "$live_monitors") || return 1
+    name=$(domain_get_display_name "$target" "$state")
+    app_require_connected "$target" "$name" || return 1
+
+    if [[ "$(jq -r --arg t "$target" '.mirrors[$t] // empty' <<< "$state")" == "" ]]; then
+        echo "hyprmon: '$name' is not mirroring" >&2
+        return 1
+    fi
+
+    if [[ "$(jq -r --arg t "$target" \
+          'first(.slots | to_entries[] | select(.value == $t) | .key) // empty' <<< "$state")" == "" ]]; then
+        echo "hyprmon: no saved position for '$name'" >&2
+        echo "use: hyprmon mv $name <left|right|up|down>" >&2
+        return 1
+    fi
+
+    state=$(jq --arg t "$target" 'del(.mirrors[$t])' <<< "$state")
+    store_write "$state"
+    app_sync
+    app_redraw "$target"
 }
 
 app_swap() {
@@ -512,11 +567,18 @@ app_swap() {
     ' <<< "$state")
 
     store_write "$state"
-    app_apply >/dev/null
+    app_sync
 }
 
 app_mv() {
     local target_query="$1" dest="$2"
+
+    case "${dest,,}" in
+        mirror|clone)
+            echo "hyprmon: use 'hyprmon mirror $target_query' to mirror a monitor" >&2
+            return 1
+            ;;
+    esac
 
     local dir
     dir=$(domain_normalize_direction "$dest")
@@ -526,10 +588,27 @@ app_mv() {
         app_swap "$target_query" "$dest" || return 1
     fi
 
+    # A mirroring monitor's desired rule is unchanged by a slot move, so an
+    # off/on cycle here would just flicker the screen for nothing.
+    local state live_monitors target name mirror_src
+    state=$(store_read)
+    live_monitors=$(hypr_get_monitors)
+    target=$(app_resolve "$target_query" "$state" "$live_monitors") || return 1
+    name=$(domain_get_display_name "$target" "$state")
+    mirror_src=$(jq -r --arg t "$target" '.mirrors[$t] // empty' <<< "$state")
+
+    if [[ -n "$mirror_src" ]]; then
+        printf "saved: %s -> %s\n" "$name" "$dest"
+        printf "%s is mirroring %s; run 'hyprmon extend %s' to apply\n" \
+            "$name" "$(domain_get_display_name "$mirror_src" "$state")" "$name"
+        return 0
+    fi
+
     # Repositioning leaves the layer-shell surfaces bound to that output stale
     # (wallpaper goes black). Only an off/on cycle rebuilds them, so the move is
     # not finished until the output has been redrawn.
     app_redraw "$target_query"
+    report_done
 }
 
 app_set_property() {
@@ -545,7 +624,7 @@ app_set_property() {
 
     state=$(jq --arg f "$field" --arg t "$target" --arg v "$value" '.[$f][$t] = $v' <<< "$state")
     store_write "$state"
-    app_apply >/dev/null
+    app_sync
 }
 
 app_set_resolution() {
@@ -564,8 +643,8 @@ app_set_scale() {
     app_set_property "scales" "$1" "$2"
 }
 
-# Drops every saved setting for a monitor and hands it back to Hyprland's
-# own runtime defaults (preferred mode, auto position, scale 1).
+# Drops every saved setting for a monitor — aliases included — and hands it back
+# to Hyprland's own runtime defaults (preferred mode, auto position, scale 1).
 app_forget() {
     local target_query="$1"
 
@@ -580,6 +659,7 @@ app_forget() {
     local saved
     saved=$(jq -r --arg t "$target" '
         [ (.slots | to_entries[] | select(.value == $t)),
+          (.aliases     | to_entries[] | select(.value == $t)),
           (.mirrors     | to_entries[] | select(.key == $t)),
           (.disabled    | to_entries[] | select(.key == $t)),
           (.resolutions | to_entries[] | select(.key == $t)),
@@ -592,14 +672,15 @@ app_forget() {
     fi
 
     state=$(jq --arg t "$target" '
-        .slots |= with_entries(if .value == $t then .value = null else . end) |
+        .slots   |= with_entries(if .value == $t then .value = null else . end) |
+        .aliases |= with_entries(select(.value != $t)) |
         del(.mirrors[$t]) | del(.disabled[$t]) |
-        del(.resolutions[$t]) | del(.scales[$t]) | del(.applied[$t])
+        del(.resolutions[$t]) | del(.scales[$t])
     ' <<< "$state")
     store_write "$state"
 
     hypr_apply_rules "$(domain_default_rule "$target")"
-    app_apply >/dev/null
+    app_sync
 
     printf -- "- %s  (reset to runtime defaults)\n" "$name"
 }
@@ -622,7 +703,7 @@ app_toggle() {
     fi
 
     store_write "$state"
-    app_apply >/dev/null
+    app_sync
 
     local mark="+"
     [[ "$action" == "disable" ]] && mark="~"
@@ -640,19 +721,6 @@ app_alias() {
 
     store_write "$(jq --arg a "$alias_name" --arg t "$target" '.aliases[$a] = $t' <<< "$state")"
     printf "+ %s (%s)\n" "$alias_name" "$target"
-}
-
-app_unalias() {
-    local alias_name="$1" state
-    state=$(store_read)
-
-    if [[ -z "$(jq -r --arg a "$alias_name" '.aliases[$a] // empty' <<< "$state")" ]]; then
-        echo "hyprmon: alias '$alias_name' not found" >&2
-        return 1
-    fi
-
-    store_write "$(jq --arg a "$alias_name" 'del(.aliases[$a])' <<< "$state")"
-    printf -- "- %s\n" "$alias_name"
 }
 
 app_rename() {
@@ -675,7 +743,7 @@ app_rename() {
 # VIEW
 # ==============================================================================
 
-# Layout commands (place, move, swap, redraw, res, scale, apply) have no result
+# Layout commands (mv, mirror, redraw, res, scale) have no result
 # worth restating — the monitors themselves are the feedback. Commands that
 # change the saved set (enable/disable, alias, rm) print their own +/-/~ line.
 report_done() {
@@ -727,11 +795,9 @@ view_render_monitor() {
     center=$(jq -r '.slots.center // empty' <<< "$state")
     slot=$(jq -r --arg p "$port" 'first(.slots | to_entries[] | select(.value == $p) | .key) // empty' <<< "$state")
 
-    local disabled mirror
-    IFS=$'\t' read -r disabled mirror < <(jq -r --arg p "$port" '
-        first(.[] | select(.name == $p)) as $m |
-        [ ($m.disabled // false | tostring), ($m.mirrorOf // "none") ] | @tsv
-    ' <<< "$live_monitors")
+    local disabled
+    disabled=$(jq -r --arg p "$port" \
+        'first(.[] | select(.name == $p)) | .disabled // false' <<< "$live_monitors")
 
     local display_name="$name"
     [[ "$port" == "$center" ]] && display_name="${BOLD}${name}${RESET}"
@@ -741,9 +807,9 @@ view_render_monitor() {
 
     if [[ "$disabled" == "true" ]]; then
         info="disabled"
-    elif [[ "$mirror" != "none" && -n "$mirror" ]]; then
-        info="mirror -> $(domain_get_display_name "$mirror" "$state")"
     else
+        # Mirror source is already implied by the tree prefix (the "└─" under
+        # its parent), so the slot alone is the useful thing to show here.
         info="$slot"
     fi
 
@@ -778,6 +844,7 @@ app_get() {
     mirror_src=$(jq -r --arg p "$target" '.mirrors[$p] // empty' <<< "$state")
 
     printf "$row_fmt" "slot" "$slot"
+    printf "$row_fmt" "mode" "$([[ -n "$mirror_src" ]] && echo mirror || echo extend)"
     [[ -n "$mirror_src" ]] && printf "$row_fmt" "mirrors" "$(domain_get_display_name "$mirror_src" "$state")"
 
     printf "$row_fmt" "saved res" "$(jq -r --arg p "$target" --arg d "$DEFAULT_RESOLUTION" '.resolutions[$p] // "\($d) (default)"' <<< "$state")"
@@ -874,34 +941,23 @@ app_list() {
 
 show_help() {
     cat << 'EOF'
-hyprmon - human-friendly hyprland monitor manager
-
 Usage:
   hyprmon                                 list monitors
   hyprmon ls|list [-a|--all]
   hyprmon get <name>                      full detail: saved config + live state
-  hyprmon center|left|right|up|down [name]
-  hyprmon mirror [name] [source]
+  hyprmon mv [name] <direction|other_monitor>
+  hyprmon mirror [source] [destination]   destination becomes a mirror of source
+  hyprmon extend|unmirror [name]          stop mirroring, return to its slot
   hyprmon enable|disable [name]
   hyprmon reload|redraw|restart [name]    off/on cycle to rebuild the output
-  hyprmon mv <name> <direction|other_monitor>
-  hyprmon swap <name1> <name2>
   hyprmon res <name> <WxH[@R]>
   hyprmon scale|zoom <name> <factor>      scale is the per-monitor zoom
-  hyprmon rm|remove <name>                forget saved config, use runtime defaults
+  hyprmon rm|remove <name>                forget saved config and alias
   hyprmon alias|add <port> <alias>
-  hyprmon unalias <alias>
   hyprmon rename <old_alias> <new_alias>
-  hyprmon apply [--force]                 push saved state to the compositor
 
 Directions:
-  left (west, l, w), right (east, r, e), up (top, north, u, n),
-  down (bottom, south, d, s), center, mirror
-
-Notes:
-  State lives in ~/.local/share/hypr/monitors.json and is the single source
-  of truth. Changes are pushed with `hyprctl keyword monitor`; `hyprctl
-  reload` is never used, so panels and workspaces survive every command.
+  left, right, up, down, center
 EOF
 }
 
@@ -930,6 +986,7 @@ resolve_optional_target() {
 
 main() {
     if [[ $# -eq 0 ]]; then
+        app_sync
         app_list false
         return 0
     fi
@@ -950,22 +1007,31 @@ main() {
                 esac
                 shift
             done
+            app_sync
             app_list "$show_all"
             ;;
         get|show|info)
             local target
             target=$(resolve_optional_target "${1:-}") || return 1
+            app_sync
             app_get "$target"
             ;;
+        # <source> <destination>: destination becomes a mirror of source.
         mirror|clone)
-            local target src=""
-            if [[ $# -eq 0 ]]; then
-                target=$(resolve_optional_target "") || return 1
-            else
-                target="$1"
-                src="${2:-}"
-            fi
-            app_place "$target" "mirror" "$src"
+            local src="" dest
+            case $# in
+                0) dest=$(resolve_optional_target "") || return 1 ;;
+                1) src="$1"; dest=$(resolve_optional_target "") || return 1 ;;
+                2) src="$1"; dest="$2" ;;
+                *) echo "Usage: hyprmon mirror [source] [destination]" >&2; return 1 ;;
+            esac
+            app_mirror "$dest" "$src"
+            report_done
+            ;;
+        extend|unmirror)
+            local target
+            target=$(resolve_optional_target "${1:-}") || return 1
+            app_extend "$target"
             report_done
             ;;
         reload|redraw|restart)
@@ -979,15 +1045,17 @@ main() {
             target=$(resolve_optional_target "${1:-}") || return 1
             app_toggle "$target" "$action"
             ;;
-        mv)
-            [[ $# -eq 2 ]] || { echo "Usage: hyprmon mv <target> <direction|monitor>" >&2; return 1; }
-            app_mv "$1" "$2"
-            report_done
-            ;;
-        swap)
-            [[ $# -eq 2 ]] || { echo "Usage: hyprmon swap <name1> <name2>" >&2; return 1; }
-            app_swap "$1" "$2"
-            report_done
+        # One arg is the destination alone; the target is then the only external.
+        # A destination that is a monitor rather than a direction swaps the two,
+        # so this is also the swap command.
+        mv|move)
+            local target dest
+            case $# in
+                1) target=$(resolve_optional_target "") || return 1; dest="$1" ;;
+                2) target="$1"; dest="$2" ;;
+                *) echo "Usage: hyprmon mv [name] <direction|other_monitor>" >&2; return 1 ;;
+            esac
+            app_mv "$target" "$dest"
             ;;
         res|resolution)
             [[ $# -eq 2 ]] || { echo "Usage: hyprmon res <name> <WxH[@R]>" >&2; return 1; }
@@ -1007,33 +1075,14 @@ main() {
             [[ $# -eq 2 ]] || { echo "Usage: hyprmon alias <port> <alias>" >&2; return 1; }
             app_alias "$1" "$2"
             ;;
-        unalias)
-            [[ $# -eq 1 ]] || { echo "Usage: hyprmon unalias <alias>" >&2; return 1; }
-            app_unalias "$1"
-            ;;
         rename)
             [[ $# -eq 2 ]] || { echo "Usage: hyprmon rename <old_alias> <new_alias>" >&2; return 1; }
             app_rename "$1" "$2"
             ;;
-        apply)
-            local force=false
-            [[ "${1:-}" == "--force" ]] && force=true
-            app_apply "$force" >/dev/null
-            report_done
-            ;;
-        # Anything left is a direction, so the alias list lives only in
-        # domain_normalize_direction.
         *)
-            local dir target
-            dir=$(domain_normalize_direction "$action")
-            if [[ "$dir" == "unknown" ]]; then
-                echo "hyprmon: unknown command '$action'" >&2
-                show_help >&2
-                return 1
-            fi
-            target=$(resolve_optional_target "${1:-}") || return 1
-            app_place "$target" "$dir"
-            report_done
+            echo "hyprmon: unknown command '$action'" >&2
+            show_help >&2
+            return 1
             ;;
     esac
 }
