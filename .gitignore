@@ -2,6 +2,7 @@
 _*
 *.pid
 *.log
+config/copyq/copyq.lock
 
 # Lives in its own repository (see 3ca32e8)
 config/quickshell/noctalia-shell
