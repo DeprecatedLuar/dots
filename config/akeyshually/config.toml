@@ -42,8 +42,9 @@ env_file = "~/.profile"
 #"alt+k.hold(20).repeat" = "ydotool mousemove -x 0 -y -12"
 #"alt+l.hold(20).repeat" = "ydotool mousemove -x 12 -y 0"
 
-#"alt+d" = ">rclick"
-#"ctrl+f" = ">lclick"
+"alt+d.pressrelease" = [">>rclick", "<rclick"]
+"alt+f.pressrelease" = [">>lclick", "<lclick"]
+
 
 
 #-[UTILS]------------------------------------

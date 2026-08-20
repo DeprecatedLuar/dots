@@ -8,4 +8,15 @@ default_interval = 150
 	"f1.taphold" = "notify-send 'f1 TAPHOLD'"
 	"f1.doubletap" = "notify-send 'f1 DOUBLETAP'"
 
+	# Pointer injection tests
+	"f2" = ">lclick"
+	"f3" = ">rclick"
+	"f4" = ">mclick"
+	"f5" = ">scrollup"
+	"f6" = ">scrolldown"
+	"f7" = ">scrollleft"
+	"f8" = ">scrollright"
+	"ctrl+f2" = ">ctrl+lclick"
+	"f9.pressrelease" = [">>lclick", "<lclick"]
+
 [command_variables]

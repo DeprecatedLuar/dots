@@ -4,7 +4,8 @@
   #──[Packages]───────────────────────────────────────────────────────────────
 
   environment.systemPackages = with pkgs; [
-  nginx   
+  nginx
+  android-tools   
   ];
 
   #──[Network]────────────────────────────────────────────────────────────────
