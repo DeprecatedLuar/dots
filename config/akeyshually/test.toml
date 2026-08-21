@@ -3,20 +3,16 @@ default_interval = 150
 
 [shortcuts]
 
-	"f1.hold" = "notify-send 'f1 HOLD'"
-	"f1.pressrelease" = ["notify-send 'f1 PRESS'", "notify-send 'f1 RELEASE'"]
-	"f1.taphold" = "notify-send 'f1 TAPHOLD'"
-	"f1.doubletap" = "notify-send 'f1 DOUBLETAP'"
+	"f2.onpress" = ">lclick"
+	"f3.onpress" = ">rclick"
+	"f4.onpress" = ">mclick"
 
-	# Pointer injection tests
-	"f2" = ">lclick"
-	"f3" = ">rclick"
-	"f4" = ">mclick"
-	"f5" = ">scrollup"
-	"f6" = ">scrolldown"
-	"f7" = ">scrollleft"
-	"f8" = ">scrollright"
-	"ctrl+f2" = ">ctrl+lclick"
-	"f9.pressrelease" = [">>lclick", "<lclick"]
+	"f5" = ">lclick"
+
+	"f9.hold" = ">ctrl"
+
+	"f10.holdrelease" = [">shift", ""]
+
+	"f11.longpress" = ">ctrl+z"
 
 [command_variables]

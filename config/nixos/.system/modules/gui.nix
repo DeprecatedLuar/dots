@@ -95,6 +95,8 @@ in
     windowManager.i3.enable = hasI3;
   };
 
+  services.displayManager.ly.enable = true;
+
   services.libinput.enable = true;  # X11 input driver (keyboard/mouse)
 
   programs.niri.enable = hasNiri;

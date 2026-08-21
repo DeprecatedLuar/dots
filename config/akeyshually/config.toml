@@ -37,13 +37,22 @@ env_file = "~/.profile"
 #"super+3" = "workspace3"
 #"super+4" = "workspace4"
 
-#"alt+h.hold(20).repeat" = "ydotool mousemove -x -12 -y 0"
-#"alt+j.hold(20).repeat" = "ydotool mousemove -x 0 -y 12"
-#"alt+k.hold(20).repeat" = "ydotool mousemove -x 0 -y -12"
-#"alt+l.hold(20).repeat" = "ydotool mousemove -x 12 -y 0"
+#"alt+h.hold(20).repeat" = "ydotool mousemove -x -7 -y 0"
+#"alt+j.hold(20).repeat" = "ydotool mousemove -x 0 -y 5"
+#"alt+k.hold(20).repeat" = "ydotool mousemove -x 0 -y -5"
+#"alt+l.hold(20).repeat" = "ydotool mousemove -x 7 -y 0"
 
-"alt+d.pressrelease" = [">>rclick", "<rclick"]
-"alt+f.pressrelease" = [">>lclick", "<lclick"]
+"alt+h" = "ydotool mousemove -x -200 -y 0"
+"alt+j" = "ydotool mousemove -x 0 -y 200"
+"alt+k" = "ydotool mousemove -x 0 -y -200"
+"alt+l" = "ydotool mousemove -x 200 -y 0"
+
+"alt+j.taphold.repeat" = ">scrolldown"
+"alt+k.taphold.repeat" = ">scrollup"
+
+
+"alt+d" = ">rclick"
+"alt+f" = ">lclick"
 
 
 

@@ -101,11 +101,8 @@ in
 
      #──[Users]─────────────────────────────────────────────────────────────────
 
-       users.users.root.openssh.authorizedKeys.keys = [
-         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBfrCrs58DjL/Y2FI+9hS+0dVRglxcMfIb9aiALctrrZ luar"
-       ];
+       users.users.root.hashedPassword = "!"; # No password login for root; use sudo or SSH key
        services.openssh.settings.PermitRootLogin = "prohibit-password";
-       services.getty.autologinUser = mainUser;
 
      #──[Input Devices]─────────────────────────────────────────────────────────
 
