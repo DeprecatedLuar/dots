@@ -79,9 +79,14 @@ in
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
   services.gvfs.enable = true;
+  # binfmt lets `./foo.AppImage` run directly; libxshmfence is missing from
+  # appimage-run's FHS env and required by Electron AppImages.
   programs.appimage = {
-  	enable = true;
-  	binfmt = true;
+    enable = true;
+    binfmt = true;
+    package = pkgs.appimage-run.override {
+      extraPkgs = pkgs: with pkgs; [ libxshmfence ];
+    };
   };
   programs.nix-ld.enable = true;
 

@@ -66,7 +66,6 @@ in
          xdotool
          ydotool
          evtest
-         appimage-run
          mpv
        ];
 
