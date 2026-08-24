@@ -32,11 +32,6 @@
     dedicatedServer.openFirewall = true;
     extraPackages = with pkgs; [ icu ];  # Required for .NET games (tModLoader, etc.)
     extraCompatPackages = [ pkgs.proton-ge-bin ];
-    package = pkgs.steam.override {
-      extraEnv = {
-        LD_PRELOAD = "${pkgs.gamemode.lib}/lib/libgamemodeauto.so";
-      };
-    };
   };
 
   #──[Graphics]──────────────────────────────────────────────────────────────

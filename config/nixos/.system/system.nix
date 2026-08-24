@@ -27,6 +27,8 @@ in
          starship
          btop
          gh
+         cmatrix
+         fastfetch
                  
          sshfs
         mosh

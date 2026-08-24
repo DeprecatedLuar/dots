@@ -1,28 +1,47 @@
-from ranger.api.commands import Command
-import subprocess
 import os
+import shutil
+import subprocess
 from urllib.parse import quote
+
+from ranger.api.commands import Command
+
+
+def _find_nav_engine():
+    candidates = [
+        os.path.join(os.environ.get('SYSDIR', ''), 'shared', 'nav-engine.sh'),
+        os.path.join(os.environ.get('BASHRC', ''), 'system', 'shared', 'nav-engine.sh'),
+        os.path.expanduser('~/.config/lushrc/system/shared/nav-engine.sh'),
+    ]
+    for candidate in candidates:
+        if candidate and os.path.isfile(candidate) and os.access(candidate, os.X_OK):
+            return candidate
+
+    return shutil.which('nav-engine.sh') or shutil.which('nav-engine')
 
 
 class z(Command):
-    """Navigate using nav-engine.sh (z wrapper). Usage: z <query>"""
+    """Navigate using nav-engine.sh. Usage: z <query>"""
 
     def execute(self):
         query = self.rest(1)
         if not query:
             self.fm.open_console('z ')
             return
-        libdir = os.environ.get('LIBDIR')
-        if not libdir:
-            self.fm.notify('LIBDIR not set', bad=True)
+
+        nav_script = _find_nav_engine()
+        if not nav_script:
+            self.fm.notify('nav-engine.sh not found', bad=True)
             return
+
         result = subprocess.run(
-            [os.path.join(libdir, 'shared', 'nav-engine.sh'), query],
+            [nav_script, query],
             capture_output=True, text=True
         )
         path = result.stdout.strip()
-        if path:
+        if result.returncode == 0 and path:
             self.fm.cd(path)
+        else:
+            self.fm.notify(f"No match for '{query}'", bad=True)
 
 
 class clipcopy(Command):

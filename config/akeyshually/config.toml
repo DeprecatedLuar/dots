@@ -37,18 +37,18 @@ env_file = "~/.profile"
 #"super+3" = "workspace3"
 #"super+4" = "workspace4"
 
-#"alt+h.hold(20).repeat" = "ydotool mousemove -x -7 -y 0"
-#"alt+j.hold(20).repeat" = "ydotool mousemove -x 0 -y 5"
-#"alt+k.hold(20).repeat" = "ydotool mousemove -x 0 -y -5"
-#"alt+l.hold(20).repeat" = "ydotool mousemove -x 7 -y 0"
+"alt+shift+h.hold(20).repeat" = "ydotool mousemove -x -7 -y 0"
+"alt+shift+j.hold(20).repeat" = "ydotool mousemove -x 0 -y 5"
+"alt+shift+k.hold(20).repeat" = "ydotool mousemove -x 0 -y -5"
+"alt+shift+l.hold(20).repeat" = "ydotool mousemove -x 7 -y 0"
 
 "alt+h" = "ydotool mousemove -x -200 -y 0"
 "alt+j" = "ydotool mousemove -x 0 -y 200"
 "alt+k" = "ydotool mousemove -x 0 -y -200"
 "alt+l" = "ydotool mousemove -x 200 -y 0"
 
-"alt+j.taphold.repeat" = ">scrolldown"
-"alt+k.taphold.repeat" = ">scrollup"
+#"alt+j.taphold.repeat" = ">scrolldown"
+#"alt+k.taphold.repeat" = ">scrollup"
 
 
 "alt+d" = ">rclick"
@@ -121,6 +121,8 @@ notetaker = "bash -c \"source ~/.bashrc && /home/user/.config/bash/bin/notetaker
 prtscr = "/home/user/Workspace/tools/bin/screenshot-save --temp"
 mute_mic = "pactl set-source-mute @DEFAULT_SOURCE@ toggle || wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
 last_screenshot = "$IMAGE_VIEWER ~/Media/screenshots/latest.png"
+
+kill_window = "hyprctl kill"
 
 
 #-[MEDIA COMMANDS]---------------------------
