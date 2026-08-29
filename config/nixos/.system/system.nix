@@ -124,6 +124,10 @@ in
         { from = 60000; to = 61000; }  # mosh
       ];
 
+      # Strict rpfilter drops a full-tunnel VPN's own encrypted replies once the
+      # default route moves onto the tunnel (Tailscale exit node, wg-quick 0.0.0.0/0).
+      networking.firewall.checkReversePath = lib.mkDefault "loose";
+
       systemd.services = { };
 
      #──[System]────────────────────────────────────────────────────────────────
@@ -135,6 +139,14 @@ in
        };
 
        zramSwap.enable = true; # 50% RAM compressed swap, no disk needed
+
+       # A frozen kernel leaves no logs; panicking is what gets a crash into pstore.
+       boot.kernel.sysctl = {
+         "kernel.hardlockup_panic" = 1;
+         "kernel.panic" = 20;
+       };
+
+       systemd.settings.Manager.RuntimeWatchdogSec = "30s";
 
        system.stateVersion = "25.05";
 

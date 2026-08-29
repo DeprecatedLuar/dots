@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# hyprsleep — turn the screen off on demand. System stays fully awake; any
+# keypress or mouse move brings it back (key_press_enables_dpms /
+# mouse_move_enables_dpms in hyprland.conf).
+
+sleep 1
+hyprctl dispatch dpms off

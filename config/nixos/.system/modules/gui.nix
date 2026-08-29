@@ -85,7 +85,7 @@ in
     enable = true;
     binfmt = true;
     package = pkgs.appimage-run.override {
-      extraPkgs = pkgs: with pkgs; [ libxshmfence ];
+      extraPkgs = pkgs: with pkgs; [ libxshmfence zstd ];
     };
   };
   programs.nix-ld.enable = true;
