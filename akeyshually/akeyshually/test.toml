@@ -1,0 +1,18 @@
+[settings]
+default_interval = 150
+
+[shortcuts]
+
+	"f2.onpress" = ">lclick"
+	"f3.onpress" = ">rclick"
+	"f4.onpress" = ">mclick"
+
+	"f5" = ">lclick"
+
+	"f9.hold" = ">ctrl"
+
+	"f10.holdrelease" = [">shift", ""]
+
+	"f11.longpress" = ">ctrl+z"
+
+[command_variables]

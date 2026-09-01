@@ -1,0 +1,47 @@
+[settings]
+default_loop_interval = 3.7
+
+[shortcuts]
+
+# IJKL-style mouse movement (right hand)
+#"o.whileheld" = "xdotool mousemove_relative -- 0 -2"
+#"k.whileheld" = "xdotool mousemove_relative -- -2 0"
+#"l.whileheld" = "xdotool mousemove_relative -- 0 2"
+#";.whileheld" = "xdotool mousemove_relative -- 2 0"
+
+# Clear modifiers for gaming (allows ctrl+key to pass through as plain key)
+"ctrl+l" = "xdotool key --clearmodifiers l"
+"ctrl+k" = "xdotool key --clearmodifiers k"
+"ctrl+;" = "xdotool key --clearmodifiers ;"
+"ctrl+i" = "xdotool key --clearmodifiers i"
+"ctrl+p" = "xdotool key --clearmodifiers p"
+"ctrl+o" = "xdotool key --clearmodifiers o"
+
+# Numpad mouse control (alternative layout) - passthrough allows any modifier
+"kp8.whileheld.passthrough" = "mouse_w"
+"kp4.whileheld.passthrough" = "mouse_a"
+"kp5.whileheld.passthrough" = "mouse_s"
+"kp6.whileheld.passthrough" = "mouse_d"
+"ctrl+kp8.whileheld" = "precise_mouse_w"
+"ctrl+kp4.whileheld" = "precise_mouse_a"
+"ctrl+kp5.whileheld" = "precise_mouse_s"
+"ctrl+kp6.whileheld" = "precise_mouse_d"
+
+
+
+# Numpad mouse buttons - press and hold
+"kp7.switch" = ["xdotool mousedown 3","xdotool mouseup 3"]
+"kp0" = "xdotool mousedown 1"
+"kp0.onrelease" = "xdotool mouseup 1"
+
+[command_variables]
+
+mouse_w = "xdotool mousemove_relative -- 0 -3"
+mouse_a = "xdotool mousemove_relative -- -3 0"
+mouse_s = "xdotool mousemove_relative -- 0 3"
+mouse_d = "xdotool mousemove_relative -- 3 0"
+precise_mouse_w = "xdotool mousemove_relative -- 0 -1"
+precise_mouse_a = "xdotool mousemove_relative -- -1 0"
+precise_mouse_s = "xdotool mousemove_relative -- 0 1"
+precise_mouse_d = "xdotool mousemove_relative -- 1 0"
+

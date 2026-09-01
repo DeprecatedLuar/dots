@@ -1,0 +1,3 @@
+[[entries]]
+  name = "tmux"
+  dest = "~/.config/tmux"

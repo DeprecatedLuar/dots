@@ -1,0 +1,107 @@
+#
+# prezto - mimic the default prezto prompt (sorin)
+#
+
+add_newline = false
+
+# A minimal left prompt
+format = """
+$username$hostname$python$nodejs$git_state$git_status$fill\
+$directory$git_metrics\
+$jobs$time
+$character
+"""
+
+# move the rest of the prompt to the right
+right_format = """$status$git_branch$git_status"""
+
+[character]
+success_symbol = "[❯](red)[❯](yellow)[❯](green)"
+error_symbol = "[❯](red)[❯](red)[❯](red)"
+vicmd_symbol = "[❮](green)[❮](yellow)[❮](red)"
+
+[git_branch]
+format = '[$branch]($style) '
+style = 'bold green'
+
+[python]
+format = '[(\($virtualenv\) )]($style)'
+style = 'white'
+
+[git_status]
+format = '$all_status$ahead_behind '
+ahead = '[🢅](bold green) '
+behind = '[⬇](bold purple) '
+staged = '[+](green) '
+deleted = '[-](red) '
+renamed = '[➜](purple) '
+stashed = '[✭](cyan) '
+untracked = '[??](white) '
+modified = '[Δ](blue) '
+conflicted = '[═](yellow) '
+diverged = '⇕'
+up_to_date = '[](black)'
+
+[git_state]
+format = '\([$state( $progress_current/$progress_total)]($style)\) '
+style = "bright-black"
+
+[git_metrics]
+disabled = false
+ added_style = "green"
+ deleted_style = "red"
+ only_nonzero_diffs = true  # hide when no changes
+ format = '([+$added]($added_style) )([-$deleted]($deleted_style) )'
+
+[directory]
+format = "[ $path ]($style)"
+style = "purple"
+read_only = ""
+truncation_length = 3
+truncate_to_repo = false
+fish_style_pwd_dir_length = 1
+
+[directory.substitutions]
+"Documents" = "󰈙"
+"Downloads" = ""
+"Music" = ""
+"Pictures" = ""
+".config" = "Σ"
+"Config" = "Σ"
+"Workspace" = "🖥"
+"Games" = "🎮︎"
+#"Videos" = ""
+"Media" = "≡"
+"bin" = "β"
+"Local" = "Λ"
+".local" = "Λ"
+"Backup" = "↺"
+
+[cmd_duration]
+format = '[$duration]($style) '
+
+[line_break]
+disabled = true
+
+[status]
+disabled = false
+symbol = '✘ '
+
+[fill]
+symbol = "·"
+
+[palettes.custom]
+pastel_purple = "#9d64a3"
+soft_lavender = "#E0D6FF"   
+
+
+[hostname]
+ssh_only = true
+format = "[$hostname]($style) "
+style = "blue"
+disabled = false
+
+[username]
+disabled = false
+format = "[$user@]($style)"
+style_user = "blue"

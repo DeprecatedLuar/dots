@@ -1,0 +1,52 @@
+unbind r
+bind r source-file ~/.config/tmux/tmux.conf
+
+set -g prefix C-b
+
+# Minimal status bar
+set -g status on
+set -g status-bg black
+set -g status-fg white
+set -g status-left ""
+set -g status-right "#{prefix_highlight}"
+set -g status-justify left
+
+# Armed-mode (prefix pressed) indicator, driven by tmux-prefix-highlight below
+set -g @prefix_highlight_fg 'black'
+set -g @prefix_highlight_bg 'colour208'
+set -g @prefix_highlight_show_copy_mode 'on'
+
+# Mouse on (hold Shift for native terminal selection)
+set -g mouse on
+
+# Toggle mouse: prefix + m (off) / prefix + M (on)
+bind m set -g mouse off \; display "Mouse OFF"
+bind M set -g mouse on \; display "Mouse ON"
+
+set -g history-limit 50000
+bind k copy-mode -u
+set -g alternate-screen off
+
+bind-key h select-pane -L
+bind-key j select-pane -D
+bind-key k select-pane -U
+bind-key l select-pane -R
+
+# Splits: prefix + H (side-by-side), prefix + V (stacked)
+bind-key H split-window -h
+bind-key V split-window -v
+
+# --- Plugins (TPM) ---
+# Plugins live outside the dotfiles repo (XDG data dir), not under ~/.config
+set-environment -g TMUX_PLUGIN_MANAGER_PATH "$HOME/.local/share/tmux/plugins/"
+
+# Self-bootstrapping: clones TPM and installs plugins on first run on a new machine
+if "test ! -d ~/.local/share/tmux/plugins/tpm" \
+   "run 'git clone https://github.com/tmux-plugins/tpm ~/.local/share/tmux/plugins/tpm && ~/.local/share/tmux/plugins/tpm/bin/install_plugins'"
+
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-prefix-highlight'
+set -g @plugin 'alexwforsythe/tmux-which-key'
+
+# Keep this line at the very bottom of tmux.conf
+run '~/.local/share/tmux/plugins/tpm/tpm'

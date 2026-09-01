@@ -1,0 +1,11 @@
+# Auto-generated symlinks at root
+/*.nix
+/machine.toml
+/services
+
+CLAUDE.md
+idea.txt
+
+# Service management (auto-generated symlinks in .system)
+/.system/services/services.nix
+/.system/services/available/local_*.nix

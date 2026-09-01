@@ -1,0 +1,35 @@
+#──[Includes]──────────────────────────────────────────────────────────────
+include ~/.config/i3/keybinds.conf
+include ~/.config/i3/hardware.conf
+
+#──[General]───────────────────────────────────────────────────────────────
+set $mod Mod4
+
+workspace_layout default
+default_orientation horizontal
+
+focus_follows_mouse no
+mouse_warping none
+focus_on_window_activation smart
+workspace_auto_back_and_forth yes
+
+#──[Appearance]────────────────────────────────────────────────────────────
+gaps inner 4
+gaps outer 17
+
+default_border pixel 2
+default_floating_border pixel 2
+hide_edge_borders none
+
+#──[Window Rules]──────────────────────────────────────────────────────────
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+
+#──[Bar]───────────────────────────────────────────────────────────────────
+bar {
+    status_command sh -c 'printf "{\"version\":1}\n[\n[]\n"; while :; do printf "$(date +%H:%M)  "; sleep 30; done'
+    position bottom
+    tray_output none
+    font pango:monospace 10
+}
+

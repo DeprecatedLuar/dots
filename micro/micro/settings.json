@@ -1,0 +1,7 @@
+{
+    "*.conf": {
+        "filetype": "git-config"
+    },
+    "colorscheme": "catppuccin-mocha",
+    "truecolor": true
+}

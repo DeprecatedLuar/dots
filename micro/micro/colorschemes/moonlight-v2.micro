@@ -1,0 +1,65 @@
+# Moonlight theme v2 - improved format
+# Based on original moonlight color palette with better selection visibility
+
+# Background and foreground
+color-link default "#a7c7e7,#222436"
+color-link comment "#71cee9"
+
+# Selection - using darker blue background with light foreground for visibility
+color-link selection "#a7c7e7,#1e3a5f"
+color-link hlsearch "#08f9aa"
+
+# Identifiers
+color-link identifier "#a7c7e7"
+color-link identifier.class "#f1b476"
+color-link identifier.var "#d0daf3"
+
+# Constants
+color-link constant "#f4926a"
+color-link constant.number "#f4926a"
+color-link constant.string "#08f9aa"
+
+# Symbols
+color-link symbol "#39c5cf"
+color-link symbol.brackets "#71cee9"
+color-link symbol.tag "#ff7b72"
+
+# Types
+color-link type "#f1b476"
+color-link type.keyword "#bc8cff"
+
+# Special and statements
+color-link special "#d2a8ff"
+color-link statement "#bc8cff"
+color-link preproc "#bc8cff"
+
+# Underlined (functions)
+color-link underlined "#71cee9"
+color-link error "bold #ff7b72"
+color-link todo "bold #bc8cff"
+
+# Diff colors
+color-link diff-added "#08f9aa"
+color-link diff-modified "#71cee9"
+color-link diff-deleted "#ffa198"
+
+# Gutter
+color-link gutter-error "#ff7b72"
+color-link gutter-warning "#f1b476"
+
+# Scrollbar
+color-link scrollbar "#71cee9"
+
+# Status and tab bar - slightly darker than main background
+color-link statusline "#a7c7e7,#1a1e2e"
+color-link tabbar "#a7c7e7,#1a1e2e"
+
+# Line numbers
+color-link indent-char "#1e3a5f"
+color-link line-number "#71cee9"
+color-link current-line-number "#d0daf3"
+
+# Cursor line - subtle highlight, closer to background
+color-link cursor-line "#2d3348"
+color-link color-column "#2d3348"
+color-link type.extended "default"

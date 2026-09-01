@@ -1,0 +1,10 @@
+[settings]
+#devices = ["QCY H3"]
+
+[virtual_keys]
+boop = ["playcd", "pausecd"]
+
+[shortcuts]
+#"boop" = ">playpause"
+
+"playcd/pausecd.switch" = ["$IMAGE_VIEWER ~/Media/cat/schlorp.jpeg", "pkill $IMAGE_VIEWER"]

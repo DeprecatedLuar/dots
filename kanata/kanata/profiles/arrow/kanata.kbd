@@ -1,0 +1,100 @@
+(defcfg
+  process-unmapped-keys yes
+  log-layer-changes no
+  linux-device-detect-mode keyboard-only
+)
+
+;; ============ SOURCE ============
+(defsrc
+  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft 102d z    x    c    v    b    n    m    ,    .    /    ro   rsft
+  lctl lmet lalt           spc            ralt rmet rctl
+)
+
+;; ============ VARIABLES ============
+(defvar
+  Tt 200 ;; tap time
+  Ht 200 ;; hold time
+)
+
+;; ============ FAKE KEYS ============
+(deffakekeys
+  def (layer-switch default)
+  arr (layer-switch arrow)
+)
+
+;; ============ ALIASES ============
+(defalias
+  ;; Config switching
+  kbd1 (lrld-num 1)  ;; vimsanity
+  kbd2 (lrld-num 2)  ;; arrow
+
+  ;; Dead key mappings for akeyshually
+  key102 f15  ;; Left dead key (102d) → F15
+  keyro f16   ;; Right dead key (ro) → F16
+
+  def (layer-switch default)
+  arr (layer-switch arrow)
+
+  ;; Meta modifier that returns to arrow layer
+  meta1 (multi (on-release tap-vkey arr) lmet (layer-while-held meta-layer))
+
+  ;; Meta-layer tap-hold for asdf
+  a-meta (tap-hold 110 110 a tab)
+  s-meta (tap-hold 110 110 s lalt)
+  d-meta (tap-hold 110 110 d lsft)
+  f-meta (tap-hold 110 110 f lctl)
+
+  ;; Default layer: caps = tap for esc, double-tap for arrow layer
+  cap-default (tap-dance $Ht (esc @arr))
+
+  ;; Arrow layer: caps = tap stays, double-tap for default, hold for meta
+  cap-arrow (tap-hold-press $Tt $Ht (tap-dance $Ht (@arr @def)) @meta1)
+
+  ;; Space in arrow layer: tap = space, hold = mirrored layer
+  spc-mirror (tap-hold $Tt $Ht spc (layer-while-held mirrored))
+
+  ;; Legacy aliases for backwards compatibility
+  to-vim @kbd1
+  to-arrow @kbd2
+)
+
+;; ============ LAYERS ============
+(deflayer default
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  @cap-default _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _              _              _    _    _
+)
+
+(deflayer arrow
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  @cap-arrow _    _    _    _    _    left down up   right _    _    _
+  _    @key102 _    _    _    _    _    _    _    _    _    _    @keyro  _
+  _    _    _              @spc-mirror    _    _    _
+)
+
+(deflayer mirrored
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  bspc p    o    i    u    y    _    _    _    _    _    _    _    _
+  ret  ;    l    k    j    h    _    _    _    _    _    _    _
+  _    /    .    ,    m    n    b    _    _    _    _    _    _
+  _    _    _              _              _    _    _
+)
+
+(deflayer meta-layer
+  esc  @kbd1 f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  _    @a-meta @s-meta @d-meta @f-meta g left down up right ; ' ret
+  lsft @key102 z    x    c    v    b    n    m    ,    .    /    @keyro  rsft
+  lctl _    lalt           spc            ralt _    rctl
+)

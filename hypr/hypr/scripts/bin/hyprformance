@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+show_help() {
+    cat <<EOF
+hyprformance - Gaming performance-mode toggle
+
+USAGE:
+    hyprformance on
+    hyprformance off
+    hyprformance status
+    hyprformance -h | --help
+
+DESCRIPTION:
+    Toggles Hyprland's compositor blur, the measured dominant cost
+    during fullscreen gaming (see ~/linux-gaming-investigation.md).
+    Applied live via 'hyprctl keyword' - no config file is edited,
+    and the change reverts on the next real Hyprland reload.
+
+    on      Disable blur (performance mode)
+    off     Re-enable blur (normal mode)
+    status  Show current mode
+
+EXAMPLES:
+    hyprformance on
+    hyprformance off
+    hyprformance status
+EOF
+}
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+    show_help
+    exit 0
+fi
+
+if [[ "$1" == "status" ]]; then
+    blur=$(hyprctl getoption decoration:blur:enabled -j | jq -r '.int')
+    if [[ "$blur" == "0" ]]; then
+        echo "performance: on"
+    else
+        echo "performance: off"
+    fi
+    exit 0
+fi
+
+if [[ "$1" == "on" ]]; then
+    hyprctl keyword decoration:blur:enabled 0 > /dev/null
+    echo "performance: on (blur disabled)"
+    exit 0
+fi
+
+if [[ "$1" == "off" ]]; then
+    hyprctl keyword decoration:blur:enabled 1 > /dev/null
+    echo "performance: off (blur enabled)"
+    exit 0
+fi
+
+echo "Error: Usage: hyprformance <on|off|status>" >&2
+exit 1
