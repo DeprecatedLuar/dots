@@ -1,1 +1,0 @@
-date-wttr/date-wttr.sh

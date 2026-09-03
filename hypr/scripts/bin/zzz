@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-sleep 1
-hyprctl dispatch dpms off
-echo "sweet dreams!"
