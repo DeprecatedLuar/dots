@@ -1,5 +1,193 @@
 #!/usr/bin/env bash
 
-sleep 1
-hyprctl dispatch dpms off
-echo "sweet dreams!"
+readonly NOSLEEP_BIN="${HOME}/.local/bin/nosleep"
+readonly SWEET_DREAMS_MSG="sweet dreams"
+readonly SUS_MSG="ඞ"
+readonly PRE_ACTION_DELAY=1
+readonly LOCK_CMD_FILE="${XDG_STATE_HOME:-$HOME/.local/state}/zzz"
+
+notify() {
+    local app_name="${2:-zzz}"
+    command -v notify-send >/dev/null 2>&1 && notify-send --app-name="$app_name" "$1"
+}
+
+# --- blank backend resolution -----------------------------------------
+
+resolve_blank_backend() {
+    if command -v hyprctl >/dev/null 2>&1 && [[ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]]; then
+        printf 'hyprctl\n'
+    elif command -v niri >/dev/null 2>&1 && [[ -n "$NIRI_SOCKET" ]]; then
+        printf 'niri\n'
+    elif command -v swaymsg >/dev/null 2>&1 && [[ -n "$SWAYSOCK" ]]; then
+        printf 'swaymsg\n'
+    elif command -v wlopm >/dev/null 2>&1 && [[ -n "$WAYLAND_DISPLAY" ]]; then
+        printf 'wlopm\n'
+    elif command -v xset >/dev/null 2>&1 && [[ -n "$DISPLAY" && "$XDG_SESSION_TYPE" != "wayland" ]]; then
+        printf 'xset\n'
+    else
+        return 1
+    fi
+}
+
+do_blank() {
+    local backend
+    backend=$(resolve_blank_backend) || {
+        printf 'zzz: no supported display backend (tried hyprctl, niri, swaymsg, wlopm, xset)\n' >&2
+        return 1
+    }
+    case "$backend" in
+        hyprctl) hyprctl dispatch dpms off ;;
+        niri) niri msg action power-off-monitors ;;
+        swaymsg) swaymsg 'output * dpms off' ;;
+        wlopm) wlopm --off '*' ;;
+        xset) xset dpms force off ;;
+    esac
+}
+
+# --- verbs ---------------------------------------------------------------
+
+cmd_blank() {
+    notify "$SWEET_DREAMS_MSG"
+    sleep "$PRE_ACTION_DELAY"
+    do_blank
+}
+
+cmd_suspend() {
+    systemctl suspend
+}
+
+cmd_sus() {
+    notify "$SUS_MSG" sus
+    sleep "$PRE_ACTION_DELAY"
+    systemctl suspend
+}
+
+cmd_keep_awake() {
+    exec "$NOSLEEP_BIN" "$@"
+}
+
+prompt_lock_cmd() {
+    local cmd
+    [[ -t 0 ]] || {
+        printf 'zzz: no lock command configured, and no terminal to prompt for one.\n' >&2
+        printf 'Run "zzz lock" interactively once to set it up.\n' >&2
+        return 1
+    }
+    read -r -p "Enter the command that locks your screen (e.g. hyprlock): " cmd
+    [[ -n "$cmd" ]] || { printf 'zzz: empty command, not saving.\n' >&2; return 1; }
+    printf '%s\n' "$cmd" > "$LOCK_CMD_FILE"
+    printf '%s\n' "$cmd"
+}
+
+cmd_lock() {
+    local cmd
+
+    if [[ -s "$LOCK_CMD_FILE" ]]; then
+        cmd=$(cat "$LOCK_CMD_FILE")
+    else
+        printf 'zzz: no lock command configured yet.\n'
+        cmd=$(prompt_lock_cmd) || return 1
+    fi
+
+    if bash -c "$cmd"; then
+        return 0
+    fi
+
+    printf 'zzz: lock command failed: %s\n' "$cmd" >&2
+    [[ -t 0 ]] || return 1
+    read -r -p "Reconfigure the lock command? [Y/n] " reply
+    [[ "$reply" =~ ^[Nn] ]] && return 1
+    cmd=$(prompt_lock_cmd) || return 1
+    bash -c "$cmd"
+}
+
+cmd_hibernate() {
+    local disk_states
+    disk_states=$(cat /sys/power/disk 2>/dev/null)
+    if [[ "$disk_states" != *disk* ]] || ! swapon --show=TYPE --noheadings 2>/dev/null | grep -qv '^partition$\|zram'; then
+        printf 'zzz: hibernate unavailable - no disk-backed swap (zram cannot hold a hibernation image) and no resume= on cmdline.\n' >&2
+        return 1
+    fi
+    systemctl hibernate
+}
+
+cmd_status() {
+    local backend keep_awake_state
+    backend=$(resolve_blank_backend) || backend="none"
+    printf 'display backend: %s\n' "$backend"
+
+    if [[ -x "$NOSLEEP_BIN" ]]; then
+        keep_awake_state=$("$NOSLEEP_BIN" status)
+    else
+        keep_awake_state="unavailable (nosleep not found)"
+    fi
+    printf 'keep-awake: %s\n' "$keep_awake_state"
+
+    if [[ -s "$LOCK_CMD_FILE" ]]; then
+        printf 'lock: configured (%s)\n' "$(cat "$LOCK_CMD_FILE")"
+    else
+        printf 'lock: not configured\n'
+    fi
+
+    if cat /sys/power/disk 2>/dev/null | grep -q disk && swapon --show=TYPE --noheadings 2>/dev/null | grep -qv '^partition$\|zram'; then
+        printf 'hibernate: available\n'
+    else
+        printf 'hibernate: unavailable\n'
+    fi
+}
+
+show_help() {
+    cat << 'EOF'
+Usage: zzz [command] [args...]
+
+Commands:
+  (none)                  blank the screen (default, notifies "sweet dreams")
+  blank, screen, dpms, dark
+                           blank the screen
+  suspend                 systemctl suspend
+  sus                     suspend, with a notification + delay first
+  keep-awake, caffeine, inhibit, nosleep, awake [args]
+                           idle inhibitor (delegates to nosleep; supports
+                           on/off/status/--for/--until)
+  lock                     lock the screen (prompts once to configure the
+                           command, stored in ~/.local/state/zzz)
+  hibernate                systemctl hibernate (stub if unsupported)
+  status                   show current display/keep-awake/hibernate state
+  help, --help, -h         show this help
+EOF
+}
+
+# --- dispatch --------------------------------------------------------------
+
+case "${1:-}" in
+    ""|blank|screen|dpms|dark)
+        cmd_blank
+        ;;
+    suspend)
+        cmd_suspend
+        ;;
+    sus)
+        cmd_sus
+        ;;
+    keep-awake|caffeine|inhibit|nosleep|awake)
+        shift
+        cmd_keep_awake "$@"
+        ;;
+    lock)
+        cmd_lock
+        ;;
+    hibernate)
+        cmd_hibernate
+        ;;
+    status)
+        cmd_status
+        ;;
+    help|--help|-h)
+        show_help
+        ;;
+    *)
+        printf 'zzz: unknown command: %s\n' "$1" >&2
+        show_help >&2
+        exit 2
+        ;;
+esac

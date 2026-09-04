@@ -1,3 +1,11 @@
 [[entries]]
-  name = "copyq"
-  dest = "~/.config/copyq"
+  name = "copyq-commands.ini"
+  dest = "~/.config/copyq/copyq-commands.ini"
+
+[[entries]]
+  name = "copyq.conf"
+  dest = "~/.config/copyq/copyq.conf"
+
+[[entries]]
+  name = "themes"
+  dest = "~/.config/copyq/themes"

@@ -1,2 +1,2 @@
-profiles = []
-entries = []
+profiles = ["blue", "booknquill", "cyberglass", "midcent"]
+entries = ["assets", "kitty.conf"]
