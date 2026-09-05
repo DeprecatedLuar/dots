@@ -9,7 +9,3 @@
 [[entries]]
   name = "kitty.conf"
   dest = "~/.config/kitty/kitty.conf"
-
-[[entries]]
-  name = "profiles"
-  dest = "none"

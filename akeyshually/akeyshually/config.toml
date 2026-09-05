@@ -122,7 +122,7 @@ prtscr = "/home/user/Workspace/tools/bin/screenshot-save --temp"
 mute_mic = "pactl set-source-mute @DEFAULT_SOURCE@ toggle || wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
 last_screenshot = "$IMAGE_VIEWER ~/Media/screenshots/latest.png"
 
-kill_window = "hyprctl kill"
+kill_window = "hyprctl -i 0 kill"  # -i pins the live instance; akeyshually may hold a stale HYPRLAND_INSTANCE_SIGNATURE
 
 
 #-[MEDIA COMMANDS]---------------------------

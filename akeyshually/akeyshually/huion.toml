@@ -12,9 +12,9 @@ devices = ["Tablet Monitor Pad", "Tablet Monitor Touch Strip"]
 "btn_0" = ">ctrl+z"
 "btn_0.hold" = ">ctrl+shift+z"
 
-"btn_1" = ">w"
-"btn_1.hold" = ">ctrl"
-"btn_1.taphold" = ">shift"
+"btn_1" = "tabcursor"
+#"btn_1.hold" = ">ctrl"
+#"btn_1.taphold" = ">shift"
 #"btn_1.onrelease" = "notify-send huion btn_1"
 
 "btn_2" = ""

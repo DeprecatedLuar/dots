@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Toggle the Huion pen's active output between its own screen and the laptop screen.
+DEVICE="tablet-monitor-pen"
+TABLET_OUTPUT="DP-1"
+LAPTOP_OUTPUT="eDP-1"
+STATE_FILE="$XDG_RUNTIME_DIR/tablet-output-state"
+
+current=$(cat "$STATE_FILE" 2>/dev/null || echo "$TABLET_OUTPUT")
+
+if [ "$current" = "$TABLET_OUTPUT" ]; then
+    target="$LAPTOP_OUTPUT"
+else
+    target="$TABLET_OUTPUT"
+fi
+
+hyprctl keyword "device[$DEVICE]:output" "$target" >/dev/null
+echo "$target" > "$STATE_FILE"
+notify-send -t 1500 "Tablet input" "Pen now controls $target"

@@ -9,6 +9,14 @@ TEMP_RANGE=$((MAX_TEMP - MIN_TEMP))  # 5500K
 SHADER_DIR="$HOME/.config/hypr/shaders"
 GRAYSCALE_SHADER="$SHADER_DIR/sat-0.frag"
 
+# hyprctl locates Hyprland's socket via HYPRLAND_INSTANCE_SIGNATURE. Long-lived
+# daemons (akeyshually, etc.) keep the signature of the session they were started
+# in, so after a Hyprland restart their inherited value points at a dead socket.
+# -i selects the live instance directly and ignores the stale env.
+hyprctl() {
+    command hyprctl -i 0 "$@"
+}
+
 check_hyprsunset() {
     if ! hyprctl hyprsunset gamma &> /dev/null; then
         echo "Error: hyprsunset not available (is Hyprland running with hyprsunset plugin?)" >&2

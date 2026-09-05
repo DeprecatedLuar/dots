@@ -89,6 +89,36 @@ in
     };
   };
   programs.nix-ld.enable = true;
+  # Portable (non-AppImage) binaries in ~/Workspace/tools/ need these to
+  # resolve their dynamic libs against nix-ld's shimmed ld.so.
+  programs.nix-ld.libraries = with pkgs; [
+    xorg.libxcb
+    xorg.libX11
+    xorg.libXrandr
+    xorg.libXi
+    xorg.libXcursor
+    xorg.libXdamage
+    xorg.libXcomposite
+    xorg.libXfixes
+    xorg.libXext
+    gtk3
+    webkitgtk_4_1
+    libsoup_3
+    glib
+    cairo
+    pango
+    gdk-pixbuf
+    at-spi2-core
+    dbus
+    mesa
+    libglvnd
+    alsa-lib
+    nss
+    nspr
+    cups
+    libnotify
+    libayatana-appindicator
+  ];
 
   #──[Desktop Environment]───────────────────────────────────────────────────
 
