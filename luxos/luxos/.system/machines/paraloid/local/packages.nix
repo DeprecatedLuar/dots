@@ -15,7 +15,7 @@
     netlogo
     xournalpp
     qpwgraph
-
+    pactl
 
 
     megacmd

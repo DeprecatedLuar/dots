@@ -1,0 +1,18 @@
+{
+    "sources": [
+        {
+            "enabled": true,
+            "name": "Official Noctalia Plugins",
+            "url": "https://github.com/noctalia-dev/noctalia-plugins"
+        }
+    ],
+    "states": {
+        "claude-code-panel": {
+            "enabled": true
+        },
+        "privacy-indicator": {
+            "enabled": false
+        }
+    },
+    "version": 1
+}

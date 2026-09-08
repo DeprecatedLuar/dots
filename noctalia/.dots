@@ -1,0 +1,15 @@
+[[entries]]
+  name = "colors.json"
+  dest = "~/.config/noctalia/colors.json"
+
+[[entries]]
+  name = "plugins"
+  dest = "~/.config/noctalia/plugins"
+
+[[entries]]
+  name = "plugins.json"
+  dest = "~/.config/noctalia/plugins.json"
+
+[[entries]]
+  name = "settings.json"
+  dest = "~/.config/noctalia/settings.json"
