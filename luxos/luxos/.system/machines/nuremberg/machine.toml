@@ -1,0 +1,14 @@
+# NixOS Machine Configuration - nuremberg
+
+# Users (first user is main user)
+users = ["luar"]
+hostName = "nuremberg"
+timeZone = "America/Sao_Paulo"
+locale = "en_US.UTF-8"
+stateVersion = "25.05"
+
+# Modules
+modules = []
+
+# Services to import
+services = ["nginx", "caddy"]

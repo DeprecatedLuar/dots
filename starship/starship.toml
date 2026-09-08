@@ -105,3 +105,4 @@ disabled = false
 disabled = false
 format = "[$user@]($style)"
 style_user = "blue"
+

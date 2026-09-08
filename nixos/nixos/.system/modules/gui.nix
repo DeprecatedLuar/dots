@@ -63,7 +63,6 @@ in
     grimblast
     hypridle
     hyprpicker
-    hyprlandPlugins.hyprscrolling
     hyprlandPlugins.hyprsplit
     #hyprmon
     swayimg

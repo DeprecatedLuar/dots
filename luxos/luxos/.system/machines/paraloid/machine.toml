@@ -1,0 +1,14 @@
+# NixOS Machine Configuration - paraloid
+
+# Users to import (first user is main user)
+users = ["luar"]
+hostName = "paraloid"
+timeZone = "America/Sao_Paulo"
+locale = "en_US.UTF-8"
+stateVersion = "25.05"
+
+# Modules to import
+modules = ["gaming", "hyprland", "xfce", "ly", "desktop-apps"]
+
+# Services to import
+services = []

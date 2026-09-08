@@ -1,1 +1,0 @@
-/home/luar/.config/dots/config/nixos/.system/machines/paraloid/configuration.nix

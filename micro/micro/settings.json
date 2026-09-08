@@ -1,8 +1,8 @@
 {
-    "*.conf": {
-        "filetype": "git-config"
-    },
-    "colorscheme": "catppuccin-mocha",
-    "softwrap": true,
-    "truecolor": true
+  "*.conf": {
+    "filetype": "git-config"
+  },
+  "colorscheme": "noctalia",
+  "softwrap": true,
+  "truecolor": true
 }
