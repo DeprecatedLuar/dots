@@ -1,9 +1,7 @@
-{ pkgs, inputs, ... }:
+{ pkgs, ... }:
 
 {
   environment.systemPackages = with pkgs; [
-
-    inputs.ambxst.packages.${pkgs.system}.default
 
     unstable.noctalia
 

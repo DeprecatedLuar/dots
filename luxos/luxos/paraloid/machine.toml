@@ -8,7 +8,7 @@ locale = "en_US.UTF-8"
 stateVersion = "25.05"
 
 # Modules to import
-modules = ["gaming", "hyprland", "xfce", "ly", "desktop-apps"]
+modules = ["gaming", "hyprland", "xfce", "ly", "desktop-apps", "ambxst"]
 
 # Services to import
 services = []
