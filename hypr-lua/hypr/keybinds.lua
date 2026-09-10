@@ -72,17 +72,19 @@ hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 --──[Workspaces]----------------------------------------------------------------
 
--- Switch workspaces with mainMod + [0-9]
+-- Switch workspaces with mainMod + [0-9], independently per monitor
+-- (split-monitor-workspaces: each monitor keeps its own workspace 1-10,
+-- instead of Hyprland's default global workspace pool).
 -- Move active window to a workspace with mainMod + SHIFT + [0-9]
-for i = 1, 10 do
+for i = 1, smw.get_amount_of_workspaces() do
     local key = i % 10 -- 10 maps to key 0
-    hl.bind(mainMod .. " + " .. key,         hl.dsp.focus({ workspace = i }))
-    hl.bind(mainMod .. "+SHIFT + " .. key,   hl.dsp.window.move({ workspace = i }))
+    hl.bind(mainMod .. " + " .. key,         smw.workspace(tostring(i)))
+    hl.bind(mainMod .. "+SHIFT + " .. key,   smw.move_to_workspace_silent(tostring(i)))
 end
 
--- Scroll through workspaces
-hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
-hl.bind(mainMod .. " + mouse_up",   hl.dsp.focus({ workspace = "e-1" }))
+-- Scroll through workspaces on the focused monitor
+hl.bind(mainMod .. " + mouse_down", smw.cycle_workspaces("+1"))
+hl.bind(mainMod .. " + mouse_up",   smw.cycle_workspaces("-1"))
 
 -- Special workspace (scratchpad)
 hl.bind(mainMod .. " + space",       hl.dsp.workspace.toggle_special("magic"))

@@ -6,6 +6,12 @@
 -- Reference: /nix/store/.../hyprland-0.56.2/share/hypr/hyprland.lua (shipped example)
 --            /nix/store/.../hyprland-0.56.2/share/hypr/stubs/hl.meta.lua (full API)
 
+-- split-monitor-workspaces: independent workspace numbering per monitor
+-- (Hyprland's default workspace pool is global, not per-monitor).
+package.path = package.path .. ";" .. os.getenv("HOME") .. "/.config/hypr/plugins/?.lua;" .. os.getenv("HOME") .. "/.config/hypr/plugins/?/init.lua"
+smw = require("split-monitor-workspaces")
+smw.setup({ workspace_count = 10 })
+
 require("keybinds")
 require("hardware")
 require("scrolling")
