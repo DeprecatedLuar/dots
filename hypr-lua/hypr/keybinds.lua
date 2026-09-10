@@ -47,15 +47,24 @@ hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down" }))
 -- hl.bind(mainMod .. " + O", hl.dsp.window.move({ direction = "left" }))
 hl.bind(mainMod .. "+SHIFT + down", hl.dsp.window.move({ direction = "down" }))
 hl.bind(mainMod .. "+SHIFT + up",   hl.dsp.window.move({ direction = "up" }))
-hl.bind(mainMod .. " + I",          hl.dsp.window.move({ direction = "left" }))
+-- I: pulls the next (right) column's top window into the current column, stacking it
+hl.bind(mainMod .. " + I", hl.dsp.layout("consume"), { repeating = true })
+
+-- U: no native "consume from previous column" message exists, so fake it by
+-- hopping left, consuming (which always pulls from the right), then hopping back
+hl.bind(mainMod .. " + U", function()
+    hl.dispatch(hl.dsp.layout("focus l"))
+    hl.dispatch(hl.dsp.layout("consume"))
+    hl.dispatch(hl.dsp.layout("focus r"))
+end, { repeating = true })
 hl.bind(mainMod .. "+ALT + right",  hl.dsp.exec_cmd("~/.config/hypr/scripts/move-to-monitor.sh next"))
 hl.bind(mainMod .. "+ALT + left",   hl.dsp.exec_cmd("~/.config/hypr/scripts/move-to-monitor.sh prev"))
 
 -- Resize windows (disabled - using hyprscrolling colresize instead)
--- hl.bind(mainMod .. "+CTRL + left", hl.dsp.window.resize({ x = -100, y = 0 }))
-hl.bind(mainMod .. "+CTRL + up",   hl.dsp.window.resize({ x = 0, y = 70 }))
-hl.bind(mainMod .. "+CTRL + down", hl.dsp.window.resize({ x = 0, y = -70 }))
--- hl.bind(mainMod .. "+CTRL + right", hl.dsp.window.resize({ x = 100, y = 0 }))
+-- hl.bind(mainMod .. "+CTRL + left", hl.dsp.window.resize({ x = -100, y = 0, relative = true }))
+hl.bind(mainMod .. "+CTRL + up",   hl.dsp.window.resize({ x = 0, y = 70, relative = true }))
+hl.bind(mainMod .. "+CTRL + down", hl.dsp.window.resize({ x = 0, y = -70, relative = true }))
+-- hl.bind(mainMod .. "+CTRL + right", hl.dsp.window.resize({ x = 100, y = 0, relative = true }))
 
 -- Mouse bindings
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })

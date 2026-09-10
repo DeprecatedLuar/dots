@@ -24,6 +24,6 @@ hl.bind(mainMod .. " + period", hl.dsp.layout("move +col"))
 hl.bind(mainMod .. " + comma",  hl.dsp.layout("move -col"))
 
 -- Window/column management
-hl.bind(mainMod .. " + O",           hl.dsp.layout("promote"))
+hl.bind(mainMod .. " + O", hl.dsp.layout("promote"))
 hl.bind(mainMod .. "+SHIFT + left",  hl.dsp.layout("swapcol l"))
 hl.bind(mainMod .. "+SHIFT + right", hl.dsp.layout("swapcol r"))

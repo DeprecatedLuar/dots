@@ -36,7 +36,7 @@ do_blank() {
         return 1
     }
     case "$backend" in
-        hyprctl) hyprctl dispatch dpms off ;;
+        hyprctl) hyprctl dispatch 'hl.dsp.dpms("off")' ;;
         niri) niri msg action power-off-monitors ;;
         swaymsg) swaymsg 'output * dpms off' ;;
         wlopm) wlopm --off '*' ;;

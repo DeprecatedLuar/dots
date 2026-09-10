@@ -25,7 +25,8 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("ydotoold")
     -- hl.exec_cmd("quickshell -p /home/luar/.config/quickshell/noctalia-shell/")
     hl.exec_cmd("sleep 5 && systemctl --user restart xdg-desktop-portal")
-    hl.exec_cmd("noctalia")
+    -- hl.exec_cmd("noctalia")
+    -- hl.exec_cmd("ambxst")
     -- hl.exec_cmd("~/.config/nwg-wrapper/quotes/quotes.sh")
     -- hl.exec_cmd("sleep 4 && kbstart")
 end)
@@ -158,6 +159,7 @@ hl.config({
         disable_hyprland_logo     = false, -- If true disables the random hyprland logo / anime girl background. :(
         key_press_enables_dpms    = true,
         mouse_move_enables_dpms   = false,
+        animate_manual_resizes    = true,  -- Smooth out keybind-driven resizes (hl.dsp.window.resize)
     },
 
     cursor = {
@@ -244,8 +246,10 @@ hl.window_rule({
 
 -- Applies Noctalia's generated colors (~/.config/hypr/noctalia.conf) on top of
 -- the base appearance above. Required last so it wins.
-require("colors")
+-- Disabled: Noctalia no longer autostarts, so noctalia.conf is never
+-- regenerated and this bridge just errors out on missing file.
+-- require("colors")
 
 -- For Noctalia Color templates
-require("noctalia").apply_theme()
+-- require("noctalia").apply_theme()
 
