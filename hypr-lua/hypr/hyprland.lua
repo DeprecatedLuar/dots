@@ -10,6 +10,14 @@ require("keybinds")
 require("hardware")
 require("scrolling")
 
+-- hyprmon owns the monitor layout; it regenerates this file on every run.
+-- pcall: a plain require of a missing module would kill the rest of this file,
+-- which matters on a fresh machine before hyprmon has ever written it.
+local monitors_ok, monitors_err = pcall(require, os.getenv("HOME") .. "/.local/share/hypr/monitors")
+if not monitors_ok then
+    hl.notification.create({ text = "hyprmon: " .. tostring(monitors_err), timeout = 8000 })
+end
+
 --──[Autostart]---------------------------------------------------------------
 -- See https://wiki.hypr.land/Configuring/Basics/Autostart/
 
@@ -74,8 +82,8 @@ hl.config({
     },
 
     decoration = {
-        rounding       = 3,
-        rounding_power = 3,
+        rounding       = 10,
+        rounding_power = 2,
 
         active_opacity   = 0.99,
         inactive_opacity = 0.94,

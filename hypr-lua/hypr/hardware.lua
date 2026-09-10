@@ -42,22 +42,5 @@ hl.device({
     output = "DP-1",
 })
 
------------------
----- MONITORS ----
------------------
-
--- Was sourced from ~/.local/share/hypr/monitors.conf (static; hyprmon not installed).
--- If hyprmon is reinstalled and regenerates that file, revisit this.
-hl.monitor({
-    output   = "eDP-1",
-    mode     = "preferred",
-    position = "0x0",
-    scale    = 1,
-})
-
-hl.monitor({
-    output   = "DP-1",
-    mode     = "preferred",
-    position = "auto-left",
-    scale    = 1.2,
-})
+-- Monitor layout is owned by hyprmon; see the require in hyprland.lua and
+-- ~/.local/share/hypr/monitors.lua (machine-specific, generated, not in git).
