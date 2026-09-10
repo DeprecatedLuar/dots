@@ -1,7 +1,9 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   environment.systemPackages = with pkgs; [
+
+    inputs.ambxst.packages.${pkgs.system}.default
 
     unstable.noctalia
 
@@ -15,8 +17,9 @@
     netlogo
     xournalpp
     qpwgraph
-    pactl
-
+    cool-retro-term
+    
+    unstable.caelestia-shell
 
     megacmd
     whisper-cpp

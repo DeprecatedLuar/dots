@@ -1,9 +1,10 @@
-{ pkgs, frameworkModules, ... }:
+{ pkgs, ... }:
 {
-  imports = [ (frameworkModules + "/wayland.nix") ];
+  imports = [ ../system/wayland.nix ];
 
   programs.hyprland.enable = true;
   programs.hyprland.package = pkgs.unstable.hyprland;
+  programs.hyprland.withUWSM = true;
 
   environment.systemPackages = with pkgs.unstable; [
     hyprsunset
@@ -11,5 +12,6 @@
     hypridle
     hyprpicker
     swayimg
+    hyprpolkitagent
   ];
 }

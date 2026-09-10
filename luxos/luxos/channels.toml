@@ -13,3 +13,4 @@ unstable = "github:NixOS/nixpkgs/nixpkgs-unstable"
 # Non-nixpkgs flakes. Emitted as plain inputs with no overlay —
 # reach them from a module via inputs.<name>.
 [flakes]
+ambxst = "github:Axenide/Ambxst"

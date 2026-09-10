@@ -1,15 +1,1 @@
-# Root holds nothing but auto-generated convenience symlinks mirroring the
-# active machine (see links::link_machine_files) — ignore everything at root
-# except .system itself, so new real files under .system/machines/ never need
-# a gitignore update.
-/*
-!/.gitignore
-!/.system
-!/channels.toml
-!/flake.nix
-!/flake.lock
-
-# Generated symlink pools (see links::build_all_pools) — rebuilt on every run.
-/.system/users/
-/.system/services/
-/.system/modules/
+/*/local/default.nix

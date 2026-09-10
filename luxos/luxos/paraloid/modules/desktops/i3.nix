@@ -1,6 +1,6 @@
-{ pkgs, frameworkModules, ... }:
+{ pkgs, ... }:
 {
-  imports = [ (frameworkModules + "/x11.nix") ];
+  imports = [ ../system/x11.nix ];
 
   services.xserver.windowManager.i3.enable = true;
 
