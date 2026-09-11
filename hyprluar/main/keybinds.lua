@@ -5,6 +5,9 @@
 
 local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 
+-- split-monitor-workspaces: needed below for per-monitor workspace binds.
+local smw = require("plugins")
+
 local terminal    = os.getenv("TERMINAL")
 local fileManager = os.getenv("FILEMANAGER")
 local browser      = os.getenv("BROWSER")
@@ -43,10 +46,16 @@ hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + up",    hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down" }))
 
--- Move windows (left/right disabled - conflicts with hyprscrolling swapcol)
--- hl.bind(mainMod .. " + O", hl.dsp.window.move({ direction = "left" }))
+-- Column navigation (scroll viewport, scrolling layout)
+hl.bind(mainMod .. " + period", hl.dsp.layout("move +col"))
+hl.bind(mainMod .. " + comma",  hl.dsp.layout("move -col"))
+
+-- Move windows (left/right taken by column swap below, not window.move)
 hl.bind(mainMod .. "+SHIFT + down", hl.dsp.window.move({ direction = "down" }))
 hl.bind(mainMod .. "+SHIFT + up",   hl.dsp.window.move({ direction = "up" }))
+hl.bind(mainMod .. "+SHIFT + left",  hl.dsp.layout("swapcol l"))
+hl.bind(mainMod .. "+SHIFT + right", hl.dsp.layout("swapcol r"))
+
 -- I: pulls the next (right) column's top window into the current column, stacking it
 hl.bind(mainMod .. " + I", hl.dsp.layout("consume"), { repeating = true })
 
@@ -57,14 +66,18 @@ hl.bind(mainMod .. " + U", function()
     hl.dispatch(hl.dsp.layout("consume"))
     hl.dispatch(hl.dsp.layout("focus r"))
 end, { repeating = true })
+
+-- O: promote current window into its own column (takes the slot window.move({left}) would have used)
+hl.bind(mainMod .. " + O", hl.dsp.layout("promote"))
+
 hl.bind(mainMod .. "+ALT + right",  hl.dsp.exec_cmd("~/.config/hypr/scripts/move-to-monitor.sh next"))
 hl.bind(mainMod .. "+ALT + left",   hl.dsp.exec_cmd("~/.config/hypr/scripts/move-to-monitor.sh prev"))
 
--- Resize windows (disabled - using hyprscrolling colresize instead)
--- hl.bind(mainMod .. "+CTRL + left", hl.dsp.window.resize({ x = -100, y = 0, relative = true }))
+-- Resize windows (left/right taken by column resize below, not window.resize)
 hl.bind(mainMod .. "+CTRL + up",   hl.dsp.window.resize({ x = 0, y = 70, relative = true }))
 hl.bind(mainMod .. "+CTRL + down", hl.dsp.window.resize({ x = 0, y = -70, relative = true }))
--- hl.bind(mainMod .. "+CTRL + right", hl.dsp.window.resize({ x = 100, y = 0, relative = true }))
+hl.bind(mainMod .. "+CTRL + left",  hl.dsp.layout("colresize -0.05"))
+hl.bind(mainMod .. "+CTRL + right", hl.dsp.layout("colresize +0.05"))
 
 -- Mouse bindings
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
@@ -136,6 +149,8 @@ hl.bind("ALT + F", hl.dsp.exec_cmd("ydotool click 0xC0"))
 hl.bind("ALT + D", hl.dsp.exec_cmd("ydotool click 0xC1"))
 
 --──[Screenshots & Utils]---------------------------------------------------
+
+hl.env("SLURP_ARGS", "-b 00000066 -c 20202033") -- selection overlay style for grimblast/slurp
 
 hl.bind("Print",       hl.dsp.exec_cmd("grimblast -f -n copysave area ~/Media/screenshots/latest.png"))
 hl.bind("SHIFT + Print", hl.dsp.exec_cmd("grimblast -f -n -o save area"))

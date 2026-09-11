@@ -6,3 +6,6 @@ copyq/copyq/copyq.lock
 
 # Lives in its own repository (see 3ca32e8)
 quickshell/quickshell/noctalia-shell
+
+# Machine-specific state, self-healed as a symlink by config-loader.lua
+hypr-lua/hypr/local

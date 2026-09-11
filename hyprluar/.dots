@@ -1,0 +1,23 @@
+[[entries]]
+  name = "colors.lua"
+  dest = "~/.config/hypr/colors.lua"
+
+[[entries]]
+  name = "hyprland.lua"
+  dest = "~/.config/hypr/hyprland.lua"
+
+[[entries]]
+  name = "main"
+  dest = "~/.config/hypr/main"
+
+[[entries]]
+  name = "plugins"
+  dest = "~/.config/hypr/plugins"
+
+[[entries]]
+  name = "scripts"
+  dest = "~/.config/hypr/scripts"
+
+[[entries]]
+  name = "sounds"
+  dest = "~/.config/hypr/sounds"
