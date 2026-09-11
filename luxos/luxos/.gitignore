@@ -2,4 +2,5 @@
 /services/default.nix
 /users/default.nix
 /modules/system
+/local
 /.local/*/default.nix
