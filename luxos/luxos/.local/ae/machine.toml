@@ -6,9 +6,3 @@ hostName = "ae"
 timeZone = "America/Sao_Paulo"
 locale = "en_US.UTF-8"
 stateVersion = "25.05"
-
-# No GUI modules for headless
-modules = []
-
-# Services to import
-services = ["tailscale-funnel"]

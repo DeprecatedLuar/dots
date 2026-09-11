@@ -1,1 +1,5 @@
-/*/local/default.nix
+/modules/default.nix
+/services/default.nix
+/users/default.nix
+/modules/system
+/.local/*/default.nix
