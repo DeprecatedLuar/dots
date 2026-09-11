@@ -4,7 +4,8 @@
   environment.systemPackages = with pkgs; [
 
     unstable.noctalia
-
+   
+    
 #    libreoffice
     rofi
     audacity

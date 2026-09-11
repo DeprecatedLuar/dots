@@ -1,5 +1,3 @@
-(include vimsanity.kbd)
-
 (defcfg
   process-unmapped-keys yes
   log-layer-changes yes
@@ -28,16 +26,17 @@
 ;; ============ FAKE KEYS ============
 (deffakekeys
   metl (multi lmet (layer-while-held meta-layer))
+  to-default (layer-switch default)
 )
 
 ;; ============ ALIASES ============
 (defalias
-  meta (multi (on-release tap-vkey def) lmet (layer-while-held meta-layer))
+  meta (multi (on-release tap-vkey to-default) lmet (layer-while-held meta-layer))
   wm-cap (tap-hold-press $Tt $Ht (layer-switch vim-normal) @meta)
   wm-cap-or-caps (switch
     (lsft rsft) caps break
     ((not lsft rsft)) @wm-cap break)
-  super-exit (multi lmet @def)
+  super-exit (multi lmet (layer-switch default))
 
   ;; Homerow mods
   a^ a
@@ -73,3 +72,5 @@
   lsft 102d z    x    c    v    b    n    m    ,    .    /    caps
   lctl _    lalt           spc            ralt _    rctl
 )
+
+(include vimsanity.kbd)
