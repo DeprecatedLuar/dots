@@ -37,6 +37,7 @@
     (lsft rsft) caps break
     ((not lsft rsft)) @wm-cap break)
   super-exit (multi lmet (layer-switch default))
+  quote-or-meta (tap-hold-press $Tt $Ht ' @meta)
 
   ;; Homerow mods
   a^ a
@@ -59,7 +60,7 @@
   esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
-  @wm-cap-or-caps @a^  @s^  @d^  @f^  g    h    @j^  @k^  @l^  ;    '    ret
+  @wm-cap-or-caps @a^  @s^  @d^  @f^  g    h    @j^  @k^  @l^  ;    @quote-or-meta    ret
   lsft 102d z    x    c    v    b    n    m    ,    .    /    rsft
   lctl @super-exit lalt           spc            ralt @super-exit rctl
 )
