@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-readonly SELF_HEAL="${HOME:?}/.config/hypr/scripts/self-heal.sh"
+readonly SELF_HEAL="${HOME:?}/.config/hypr/.framework/self-heal.sh"
 
 [[ -x "$SELF_HEAL" ]] || {
     printf 'hypreload: self-heal script is missing or not executable: %s\n' "$SELF_HEAL" >&2

@@ -1,11 +1,11 @@
-# hyprmon — diagonal slot support (design notes)
+# hyprcyclops — diagonal slot support (design notes)
 
 Status: **design in progress, not implemented.** Two open questions remain (§6).
 Date: 2026-08-19. Hyprland 0.52.1.
 
 ## 1. Goal
 
-Extend `hyprmon`'s slot model from 5 positions (`center`, `left`, `right`, `up`,
+Extend `hyprcyclops`'s slot model from 5 positions (`center`, `left`, `right`, `up`,
 `down`) to a full 3x3 grid by adding the four diagonals:
 
 ```
@@ -50,12 +50,12 @@ varied).
 ### 3.1 The critical finding
 
 **Hyprland does not warn-and-refuse on overlap. It silently relocates other
-monitors** and still returns `ok`. A math bug in hyprmon will therefore not
+monitors** and still returns `ok`. A math bug in hyprcyclops will therefore not
 surface as an error — it will surface as a silently rearranged desktop.
 
 Two consequences, both settled:
 
-1. Non-overlap must be guaranteed by hyprmon's own math or checked before push.
+1. Non-overlap must be guaranteed by hyprcyclops's own math or checked before push.
 2. `app_apply` must **read back** `hyprctl -j monitors` after pushing and verify
    actual `x`/`y` match intent. `ok` is not evidence.
 
@@ -88,11 +88,11 @@ entirely in `x >= 0`. No collision checking required.
 
 ## 5. Decisions settled
 
-- **Drop `auto-*` entirely once diagonals exist.** Mixing hyprmon-computed
+- **Drop `auto-*` entirely once diagonals exist.** Mixing hyprcyclops-computed
   explicit coords with compositor-computed `auto-*` means two independent
   placers that don't coordinate, which produces overlap → silent reflow.
   One brain does the placement. `domain_desired_rule`
-  (`scripts/bin/hyprmon:229-248`) becomes the single source of position math.
+  (`scripts/bin/hyprcyclops:229-248`) becomes the single source of position math.
 - **Apply must verify by read-back**, per §3.1.
 - **`northeast` is a grid cell, not "right, raised."** Its vertical band must
   live above `y=0`, because `y >= 0` in the right column belongs to `right`.
@@ -121,7 +121,7 @@ entirely in `x >= 0`. No collision checking required.
   ergonomics in the common 2-3 monitor case. Cost: plugging in an unrelated
   monitor silently moves an existing one, and CLAUDE.md says declarative over
   magic.
-- **Third option**: static by default, plus an explicit `hyprmon compact`
+- **Third option**: static by default, plus an explicit `hyprcyclops compact`
   command that relaxes empty-cell gaps on demand.
 
 User's position so far: flush "was fine"; center-aligned "makes more sense AS
@@ -149,7 +149,7 @@ committing to static/flush, since it is the main ergonomic argument against it.
 
 ## 8. Code touchpoints
 
-All in `scripts/bin/hyprmon`:
+All in `scripts/bin/hyprcyclops`:
 
 - `SLOTS` constant (line 28) — extend with the four diagonals.
 - `domain_normalize_direction` (line ~152) — add diagonal names and aliases.
@@ -171,7 +171,7 @@ diagonal keys is backward-compatible via the existing `//= {}` backfill.
 hyprctl -j monitors all | jq -c '.[] | {name,disabled,width,height,x,y,scale,transform,
   logical_w:(.width/.scale|round), logical_h:(.height/.scale|round)}'
 
-# current hyprmon state
+# current hyprcyclops state
 cat "${XDG_DATA_HOME:-$HOME/.local/share}/hypr/monitors.json"
 
 # restore the baseline used during these tests

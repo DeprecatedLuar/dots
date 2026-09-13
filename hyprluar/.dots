@@ -1,4 +1,12 @@
 [[entries]]
+  name = ".framework"
+  dest = "~/.config/hypr/.framework"
+
+[[entries]]
+  name = ".local"
+  dest = "~/.config/hypr/.local"
+
+[[entries]]
   name = "colors.lua"
   dest = "~/.config/hypr/colors.lua"
 
@@ -7,8 +15,8 @@
   dest = "~/.config/hypr/hyprland.lua"
 
 [[entries]]
-  name = "main"
-  dest = "~/.config/hypr/main"
+  name = "modules"
+  dest = "~/.config/hypr/modules"
 
 [[entries]]
   name = "plugins"
