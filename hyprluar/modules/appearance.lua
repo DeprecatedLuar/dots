@@ -6,8 +6,8 @@ hl.env("GTK_THEME", "adw-gtk3-dark")
 
 hl.config({
     general = {
-        gaps_in  = 4,
-        gaps_out = 17,
+        gaps_in  = 3,
+        gaps_out = { top = 12, right = 12, bottom = 10, left = 12 },
 
         border_size = 2,
 

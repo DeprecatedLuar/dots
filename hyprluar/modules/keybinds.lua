@@ -70,8 +70,8 @@ end, { repeating = true })
 -- O: promote current window into its own column (takes the slot window.move({left}) would have used)
 hl.bind(mainMod .. " + O", hl.dsp.layout("promote"))
 
-hl.bind(mainMod .. "+ALT + right",  hl.dsp.exec_cmd("~/.config/hypr/scripts/move-to-monitor.sh next"))
-hl.bind(mainMod .. "+ALT + left",   hl.dsp.exec_cmd("~/.config/hypr/scripts/move-to-monitor.sh prev"))
+hl.bind(mainMod .. "+ALT + right",  hl.dsp.window.move({ monitor = "+1" }))
+hl.bind(mainMod .. "+ALT + left",   hl.dsp.window.move({ monitor = "-1" }))
 
 -- Resize windows (left/right taken by column resize below, not window.resize)
 hl.bind(mainMod .. "+CTRL + up",   hl.dsp.window.resize({ x = 0, y = 70, relative = true }))
