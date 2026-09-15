@@ -1,4 +1,4 @@
-{ mainUser, hostName, ... }:
+{ hostName, ... }:
 
 {
   services.nginx = {

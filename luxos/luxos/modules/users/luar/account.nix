@@ -1,4 +1,4 @@
-{ pkgs, mainUser, ... }:
+{ pkgs, ... }:
 
 {
   users.users.luar = {

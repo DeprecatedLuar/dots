@@ -1,6 +1,0 @@
-{ ... }:
-{
-  imports = [
-    ./tailscale-funnel.nix
-  ];
-}

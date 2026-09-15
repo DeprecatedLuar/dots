@@ -7,5 +7,6 @@
     ./greeters/ly.nix
     ./desktop-apps.nix
     ./ambxst.nix
+    ./users/luar
   ];
 }
