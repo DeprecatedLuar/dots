@@ -2,9 +2,9 @@
 {
   imports = [
     ./system/gaming.nix
-    ./desktops/hyprland.nix
+    ./desktop/compositors/hyprland.nix
 #    ./desktops/xfce.nix
-    ./greeters/ly.nix
+    ./desktop/greeters/ly.nix
     ./desktop-apps.nix
     ./ambxst.nix
     ./users/luar

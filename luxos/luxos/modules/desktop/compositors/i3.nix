@@ -1,6 +1,6 @@
-{ pkgs, ... }:
+{ pkgs, luxos, ... }:
 {
-  imports = [ ../system/x11.nix ];
+  imports = luxos.modules [ "x11" ];
 
   services.xserver.windowManager.i3.enable = true;
 

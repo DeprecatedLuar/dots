@@ -1,6 +1,6 @@
-{ lib, ... }:
+{ lib, luxos, ... }:
 {
-  imports = [ ../system/x11.nix ];
+  imports = luxos.modules [ "x11" ];
 
   services.xserver.desktopManager.xfce.enable = true;
 

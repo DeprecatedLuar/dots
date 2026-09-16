@@ -1,6 +1,6 @@
-{ pkgs, ... }:
+{ pkgs, luxos, ... }:
 {
-  imports = [ ../system/wayland.nix ];
+  imports = luxos.modules [ "wayland" ];
 
   programs.hyprland.enable = true;
   programs.hyprland.package = pkgs.unstable.hyprland;
