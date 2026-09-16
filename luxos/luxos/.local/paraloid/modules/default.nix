@@ -6,7 +6,7 @@
 #    ./desktops/xfce.nix
     ./desktop/greeters/ly.nix
     ./desktop-apps.nix
-    ./ambxst.nix
+    ./desktop/shells/ambxst
     ./users/luar
   ];
 }
