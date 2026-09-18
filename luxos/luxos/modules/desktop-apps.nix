@@ -6,17 +6,11 @@
     firefox
     vscode-fhs
     imagemagick
-    pavucontrol
     libnotify
-    brightnessctl
-    blueman
     celluloid
     adwaita-icon-theme
     adw-gtk3
     zathura
-    # Multi-MIME clipboard client deps: wl-copy can only advertise a single
-    # MIME type per offer, so file copies need a GTK client that advertises
-    # text/uri-list and x-special/gnome-copied-files together (like PCManFM).
     gtk3
     gobject-introspection
     (python3.withPackages (ps: with ps; [ pygobject3 ]))
@@ -24,16 +18,17 @@
     xfce.tumbler
     ffmpegthumbnailer
 
-    # Qt theming - active theme managed via dotfiles (~/.config/qt6ct/)
-    qt6Packages.qt6ct
+    # Qt theming
     darkly
     papirus-icon-theme
     kdePackages.breeze
     adwaita-qt6
 
-    ydotool
-    evtest
     mpv
+
+    # Wallpaper
+    swaybg
+    feh
   ];
 
   # GObject-introspection typelibs are not linked into the system profile by

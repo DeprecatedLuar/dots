@@ -6,7 +6,10 @@
 #    ./desktops/xfce.nix
     ./desktop/greeters/ly.nix
     ./desktop-apps.nix
+    ./lux-goodies/modern-unix.nix
     ./desktop/shells/ambxst
     ./users/luar
+    ./extras.nix
+    ./lux-goodies/dev.nix
   ];
 }

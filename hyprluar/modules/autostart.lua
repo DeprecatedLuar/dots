@@ -8,7 +8,7 @@ hl.on("hyprland.start", function()
 
     hl.exec_cmd("mpv ~/.config/hypr/sounds/startup-sound-fast.mp3")
     hl.exec_cmd("ydotoold")
-    hl.exec_cmd("ambxst")
+--    hl.exec_cmd("ambxst")
     hl.exec_cmd("sleep 5 && systemctl --user restart xdg-desktop-portal")
     -- hl.exec_cmd("noctalia")
     -- hl.exec_cmd("ambxst")

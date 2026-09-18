@@ -26,6 +26,9 @@ hl.config({
         rounding       = 10,
         rounding_power = 2,
 
+        -- Special workspace (scratchpad): light blur plus a subtle dim behind it
+        dim_special = 0.08,
+
         active_opacity   = 0.99,
         inactive_opacity = 0.94,
 
@@ -38,10 +41,11 @@ hl.config({
 
         blur = {
             enabled  = true,
-            size     = 10,
-            passes   = 2,
+            size     = 5,
+            passes   = 1,
             xray     = true,
             popups   = false,
+            special  = true,
             vibrancy = 1,
         },
     },
