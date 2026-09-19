@@ -13,3 +13,11 @@
 [[entries]]
   name = "settings.json"
   dest = "~/.config/noctalia/settings.json"
+
+[[entries]]
+  name = "settings.toml"
+  dest = "~/.local/state/noctalia/settings.toml"
+
+[[entries]]
+  name = "state.toml"
+  dest = "~/.local/state/noctalia/state.toml"

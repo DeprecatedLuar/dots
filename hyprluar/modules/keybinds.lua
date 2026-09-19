@@ -10,8 +10,11 @@ local smw = require("plugins")
 
 local terminal    = os.getenv("TERMINAL")
 local fileManager = os.getenv("FILEMANAGER")
-local browser      = os.getenv("BROWSER")
-local imageViewer   = os.getenv("IMAGE_VIEWER")
+local browser     = os.getenv("BROWSER")
+local imageViewer = os.getenv("IMAGE_VIEWER")
+local clipboard   = os.getenv("CLIPBOARD")
+local launcher    = os.getenv("LAUNCHER")
+local hotline     = "hotline"
 
 --──[Launchers]---------------------------------------------------------------
 
@@ -21,10 +24,13 @@ hl.bind(mainMod .. " + B",      hl.dsp.exec_cmd(browser))
 hl.bind(mainMod .. "+SHIFT + B", hl.dsp.exec_cmd("brave"))
 hl.bind(mainMod .. " + E",      hl.dsp.exec_cmd("thunderbird"))
 hl.bind(mainMod .. " + W",      hl.dsp.exec_cmd("flatpak run com.rtosta.zapzap"))
-hl.bind(mainMod .. " + V",      hl.dsp.exec_cmd("copyq toggle"))
+hl.bind(mainMod .. " + V",      hl.dsp.exec_cmd(clipboard))
 
--- Tap-and-release SUPER alone
-hl.bind(mainMod .. " + SUPER_L", hl.dsp.exec_cmd("hotline"), { release = true })
+-- Tap-and-release SUPER alone (disabled; use SUPER + G instead)
+-- hl.bind(mainMod .. " + SUPER_L", hl.dsp.exec_cmd(launcher), { release = true })
+
+-- Configured launcher with Hotline Launcher fallback
+hl.bind(mainMod .. " + G", hl.dsp.exec_cmd(launcher .. " || " .. hotline))
 
 --──[Window Management]--------------------------------------------------------
 

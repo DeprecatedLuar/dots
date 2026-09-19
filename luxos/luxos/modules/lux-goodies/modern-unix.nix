@@ -2,6 +2,7 @@
 
 {
   programs.zoxide.enable = true;
+  programs.starship.enable = true;
 
   networking.firewall.allowedUDPPortRanges = [
     { from = 60000; to = 61000; }  # mosh
@@ -15,6 +16,7 @@
     fzf
     micro
     mosh
+    starship
   ];
 
   environment.shellAliases = {

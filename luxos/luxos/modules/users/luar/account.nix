@@ -7,6 +7,7 @@
     packages = with pkgs; [
          
       matugen
+      ranger
      #pandoc
       python3Packages.markitdown
       copyq

@@ -6,3 +6,4 @@ require("noctalia").apply_theme()
 
 -- Hyprcyclops auto import start
 require(os.getenv("HOME") .. "/.local/share/hypr/local/monitors")
+

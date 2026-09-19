@@ -11,6 +11,10 @@
   dest = "~/.config/hypr/colors.lua"
 
 [[entries]]
+  name = "hypridle.conf"
+  dest = "~/.config/hypr/hypridle.conf"
+
+[[entries]]
   name = "hyprland.lua"
   dest = "~/.config/hypr/hyprland.lua"
 

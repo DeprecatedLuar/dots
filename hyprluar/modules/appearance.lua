@@ -1,19 +1,24 @@
 -- Refer to https://wiki.hypr.land/Configuring/Basics/Variables/
 -- and https://wiki.hypr.land/Configuring/Advanced-and-Cool/Animations/
 
+local noctalia = require("noctalia").colors
+
+local ACTIVE_BORDER_ANGLE = 45
+local ACTIVE_BORDER_ACCENT = "rgb(88C0D0)" -- Nord frost blue, middle stop (Noctalia has no distinct third hue)
+
 hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
 hl.env("GTK_THEME", "adw-gtk3-dark")
 
 hl.config({
     general = {
         gaps_in  = 3,
-        gaps_out = { top = 12, right = 12, bottom = 10, left = 12 },
+        gaps_out = { top = 10, right = 12, bottom = 5, left = 12 },
 
         border_size = 2,
 
         col = {
-            active_border   = "rgba(88C0D0ee)", -- Nord frost blue
-            inactive_border = "rgba(000000cc)", -- Nord polar night gray
+            active_border   = { colors = { noctalia.primary, ACTIVE_BORDER_ACCENT, noctalia.secondary }, angle = ACTIVE_BORDER_ANGLE },
+            inactive_border = "rgba(000000cc)",
         },
 
         resize_on_border = true,

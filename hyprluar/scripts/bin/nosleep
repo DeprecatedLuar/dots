@@ -260,6 +260,14 @@ kill_inhibitor() {
     send_notification "$DISABLED_MESSAGE"
 }
 
+toggle() {
+    if is_running; then
+        stop
+    else
+        start "$@"
+    fi
+}
+
 action=foreground
 duration=
 deadline=
@@ -268,7 +276,7 @@ label=
 while (($# > 0)); do
     case "$1" in
         on) action=background ;;
-        status|off|stop|kill) action="$1" ;;
+        status|off|stop|kill|toggle) action="$1" ;;
         --for)
             (($# >= 2)) || { printf 'nosleep: --for needs a duration\n' >&2; exit 2; }
             [[ -z "$duration" && -z "$deadline" ]] || { printf 'nosleep: use only one of --for or --until\n' >&2; exit 2; }
@@ -286,6 +294,7 @@ while (($# > 0)); do
             ;;
         --help|-h)
             printf 'Usage: nosleep [on] [--for DURATION|--until TIME]\n'
+            printf '       nosleep toggle [--for DURATION|--until TIME]\n'
             printf '       nosleep status|off|stop|kill\n'
             exit 0
             ;;
@@ -303,4 +312,5 @@ case "$action" in
     status) show_status ;;
     off|stop) stop ;;
     kill) kill_inhibitor ;;
+    toggle) toggle "$duration" "$deadline" "$label" ;;
 esac

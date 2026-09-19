@@ -11,5 +11,6 @@
     ./users/luar
     ./extras.nix
     ./lux-goodies/dev.nix
+    ./services/docker.nix
   ];
 }
