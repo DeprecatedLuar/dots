@@ -1,5 +1,0 @@
-# NixOS Machine Configuration - nuremberg
-
-timeZone = "America/Sao_Paulo"
-locale = "en_US.UTF-8"
-stateVersion = "25.05"

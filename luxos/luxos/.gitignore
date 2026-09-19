@@ -1,4 +1,4 @@
 /modules/default.nix
 /modules/system
+/modules/local
 /local
-/.local/*/default.nix
