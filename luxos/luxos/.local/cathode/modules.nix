@@ -15,5 +15,6 @@
     ./nixpkgs.nix    
     ./local/packages.nix
     ./local/preferences.nix
+    ./hardware/nvidia.nix
   ];
 }
