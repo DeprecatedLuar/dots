@@ -1,4 +1,6 @@
-{ ... }:
+{ luxos, ... }:
 {
-  services.displayManager.lightdm.enable = true;
+  imports = luxos.modules [ "x11" ];
+
+  services.xserver.displayManager.lightdm.enable = true;
 }

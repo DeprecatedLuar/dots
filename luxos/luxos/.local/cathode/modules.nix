@@ -16,5 +16,7 @@
     ./local/packages.nix
     ./local/preferences.nix
     ./hardware/nvidia.nix
+    ./desktop/compositors/cinnamon.nix
+    ./desktop/greeters/lightdm.nix
   ];
 }

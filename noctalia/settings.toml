@@ -284,13 +284,13 @@ directory = "/home/luar/Media/wallpapers"
 transition_duration = 2800
 
     [wallpaper.default]
-    path = "/home/luar/Media/wallpapers/stalenhag/undefined - Imgur.jpg"
+    path = "/home/luar/Media/wallpapers/eva2.jpg"
 
     [wallpaper.last]
-    path = "/home/luar/Media/wallpapers/stalenhag/undefined - Imgur.jpg"
+    path = "/home/luar/Media/wallpapers/eva2.jpg"
 
     [wallpaper.monitors.eDP-1]
-    path = "/home/luar/Media/wallpapers/stalenhag/undefined - Imgur.jpg"
+    path = "/home/luar/Media/wallpapers/eva2.jpg"
 
 [widget.GPU]
 capsule = true
