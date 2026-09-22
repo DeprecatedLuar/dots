@@ -2,6 +2,9 @@
 {
   imports = [
     ./system/gaming.nix
+    ./hardware/laptop.nix
+    ./hardware/nvidia.nix
+    ./hardware/intel.nix
     ./desktop/compositors/hyprland.nix
 #    ./desktops/xfce.nix
     ./desktop/greeters/ly.nix

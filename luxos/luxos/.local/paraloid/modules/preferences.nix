@@ -22,7 +22,6 @@
     XMODIFIERS = "@im=fcitx";
     QT_IM_MODULE = "fcitx";
     GTK_IM_MODULE = "fcitx";
-    LIBVA_DRIVER_NAME = "iHD";  # Intel hardware video acceleration
   };
 
   #──[Network]────────────────────────────────────────────────────────────────
