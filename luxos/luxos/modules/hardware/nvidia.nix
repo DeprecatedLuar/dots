@@ -3,8 +3,9 @@
 {
   #──[NVIDIA — PRIME Offload]────────────────────────────────────────────────
   # iGPU drives the display; the dGPU runs on demand via `nvidia-offload`.
-  # Bus IDs are per machine: set hardware.nvidia.prime.{intel,amdgpu}BusId
-  # and nvidiaBusId in the host's hardware.nix (`lspci | grep -iE "vga|3d"`).
+  # Bus IDs and offload enablement are defaulted by luxos from detected PCI
+  # GPUs (framework/gpu.nix, luxos-hardware-defaults.nix) - only set here if
+  # detection can't disambiguate the layout.
 
   services.xserver.videoDrivers = [ "nvidia" ];
 
@@ -13,10 +14,5 @@
   hardware.nvidia = {
     modesetting.enable = true;
     open = true;  # Open kernel modules; NVIDIA's recommendation for Turing and newer
-
-    prime.offload = {
-      enable = true;
-      enableOffloadCmd = true;
-    };
   };
 }
