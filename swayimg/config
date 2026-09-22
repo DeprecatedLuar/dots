@@ -1,0 +1,17 @@
+[general]
+size = image
+
+[viewer]
+scale = fit
+transparency = #00000000
+
+[info]
+show = no
+
+[keys.viewer]
+# Scroll to zoom (mouse position)
+ScrollUp = zoom +10 mouse
+ScrollDown = zoom -10 mouse
+# Copy current image to clipboard
+y = exec wl-copy --type $(file --mime-type -b '%') < '%'
+Ctrl+c = exec wl-copy --type $(file --mime-type -b '%') < '%'

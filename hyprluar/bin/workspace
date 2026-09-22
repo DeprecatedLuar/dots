@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Switch to a Hyprland workspace by number (per-monitor, via split-monitor-workspaces).
+set -euo pipefail
+
+usage() {
+    echo "usage: workspace <number>" >&2
+    exit 2
+}
+
+[[ $# -eq 1 && $1 =~ ^[1-9][0-9]*$ ]] || usage
+
+# `hyprctl dispatch` wraps its argument in hl.dispatch(...), so pass a dispatcher expression.
+exec hyprctl dispatch "require(\"split-monitor-workspaces\").workspace(\"$1\")"

@@ -11,6 +11,10 @@
   dest = "~/.config/noctalia/plugins.json"
 
 [[entries]]
+  name = "scripts"
+  dest = "~/.local/state/noctalia/scripts"
+
+[[entries]]
   name = "settings.json"
   dest = "~/.config/noctalia/settings.json"
 

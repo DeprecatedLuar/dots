@@ -1,8 +1,5 @@
 -- Converted from hardware.conf
--- Cursor size, input devices, and monitors.
-
-hl.env("XCURSOR_SIZE", "17")
-hl.env("HYPRCURSOR_SIZE", "17")
+-- Input devices and monitors.
 
 hl.config({
     cursor = {

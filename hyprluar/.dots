@@ -7,6 +7,10 @@
   dest = "~/.config/hypr/.local"
 
 [[entries]]
+  name = "bin"
+  dest = "~/bin"
+
+[[entries]]
   name = "colors.lua"
   dest = "~/.config/hypr/colors.lua"
 

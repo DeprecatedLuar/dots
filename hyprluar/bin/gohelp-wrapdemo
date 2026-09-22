@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Throwaway demo for the gohelp wrapping bug. Delete when done:
+#   rm ~/bin/gohelp-wrapdemo ~/bin/gohelp-demo-current ~/bin/gohelp-demo-proto
+clear
+echo
+echo "  ================ CURRENT (broken) ================"
+gohelp-demo-current
+echo
+echo "  ================ MODE A - truncate with … ================"
+gohelp-demo-proto A
+echo "  ================ MODE B - command on own line ================"
+gohelp-demo-proto B
+echo "  terminal width: $(tput cols)"

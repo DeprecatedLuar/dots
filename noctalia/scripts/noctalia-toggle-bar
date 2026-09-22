@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+STATE_FILE="${XDG_STATE_HOME:-$HOME/.local/state}/noctalia-bars-layer"
+CURRENT_LAYER="overlay"
+NEXT_LAYER="top"
+
+if (( $# == 0 )); then
+    echo "Usage: $0 <bar-name> [bar-name ...]" >&2
+    exit 2
+fi
+
+BAR_NAMES=("$@")
+
+if [[ -f "$STATE_FILE" ]]; then
+    CURRENT_LAYER="$(<"$STATE_FILE")"
+    case "$CURRENT_LAYER" in
+        top) NEXT_LAYER="overlay" ;;
+        overlay) NEXT_LAYER="top" ;;
+        *)
+            echo "Invalid layer in $STATE_FILE: $CURRENT_LAYER" >&2
+            exit 1
+            ;;
+    esac
+fi
+
+for bar_name in "${BAR_NAMES[@]}"; do
+    noctalia msg bar-layer-set "$NEXT_LAYER" "$bar_name"
+done
+
+mkdir -p "$(dirname "$STATE_FILE")"
+printf '%s\n' "$NEXT_LAYER" >"$STATE_FILE"

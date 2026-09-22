@@ -1,0 +1,1 @@
+/home/luar/Workspace/dev/scripts/flashdrive-phone-sync.sh

@@ -17,6 +17,8 @@
     xournalpp
     qpwgraph
     cool-retro-term
+    swayimg
+    zapzap
     
     unstable.caelestia-shell
 

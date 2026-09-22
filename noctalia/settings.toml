@@ -5,7 +5,7 @@ enable_overdrive = true
 sound_volume = 0.099999997764825821
 
 [bar]
-order = [ "default", "toolbar", "notch", "monitor", "tray" ]
+order = [ "default", "toolbar", "info", "notch", "tray", "state" ]
 
     [bar.default]
     capsule_group = []
@@ -22,43 +22,61 @@ order = [ "default", "toolbar", "notch", "monitor", "tray" ]
     start = []
     thickness = 10
 
-    [bar.monitor]
+    [bar.info]
+    center = [ "cpu", "ram", "GPU" ]
+    enabled = false
+    end = [ "GPU_VRAM", "network_tx", "network_rx" ]
+    position = "left"
+    scale = 1.300000011920929
+    start = [ "weather" ]
+    thickness = 97
+
+    [bar.notch]
+    end = [ "volume", "bluetooth" ]
+    margin_ends = 845
+    padding = 13
+    reserve_space = false
+    start = [ "network", "input_volume" ]
+    thickness = 25
+
+        [bar.notch.monitor.DP-1]
+        margin_ends = 750
+        thickness = 20
+
+    [bar.state]
     center = [ "media" ]
     enabled = true
-    end = [ "sysmon_2", "ram", "temp" ]
+    end = [ "privacy", "cpu_custom", "ram", "temp" ]
     font_family = "CaskaydiaMono NF Light"
     margin_ends = 50
     panel_overlap = 0
     position = "bottom"
     scale = 0.85000000521540642
+    shadow = false
     start = [ "workspaces" ]
     thickness = 17
 
-    [bar.notch]
-    end = [ "volume", "bluetooth" ]
-    margin_ends = 845
-    reserve_space = false
-    start = [ "network", "input_volume" ]
-    thickness = 25
+        [bar.state.monitor.DP-1]
+        enabled = false
 
     [bar.toolbar]
     auto_hide = true
     center = []
     enabled = true
-    end = [ "weather", "brightness", "spacer_2", "spacer_3", "settings", "session" ]
+    end = [ "exit-node", "brightness", "webcam", "launcher", "caffeine", "gamermode", "wallpaper" ]
     font_family = "Monocraft"
     margin_ends = 550
     reserve_space = false
     scale = 1.300000011920929
     show_on_workspace_switch = false
-    start = [ "launcher", "wallpaper", "clipboard", "gamermode", "nosleep" ]
+    start = [ "session", "settings", "spacer_2", "screenshot" ]
     thickness = 40
 
     [bar.tray]
     auto_hide = true
     center = [ "tray" ]
     enabled = true
-    end = []
+    end = [ "pin" ]
     margin_ends = 350
     position = "right"
     reserve_space = false
@@ -91,7 +109,6 @@ enabled = true
 icon_size = 31
 item_spacing = 5
 launcher_icon = "hexagon"
-launcher_position = "start"
 magnification_scale = 1.1000000014901161
 main_axis_padding = 0
 reserve_space = false
@@ -245,6 +262,9 @@ popup_borders = false
     enabled = true
     size = 50
 
+    [shell.screenshot]
+    save_to_file = false
+
     [shell.session]
     grid = true
 
@@ -272,6 +292,18 @@ transition_duration = 2800
     [wallpaper.monitors.eDP-1]
     path = "/home/luar/Media/wallpapers/stalenhag/undefined - Imgur.jpg"
 
+[widget.GPU]
+capsule = true
+capsule_opacity = 0.0
+glyph = "chart-dots-2-filled"
+stat = "gpu_usage"
+type = "sysmon"
+visualization = "graph"
+
+[widget.GPU_VRAM]
+stat = "gpu_vram"
+type = "sysmon"
+
 [widget.audio_visualizer]
 bands = 72
 color_2 = "on_surface"
@@ -291,7 +323,16 @@ capsule_opacity = 0.0
 capsule_radius = 8
 
 [widget.brightness]
+capsule = true
+capsule_opacity = 0.0
 enabled = false
+
+    [widget.brightness.actions]
+    left = "exec webcam"
+
+[widget.caffeine]
+capsule = true
+capsule_opacity = 0.0
 
 [widget.clipboard]
 enabled = false
@@ -301,6 +342,22 @@ capsule = true
 capsule_opacity = 0.70000000000000007
 capsule_padding = 15
 capsule_radius = 5
+font_family = "Monocraft"
+font_weight = 400
+
+[widget.cpu_custom]
+scale = 0.85000000000000009
+type = "sysmon"
+visualization = "none"
+
+[widget.exit-node]
+capsule = true
+capsule_opacity = 0.0
+glyph = "arrows-exchange"
+type = "custom_button"
+
+    [widget.exit-node.actions]
+    left = "exec tog \"tailscale set --exit-node=\" \"tailscale set --exit-node=nuremberg\" -n=none/nuremberg"
 
 [widget.gamermode]
 type = "nomadcxx/gamer-mode:gamermode"
@@ -312,12 +369,13 @@ show_label = false
 [widget.launcher]
 capsule = true
 capsule_opacity = 0.0
+enabled = false
 scale = 0.85000000000000009
 
 [widget.media]
-capsule = true
-capsule_opacity = 0.28999999999999998
+capsule_opacity = 0.0
 capsule_radius = 5
+font_family = "Iosevka NF ExtraLight Obl"
 font_scale = 0.98999999999999999
 hide_when_no_media = true
 max_length = 800
@@ -335,18 +393,14 @@ capsule_radius = 8
 show_label = false
 vpn_status = "both"
 
-[widget.network_rx]
-glyph = "spaces"
-stat = "gpu_usage"
-
-[widget.nosleep]
-capsule = true
-capsule_opacity = 0.0
-glyph = "caffeine-off"
+[widget.pin]
+enabled = false
+glyph = "pin"
 type = "custom_button"
 
-    [widget.nosleep.actions]
-    left = "exec nosleep toggle"
+    [widget.pin.actions]
+    left = "bar-auto-hide-set off tray"
+    right = "bar-auto-hide-set tray"
 
 [widget.privacy]
 inactive_color = "on_error"
@@ -362,10 +416,8 @@ capsule = true
 capsule_opacity = 0.0
 
 [widget.spacer_2]
-type = "spacer"
-
-[widget.spacer_3]
-length = 22
+enabled = false
+length = 53
 type = "spacer"
 
 [widget.sysmon]
@@ -373,11 +425,7 @@ capsule = true
 capsule_opacity = 0.48999999999999999
 capsule_radius = 5
 scale = 0.90000000000000013
-
-[widget.sysmon_2]
-scale = 0.85000000000000009
-type = "sysmon"
-visualization = "none"
+stat = "gpu_usage"
 
 [widget.temp]
 capsule = true
@@ -403,9 +451,15 @@ capsule = true
 capsule_opacity = 0.0
 
 [widget.weather]
-enabled = false
 max_length = 144
 show_condition = false
+
+[widget.webcam]
+glyph = "device-computer-camera"
+type = "custom_button"
+
+    [widget.webcam.actions]
+    left = "exec tog webcam"
 
 [widget.workspaces]
 active_pill_size = 2.5

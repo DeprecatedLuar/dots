@@ -6,8 +6,15 @@ local noctalia = require("noctalia").colors
 local ACTIVE_BORDER_ANGLE = 45
 local ACTIVE_BORDER_ACCENT = "rgb(88C0D0)" -- Nord frost blue, middle stop (Noctalia has no distinct third hue)
 
+local CURSOR_THEME = "breeze_cursors"
+local CURSOR_SIZE  = "22"
+
 hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
 hl.env("GTK_THEME", "adw-gtk3-dark")
+hl.env("XCURSOR_THEME", CURSOR_THEME)
+hl.env("HYPRCURSOR_THEME", CURSOR_THEME)
+hl.env("XCURSOR_SIZE", CURSOR_SIZE)
+hl.env("HYPRCURSOR_SIZE", CURSOR_SIZE)
 
 hl.config({
     general = {
@@ -32,7 +39,7 @@ hl.config({
         rounding_power = 2,
 
         -- Special workspace (scratchpad): light blur plus a subtle dim behind it
-        dim_special = 0.08,
+        dim_special = 0.0, -- was 0.08
 
         active_opacity   = 0.99,
         inactive_opacity = 0.94,
@@ -46,12 +53,11 @@ hl.config({
 
         blur = {
             enabled  = true,
-            size     = 5,
-            passes   = 1,
-            xray     = true,
+            size     = 2,
+            passes   = 2,
             popups   = false,
             special  = true,
-            vibrancy = 1,
+            vibrancy = 2,
         },
     },
 

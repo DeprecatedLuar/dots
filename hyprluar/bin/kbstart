@@ -1,0 +1,1 @@
+pkill akeyshually ; pkill kanata ; hotline kanata --port 5828 -c ~/.config/kanata/kanata.kbd && sleep 2 && hotline akeyshually --debug 

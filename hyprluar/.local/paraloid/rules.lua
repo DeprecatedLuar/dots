@@ -57,6 +57,18 @@ hl.window_rule({
     float = true,
 })
 
+-- swayimg image viewer
+hl.window_rule({
+    name  = "swayimg-float",
+    match = { class = "^(swayimg)$" },
+    float = true,
+})
+hl.window_rule({
+    name     = "swayimg-min-size",
+    match    = { class = "^(swayimg)$" },
+    min_size = "800 600",
+})
+
 -- File picker (XDG portal)
 hl.window_rule({
     name  = "xdg-portal-gtk-float",
@@ -67,4 +79,22 @@ hl.window_rule({
     name   = "xdg-portal-gtk-center",
     match  = { class = "^(xdg-desktop-portal-gtk)$" },
     center = true,
+})
+
+-- webcam viewer (~/.config/hypr/bin/webcam); size comes from the launcher
+hl.window_rule({
+    name  = "webcam-float",
+    match = { class = "^(webcam(-locked)?)$" },
+    float = true,
+    pin   = true,
+})
+hl.window_rule({
+    name    = "webcam-opaque",
+    match   = { class = "^(webcam(-locked)?)$" },
+    opacity = "1.0 override 1.0 override",
+})
+hl.window_rule({
+    name              = "webcam-locked-aspect",
+    match             = { class = "^(webcam-locked)$" },
+    keep_aspect_ratio = true,
 })
