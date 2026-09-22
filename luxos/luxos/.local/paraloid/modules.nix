@@ -6,7 +6,6 @@
     ./hardware/nvidia.nix
     ./hardware/intel.nix
     ./desktop/compositors/hyprland.nix
-#    ./desktops/xfce.nix
     ./desktop/greeters/ly.nix
     ./desktop-apps.nix
     ./lux-goodies/modern-unix.nix

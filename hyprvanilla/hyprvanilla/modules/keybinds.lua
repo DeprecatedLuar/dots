@@ -16,15 +16,24 @@ local clipboard   = os.getenv("CLIPBOARD")
 local launcher    = os.getenv("LAUNCHER")
 local hotline     = "hotline"
 
+-- Env-provided apps vary per host; bind only what resolves, and say what was skipped.
+local function bind_exec(key, cmd)
+    if not cmd or cmd == "" then
+        io.stderr:write("keybinds: skipped " .. key .. " (command unset)\n")
+        return
+    end
+    hl.bind(key, hl.dsp.exec_cmd(cmd))
+end
+
 --──[Launchers]---------------------------------------------------------------
 
-hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))
-hl.bind(mainMod .. " + F",      hl.dsp.exec_cmd(fileManager))
-hl.bind(mainMod .. " + B",      hl.dsp.exec_cmd(browser))
+bind_exec(mainMod .. " + Return", terminal)
+bind_exec(mainMod .. " + F",      fileManager)
+bind_exec(mainMod .. " + B",      browser)
 hl.bind(mainMod .. "+SHIFT + B", hl.dsp.exec_cmd("brave"))
 hl.bind(mainMod .. " + E",      hl.dsp.exec_cmd("thunderbird"))
 hl.bind(mainMod .. " + W",      hl.dsp.exec_cmd("flatpak run com.rtosta.zapzap"))
-hl.bind(mainMod .. " + V",      hl.dsp.exec_cmd(clipboard))
+bind_exec(mainMod .. " + V",      clipboard)
 
 -- Tap-and-release SUPER alone (disabled; use SUPER + G instead)
 -- hl.bind(mainMod .. " + SUPER_L", hl.dsp.exec_cmd(launcher), { release = true })
@@ -33,7 +42,7 @@ hl.bind(mainMod .. " + V",      hl.dsp.exec_cmd(clipboard))
 hl.bind(mainMod .. " + SUPER_L", hl.dsp.exec_cmd("noctalia-toggle-bar notch state"), { release = true })
 
 -- Configured launcher with Hotline Launcher fallback
-hl.bind(mainMod .. " + G", hl.dsp.exec_cmd(launcher .. " || " .. hotline))
+hl.bind(mainMod .. " + G", hl.dsp.exec_cmd(launcher and (launcher .. " || " .. hotline) or hotline))
 hl.bind(mainMod .. "+SHIFT + G", hl.dsp.exec_cmd(hotline .. " launcher"))
 
 --──[Window Management]--------------------------------------------------------
@@ -166,6 +175,6 @@ hl.bind("Print",       hl.dsp.exec_cmd("grimblast -f -n copysave area ~/Media/sc
 hl.bind("SHIFT + Print", hl.dsp.exec_cmd("grimblast -f -n -o save area"))
 hl.bind(mainMod .. " + P",      hl.dsp.exec_cmd("grimblast copy area"))
 hl.bind(mainMod .. "+CTRL + P", hl.dsp.exec_cmd("grimblast -f -n copysave area"))
-hl.bind(mainMod .. "+SHIFT + P", hl.dsp.exec_cmd(imageViewer .. " ~/Media/screenshots/latest.png"))
+bind_exec(mainMod .. "+SHIFT + P", imageViewer and (imageViewer .. " ~/Media/screenshots/latest.png"))
 
 hl.bind(mainMod .. " + Y", hl.dsp.exec_cmd("bash -c 'yap toggle & sleep 3 && tcpeek reconnect'"))
