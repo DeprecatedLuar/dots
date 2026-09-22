@@ -1,3 +1,35 @@
 [[entries]]
-  name = "hypr"
-  dest = "~/.config/hypr"
+  name = ".local"
+  dest = "~/.config/hypr/.local"
+
+[[entries]]
+  name = "colors.lua"
+  dest = "~/.config/hypr/colors.lua"
+
+[[entries]]
+  name = "hypridle.conf"
+  dest = "~/.config/hypr/hypridle.conf"
+
+[[entries]]
+  name = "hyprland.lua"
+  dest = "~/.config/hypr/hyprland.lua"
+
+[[entries]]
+  name = "hyprlush.lua"
+  dest = "~/.config/hypr/hyprlush.lua"
+
+[[entries]]
+  name = "modules"
+  dest = "~/.config/hypr/modules"
+
+[[entries]]
+  name = "plugins"
+  dest = "~/.config/hypr/plugins"
+
+[[entries]]
+  name = "scripts"
+  dest = "~/.config/hypr/scripts"
+
+[[entries]]
+  name = "sounds"
+  dest = "~/.config/hypr/sounds"

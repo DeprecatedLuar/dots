@@ -1,0 +1,5 @@
+require("modules.appearance")
+require("modules.autostart")
+require("modules.keybinds")
+require("modules.layout")
+require("modules.misc")
