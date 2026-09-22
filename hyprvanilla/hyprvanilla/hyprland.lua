@@ -5,3 +5,6 @@ require("hyprlush")
 -- any machine without per-host generated state.
 hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1, disabled = false, mirror = "" })
 
+
+-- For Noctalia Color templates
+require("noctalia").apply_theme()
