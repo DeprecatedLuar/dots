@@ -19,8 +19,7 @@
     cool-retro-term
     swayimg
     zapzap
-    
-    unstable.caelestia-shell
+    hydralauncher   
 
     megacmd
     whisper-cpp
@@ -29,6 +28,7 @@
     wf-recorder
     opencode
     ollama
+    claude-code
 
     nwg-wrapper
     quickshell

@@ -216,6 +216,9 @@ position = "top_right"
 position_vertical = "center_right"
 scale = 1.0500000081956387
 
+[plugin_settings."nomadcxx/gamer-mode"]
+main_open_near_click = true
+
 [plugins]
 auto_update = "all"
 enabled = [ "nomadcxx/gamer-mode" ]
@@ -284,13 +287,13 @@ directory = "/home/luar/Media/wallpapers"
 transition_duration = 2800
 
     [wallpaper.default]
-    path = "/home/luar/Media/wallpapers/eva2.jpg"
+    path = "/home/luar/Media/wallpapers/evangelion/eva2.jpg"
 
     [wallpaper.last]
-    path = "/home/luar/Media/wallpapers/eva2.jpg"
+    path = "/home/luar/Media/wallpapers/evangelion/eva2.jpg"
 
     [wallpaper.monitors.eDP-1]
-    path = "/home/luar/Media/wallpapers/eva2.jpg"
+    path = "/home/luar/Media/wallpapers/evangelion/eva2.jpg"
 
 [widget.GPU]
 capsule = true
