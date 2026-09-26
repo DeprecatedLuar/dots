@@ -1,10 +1,10 @@
 { ... }:
 {
   imports = [
+    ./local/hardware-support
     ./services/tailscale-funnel.nix
     ./users/user
-    ./nixpkgs.nix
-    ./local/hardware.nix
+    ./unstable.nix
     ./local/preferences.nix
   ];
 }

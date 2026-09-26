@@ -21,7 +21,8 @@
 
   cap (tap-hold-press $Tt $Ht (tap-dance $Ht (@vimn @escaps)) lmet)
   pac (tap-hold-press $Tt $Ht (tap-dance $Ht (@def @escaps)) lmet)
-  cap-esc (tap-hold-press $Tt $Ht (tap-dance $Ht (esc @def)) lmet)
+  ;; Escape-mode tap behavior differs, but holding Caps keeps the WM meta behavior.
+  cap-esc (tap-hold-press $Tt $Ht (tap-dance $Ht (esc @def)) @meta)
 
   ctrl-exit (multi lctl @def)
 

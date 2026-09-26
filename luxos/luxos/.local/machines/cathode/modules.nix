@@ -1,6 +1,7 @@
 { ... }:
 {
   imports = [
+    ./local/hardware-support
     ./system/gaming.nix
     ./hardware/laptop.nix
     ./hardware/intel.nix
@@ -12,7 +13,7 @@
     ./users/luar
     ./extras.nix
     ./lux-goodies/dev.nix
-    ./nixpkgs.nix    
+    ./unstable.nix
     ./local/packages.nix
     ./local/preferences.nix
     ./hardware/nvidia.nix

@@ -5,7 +5,7 @@ enable_overdrive = true
 sound_volume = 0.099999997764825821
 
 [bar]
-order = [ "default", "toolbar", "info", "notch", "tray", "state" ]
+order = [ "default", "toolbar", "info", "state", "notch", "tray" ]
 
     [bar.default]
     capsule_group = []
@@ -45,8 +45,7 @@ order = [ "default", "toolbar", "info", "notch", "tray", "state" ]
 
     [bar.state]
     center = [ "media" ]
-    enabled = true
-    end = [ "privacy", "cpu_custom", "ram", "temp" ]
+    end = [ "privacy", "cpu_custom", "ram", "temp", "battery" ]
     font_family = "CaskaydiaMono NF Light"
     margin_ends = 50
     panel_overlap = 0
@@ -118,12 +117,18 @@ show_dots = true
 address = "São Paulo"
 
 [lockscreen]
+allow_empty_password = true
 blurred_desktop = true
 
 [lockscreen_widgets]
 enabled = true
 schema_version = 2
-widget_order = [ "lockscreen-login-box@DP-1", "lockscreen-login-box@eDP-1", "lockscreen-widget-0000000000000001" ]
+widget_order = [
+    "lockscreen-login-box@DP-1",
+    "lockscreen-login-box@eDP-1",
+    "lockscreen-widget-0000000000000001",
+    "lockscreen-widget-0000000000000002"
+]
 
     [lockscreen_widgets.grid]
     cell_size = 16
@@ -160,8 +165,8 @@ widget_order = [ "lockscreen-login-box@DP-1", "lockscreen-login-box@eDP-1", "loc
     [lockscreen_widgets.widget."lockscreen-login-box@eDP-1"]
     box_height = 196.0
     box_width = 720.0
-    cx = 424.00003051757812
-    cy = 926.00006103515625
+    cx = 960.0
+    cy = 910.0
     output = "eDP-1"
     placement_height = 1080.0
     placement_width = 1920.0
@@ -185,18 +190,30 @@ widget_order = [ "lockscreen-login-box@DP-1", "lockscreen-login-box@eDP-1", "loc
         show_weather = true
 
     [lockscreen_widgets.widget.lockscreen-widget-0000000000000001]
-    box_height = 0.0
-    box_width = 0.0
-    cx = 1728.0
-    cy = 198.0
+    box_height = 96.0
+    box_width = 208.0
+    cx = 168.00003051757812
+    cy = 108.0
     output = "eDP-1"
     placement_height = 1080.0
     placement_width = 1920.0
     rotation = 0.0
-    type = "fancy_audio_visualizer"
+    type = "clock"
 
-        [lockscreen_widgets.widget.lockscreen-widget-0000000000000001.settings]
-        background = false
+    [lockscreen_widgets.widget.lockscreen-widget-0000000000000002]
+    box_height = 304.0
+    box_width = 288.0
+    cx = 960.0
+    cy = 540.0
+    output = "eDP-1"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.0
+    type = "sticker"
+
+        [lockscreen_widgets.widget.lockscreen-widget-0000000000000002.settings]
+        image_path = "/home/luar/Media/cat/angury.jpeg"
+        opacity = 1.0
 
 [nightlight]
 enabled = true
@@ -229,7 +246,6 @@ button_borders = false
 card_borders = false
 corner_radius_scale = 0.65000000968575478
 input_borders = false
-password_style = "random"
 popup_borders = false
 
     [shell.animation]
@@ -284,16 +300,17 @@ wallpaper_scheme = "soft"
 
 [wallpaper]
 directory = "/home/luar/Media/wallpapers"
+transition = [ "honeycomb" ]
 transition_duration = 2800
 
     [wallpaper.default]
-    path = "/home/luar/Media/wallpapers/evangelion/eva2.jpg"
+    path = "/home/luar/Media/wallpapers/abs2.jpg"
 
     [wallpaper.last]
-    path = "/home/luar/Media/wallpapers/evangelion/eva2.jpg"
+    path = "/home/luar/Media/wallpapers/abs2.jpg"
 
     [wallpaper.monitors.eDP-1]
-    path = "/home/luar/Media/wallpapers/evangelion/eva2.jpg"
+    path = "/home/luar/Media/wallpapers/abs2.jpg"
 
 [widget.GPU]
 capsule = true
@@ -315,9 +332,8 @@ mirrored = false
 width = 358
 
 [widget.battery]
-display_mode = "graphic"
 font_scale = 0.80000000000000004
-hide_when_plugged = true
+hide_when_full = true
 scale = 1.1500000000000001
 
 [widget.bluetooth]

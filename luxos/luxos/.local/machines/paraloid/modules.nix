@@ -5,8 +5,8 @@
     ./hardware/laptop.nix
     ./hardware/nvidia.nix
     ./hardware/intel.nix
+    ./hardware/tablet.nix
     ./desktop/compositors/hyprland.nix
-    ./desktop/greeters/ly.nix
     ./desktop-apps.nix
     ./lux-goodies/modern-unix.nix
     ./desktop/shells/ambxst
@@ -14,9 +14,10 @@
     ./extras.nix
     ./lux-goodies/dev.nix
     ./services/docker.nix
-    ./nixpkgs.nix
+    ./unstable.nix
+    ./local/hardware-support
     ./local/fingerprint.nix
-    ./local/hardware.nix
+    ./local/debug.nix
     ./local/packages.nix
     ./local/preferences.nix
   ];

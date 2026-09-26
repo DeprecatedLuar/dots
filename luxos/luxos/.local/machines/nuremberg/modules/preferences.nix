@@ -8,6 +8,11 @@
   android-tools   
   ];
 
+  #──[Boot and Swap]────────────────────────────────────────────────────────
+
+  boot.tmp.cleanOnBoot = true;
+  zramSwap.enable = true;
+
   #──[Network]────────────────────────────────────────────────────────────────
 
   networking = {

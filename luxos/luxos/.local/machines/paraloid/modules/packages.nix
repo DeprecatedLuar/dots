@@ -20,8 +20,6 @@
     swayimg
     zapzap
     
-    unstable.caelestia-shell
-
     megacmd
     whisper-cpp
     scrcpy
@@ -29,13 +27,19 @@
     wf-recorder
     opencode
     ollama
-
+	wlopm
+	swayidle
+    
     nwg-wrapper
     quickshell
 
     # Hardware video acceleration diagnostics
     libva-utils
     v4l-utils
+
+    # RAM stability testing
+    memtester
+    stressapptest
 
     (wrapOBS {
       plugins = with obs-studio-plugins; [ obs-pipewire-audio-capture ];

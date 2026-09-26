@@ -2,3 +2,5 @@
 /modules/system
 /modules/local
 /local
+/.local/machines/*/modules/hardware-support
+/.local/machines/*/hardware

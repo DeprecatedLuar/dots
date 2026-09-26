@@ -23,7 +23,7 @@ hl.bind(mainMod .. " + F",      hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + B",      hl.dsp.exec_cmd(browser))
 hl.bind(mainMod .. "+SHIFT + B", hl.dsp.exec_cmd("brave"))
 hl.bind(mainMod .. " + E",      hl.dsp.exec_cmd("thunderbird"))
-hl.bind(mainMod .. " + W",      hl.dsp.exec_cmd("flatpak run com.rtosta.zapzap"))
+hl.bind(mainMod .. " + W",      hl.dsp.exec_cmd("zapzap"))
 hl.bind(mainMod .. " + V",      hl.dsp.exec_cmd(clipboard))
 
 -- Tap-and-release SUPER alone (disabled; use SUPER + G instead)

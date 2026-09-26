@@ -1,11 +1,11 @@
 { ... }:
 {
   imports = [
+    ./local/hardware-support
     ./services/nginx.nix
     ./services/caddy.nix
     ./users/luar
-    ./nixpkgs.nix
-    ./local/hardware.nix
+    ./unstable.nix
     ./local/preferences.nix
   ];
 }

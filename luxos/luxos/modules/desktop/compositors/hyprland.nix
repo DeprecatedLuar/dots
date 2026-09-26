@@ -1,6 +1,5 @@
 { pkgs, luxos, ... }:
 {
-  flake-file.inputs.unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   imports = luxos.modules [ "wayland" ];
 
   programs.hyprland.enable = true;
