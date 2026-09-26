@@ -14,7 +14,7 @@
     # pavucontrol           # volume control app
     # blueman               # bluetooth manager app
     # networkmanagerapplet  # network settings app
-    # gradia                # screenshot editor
+     gradia                # screenshot editor
     # easyeffects           # audio effects
     # tmux                  # tmux sessions tab
     # adw-gtk3              # GTK theme
