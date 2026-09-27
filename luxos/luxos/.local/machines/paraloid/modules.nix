@@ -1,7 +1,7 @@
 { ... }:
 {
   imports = [
-    ./system/gaming.nix
+    ./gaming.nix
     ./hardware/laptop.nix
     ./hardware/nvidia.nix
     ./hardware/intel.nix
@@ -17,7 +17,6 @@
     ./unstable.nix
     ./local/hardware-support
     ./local/fingerprint.nix
-    ./local/debug.nix
     ./local/packages.nix
     ./local/preferences.nix
   ];

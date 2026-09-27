@@ -7,6 +7,6 @@
 
  environment.systemPackages = with pkgs; [
    libwacom
-   kdePackages.wacomtablet  # You might not need this on Hyprland, but won't hurt
+   kdePackages.wacomtablet  
  ];
 }

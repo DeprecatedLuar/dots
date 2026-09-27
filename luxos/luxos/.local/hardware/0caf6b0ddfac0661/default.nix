@@ -6,5 +6,6 @@
     ./hardware-configuration.nix
     ./boot.nix
     ./hardware.nix
+    ./debug.nix
   ];
 }

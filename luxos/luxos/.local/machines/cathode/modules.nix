@@ -2,7 +2,7 @@
 {
   imports = [
     ./local/hardware-support
-    ./system/gaming.nix
+    ./gaming.nix
     ./hardware/laptop.nix
     ./hardware/intel.nix
     ./desktop/compositors/hyprland.nix

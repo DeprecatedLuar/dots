@@ -1,5 +1,5 @@
 { mainUser, ... }:
-
+# BROKEN DO NOT IMPORT YOU WILL DIE
 {
   services.kanata.enable = true;
 
