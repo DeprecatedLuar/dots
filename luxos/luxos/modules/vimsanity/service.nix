@@ -11,8 +11,7 @@ in
 {
   services.kanata = {
     enable = true;
-    keyboards.vimsanity = {
-      # whole dir so the (include vimsanity.kbd) resolves next to it
+    keyboards.vimsanity = {     
       configFile = "${configDir}/kanata/window-manager.kbd";
       port = kanataPort;
     };
@@ -32,7 +31,7 @@ in
 
   systemd.user.services.tcpeek = {
     description = "tcpeek kanata layer listener";
-    after = [ "blsd.service" ];
+    after = [ session "blsd.service" ];
     wants = [ "blsd.service" ];
     partOf = [ session ];
     wantedBy = [ session ];

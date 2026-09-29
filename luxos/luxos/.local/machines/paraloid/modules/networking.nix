@@ -1,7 +1,7 @@
 { ... }:
 
 {
-  # Router DNS (192.168.0.1) intermittently fails to answer queries.
-  # Fallback resolvers prevent builds/updates from stalling on that.
   networking.nameservers = [ "1.1.1.1" "9.9.9.9" ];
+  # Keep DHCP-provided DNS out of resolv.conf so only the servers above are used
+  networking.networkmanager.dns = "none";
 }

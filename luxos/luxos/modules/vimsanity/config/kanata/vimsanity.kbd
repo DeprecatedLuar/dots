@@ -103,7 +103,7 @@
   ;; Delete operations (execute + return to vim-normal)
   dw (macro C-S-right bspc (on-press tap-vkey vimk))
   db (macro C-S-left bspc (on-press tap-vkey vimk))
-  dd (macro home S-end 5 spc 5 bspc 5 bspc 5 home (on-press tap-vkey vimk))
+  dd (macro home home S-end 5 spc 5 bspc 5 bspc 5 home (on-press tap-vkey vimk))
   d$ (macro S-end del (on-press tap-vkey vimk))
 
   ;; Delete shifted operations (execute + return to vim-normal)
