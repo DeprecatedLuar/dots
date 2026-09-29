@@ -2,17 +2,17 @@
 {
   imports = [
     ./local/hardware-support
-    ./gaming.nix
+    ./packages/lux-goodies/gaming.nix
     ./hardware/laptop.nix
     ./hardware/intel.nix
     ./desktop/compositors/hyprland.nix
 #    ./desktops/xfce.nix
-    ./desktop-apps.nix
-    ./lux-goodies/modern-unix.nix
+    ./packages/lux-goodies/desktop-apps.nix
+    ./packages/lux-goodies/modern-unix.nix
     ./desktop/shells/ambxst
     ./users/luar
     ./extras.nix
-    ./lux-goodies/dev.nix
+    ./packages/lux-goodies/dev.nix
     ./unstable.nix
     ./local/packages.nix
     ./local/preferences.nix

@@ -85,7 +85,7 @@ order = [ "default", "toolbar", "info", "state", "notch", "tray" ]
     thickness = 40
 
 [control_center]
-hidden_tabs = [ "audio", "network", "bluetooth", "weather" ]
+hidden_tabs = [ "audio", "network", "bluetooth" ]
 width = 950
 
 [desktop_widgets]

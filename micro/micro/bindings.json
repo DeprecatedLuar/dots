@@ -1,9 +1,14 @@
 {
     "Alt-/": "lua:comment.comment",
-    "CtrlUnderscore": "lua:comment.comment",
-    "CtrlR": "Redo",
-    "Ctrl-Shift-Right": "SelectWordRight",
+    "Ctrl-Shift-Down": "SelectDown",
+    "Ctrl-Shift-End": "SelectToEnd",
+    "Ctrl-Shift-Home": "SelectToStart",
     "Ctrl-Shift-Left": "SelectWordLeft",
+    "Ctrl-Shift-Right": "SelectWordRight",
     "Ctrl-Shift-Up": "SelectUp",
-    "Ctrl-Shift-Down": "SelectDown"
+    "Ctrl-R": "Redo",    
+    "\u001b[122;6u": "Redo",
+    "Ctrl-g": "FindNext",
+    "\u001b[103;6u": "FindPrevious",
+    "CtrlUnderscore": "lua:comment.comment"
 }
