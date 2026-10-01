@@ -69,7 +69,7 @@ map <cr>    open
 
 map <insert> push :shell<enter>touch<space>
 
-# VIM-like (fixed from original)
+# VIM-stuff (fixed from original)
 map h updir
 map j down
 map k up

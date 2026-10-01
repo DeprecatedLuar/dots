@@ -4,75 +4,95 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Goal
 
-Rebuild the lf config so it behaves like the user's ranger setup, as closely as possible, while using modern lf features. The target is **ranger's default keymap plus the user's ranger customizations**, not a generic lf config.
+Rebuild the lf config so it behaves like the user's ranger setup, as closely as possible, while using modern lf features. The target is **ranger's default keymap and muscle memory plus the user's ranger customizations**, not a generic lf config.
 
 ## Layout
 
-- This is the `lf` package of the `neodots` dotfiles repo. `.dots` symlinks individual files into `~/.config/lf/`, so edits here are live. New files (e.g. `previewer`, `cleaner`) need their own `.dots` entry.
-- `CLAUDE.md` has `dest = "none"`, so it is never deployed.
-- The ranger reference config lives at `../ranger/ranger/` (`rc.conf`, `rifle.conf`, `scope.sh`, `commands.py`).
+This is the `lf` package of the `neodots` dotfiles repo. `.dots` symlinks each entry into `~/.config/lf/`, so edits here are live. A new top-level file needs its own `.dots` entry; `CLAUDE.md` has `dest = "none"`.
 
-## Ranger behavior to replicate
+- `lfrc`: `set` options only, then `source`s `cmds.lf` and `keybinds.lf`. `source` needs absolute or `~` paths.
+- `cmds.lf`: custom `cmd` definitions.
+- `keybinds.lf`: all `map` bindings.
+- `scripts/`: standalone executables that lf calls and that can be tested from the shell:
+  - `open` (the rifle replacement)
+  - `previewer` (kitty `icat` for images, `bat` for text, `file` for anything else)
+  - `cleaner` (clears kitty images)
 
-- `rc.conf` changes very little from ranger defaults: kitty image previews (`preview_images_method kitty`), `scope.sh` previews, `gz` → `z`, `yc` → `clipcopy`, `<C-t>` → `~/Development/bin/sync-dir %d`.
-- `rifle.conf` handles opening files: `$DATA_VIEWER` (csv/tsv), `$IMAGE_VIEWER`, `$MEDIA_PLAYER`, `$AUDIO_PLAYER`, libreoffice (office docs), zathura (pdf), `$EDITOR` (code/config/text), and `~/Development/bin/multiplexer` for executables.
-- `commands.py`:
-  - `z <query>` cds to the output of `nav-engine.sh`. It looks for the script at `$SYSDIR/shared/`, `$BASHRC/system/shared/`, `~/.config/lushrc/system/shared/`, then `$PATH`, and shows an error notification when nothing matches.
-  - `clipcopy` pipes `copy\nfile://<uri>...` to `wl-copy -t x-special/gnome-copied-files`, so files can be pasted in GTK file managers.
+Ranger reference config: `../ranger/ranger/` (`rc.conf`, `rifle.conf`, `scope.sh`, `commands.py`).
 
-## Known problems in the current setup
+## Decisions made
 
-- `set previewer`/`set cleaner` point to `~/.config/lf/previewer` and `~/.config/lf/cleaner`, which don't exist, so previews are broken.
-- The lf `z` command calls `$LIBDIR/nav-engine.sh`, which doesn't exist (the real path is `~/.config/lushrc/system/shared/nav-engine.sh`), and `2>/dev/null` hides the error.
-- `trash` runs `mv` into `~/.trash`, which silently overwrites files with the same name.
-- `~/Development/bin/sync-dir` and `~/Development/bin/multiplexer` (referenced by ranger) don't exist.
-- `open` runs `setsid $OPENER`; rifle's per-type routing hasn't been ported.
+- Drop `scope.sh` and `rifle`. Previews come from `scripts/previewer`, and file opening from `scripts/open` (to be grown into rifle-style per-type routing).
+- `dD` prefills `:trash`. Enter shows `trash N item(s)? [y/N]`, which is answered with a single key. `gio trash` uses the FreeDesktop trash.
+- `dX` prefills `:delete` (permanent delete, using lf's built-in single-key confirm).
+- `r` prefills `:open-with `, which runs a program in the foreground on `$fx`. Freezing lf while a GUI app runs is intended; it matches ranger.
+- `gz`/`z` uses `$SYSDIR/shared/nav-engine.sh` and reports "no match" with `echoerr`.
+- `set watch true` enables live filesystem refresh.
+- The `statfmt` line was removed; lf's default ruler already shows the same fields.
+
+## Ranger behavior still to port
+
+- `rifle.conf` routing:
+  - `$DATA_VIEWER` for csv/tsv
+  - `$IMAGE_VIEWER`, `$MEDIA_PLAYER`, `$AUDIO_PLAYER`
+  - libreoffice for office docs, zathura for pdf
+  - `$EDITOR` for code/config/text
+  - `~/Development/bin/multiplexer` for executables (that script doesn't exist)
+- `scope.sh` previews beyond images and text: archives, pdf, video thumbnails, etc.
+- `yc` → `clipcopy`: pipe `copy\nfile://<uri>...` to `wl-copy -t x-special/gnome-copied-files` so files can be pasted in GTK file managers.
+- `<C-t>` → `~/Development/bin/sync-dir %d` (that script doesn't exist).
+- Ranger extras from wiki/Tips: rename variants, bulk rename, yank path, `setlocal` per-directory sort.
 
 ## Environment
 
-- NixOS, Hyprland (Wayland), kitty terminal. Installed lf version: r38 (`lf -version`); nixpkgs also has 38. The latest upstream release is r42.
-- Installed: `kitten`, `bat`, `zoxide`, `fzf`, `wl-copy`, imagemagick. Not installed: `chafa`, `pistol`, `ctpv`, `trash-cli`. Packages are managed in `~/.config/luxos/` (NixOS config).
+- NixOS, Hyprland (Wayland), kitty terminal. lf **r42**, from nixpkgs unstable. Packages are managed in `~/.config/luxos/`.
+- Installed: `kitten`, `bat`, `zoxide`, `fzf`, `wl-copy`, `gio`, imagemagick. Not installed: `chafa`, `pistol`, `ctpv`, `trash-cli`.
+- `$SYSDIR` (`~/.config/lushrc/system`) is exported by the lushrc shell framework.
 
-## Research: lf references
+## lf gotchas (verified on r42)
 
-- [wiki/Ranger](https://github.com/gokcehan/lf/wiki/Ranger) is the official guide for moving from ranger. It covers:
-  - A `scope.sh` wrapper used as the previewer (append `|| true` so the output gets cached).
-  - `rifle` as the opener: `cmd open $set -f; rifle -p 0 $fx`.
-  - Other settings: `set period 1`, `dircounts`, `scrolloff 10`, `menuheaderfmt "\033[1;4m"`, a ruler showing free space and scroll %, and porting ranger's colors.
-- [wiki/Tips](https://github.com/gokcehan/lf/wiki/Tips) has recipes for ranger features:
-  - Rename variants `I`/`A`/`c`/`C` and bulk rename in `$EDITOR`.
-  - Prompt-based mkdir/touch.
-  - Adding to the copy/cut buffer, and clearing the selection after paste.
-  - Following symlinks, and yanking a path to the clipboard.
-  - Per-directory `setlocal`, which gives ranger-style persistent sort per folder.
-  - Toggling preview while keeping the column ratios.
-  - cd on exit, and CoW/backup copies.
-- [wiki/Previews](https://github.com/gokcehan/lf/wiki/Previews) explains how previewers work:
-  - The previewer gets `$1` path, `$2` width, `$3` height, `$4` x, `$5` y, `$6` mode (`preview`/`preload`).
-  - Exit code 0 means lf caches the output. Non-zero means lf calls the previewer again next time; kitty images need this.
-  - Kitty image draw: `kitten icat --stdin no --transfer-mode memory --place "${w}x${h}@${x}x${y}" "$1" </dev/null >/dev/tty`, then exit 1.
-  - Kitty cleaner: `kitten icat --clear --stdin no --transfer-mode memory </dev/null >/dev/tty`.
-  - ctpv/stpv break on newer lf, so don't use them.
-- [wiki/Integrations](https://github.com/gokcehan/lf/wiki/Integrations) has snippets for zoxide, fzf, ripgrep+fzf, trash-cli / `gio trash`, vidir, git, ouch/atool and archivemount.
-- [doc.md](https://github.com/gokcehan/lf/blob/master/doc.md) is the full reference for options, commands and hooks.
-- Also on the wiki: [Ruler](https://github.com/gokcehan/lf/wiki/Ruler), [Colors-and-Icons](https://github.com/gokcehan/lf/wiki/Colors-and-Icons), [Tutorial](https://github.com/gokcehan/lf/wiki/Tutorial), [FAQ](https://github.com/gokcehan/lf/wiki/FAQ).
-
-### Modern lf features worth using
-
-- `visual` mode (`V`), which gives ranger-style range selection. Added in r36.
-- `watch`, which refreshes listings using filesystem notifications. Added in r33.
-- Hooks: `on-init`, `pre-cd`, `on-cd`, `on-select`, `on-load`, `on-redraw`, `on-focus-gained`/`on-focus-lost`, `on-quit`.
-- `addcustominfo`, which adds per-file info columns (e.g. git status).
-- Requires r39+: `borderstyle` (rounded borders), `mergeindicators`, `rulerfile` (replaces the deprecated `rulerfmt`/`statfmt`). Using these needs an lf upgrade beyond nixpkgs 38.
-
-## lfrc gotchas
-
-- Commands that run multiple statements must use the multiline `:{{ ... }}` block form. Writing them inline breaks parsing.
-- `%` commands run in the status bar without redrawing the UI. `$` commands take over the screen. `!` commands wait for a keypress afterwards. `&` commands run asynchronously.
-- `set shellopts '-eu'` and `set ifs "\n"` are set, so `$fx` splits on newlines. Use `set -f` in commands that use `$fx` unquoted.
+- **Key names are case-sensitive**: `<c-h>`, not `<C-h>`. A wrong case silently doesn't bind.
+- **Shell command modes:**
+  - `%` pipes stdin/stdout to the status line. Input is line-buffered, so `read` needs Enter, and keys pressed while a `%` command is still running go to its stdin.
+  - `$` takes over the screen.
+  - `!` waits for a keypress after the command finishes.
+  - `&` is async and doesn't take keyboard input.
+- **Single-key confirm pattern** (used by `trash`):
+  1. An `&` command shows the prompt with `lf -remote "send $id echomsg ..."`.
+  2. It then runs `lf -remote "send $id push <f-50>"`. `<f-50>` is a virtual prefix key, so lf now waits for the next key.
+  3. `map <f-50>y <action>` and `map <f-50>n ...` handle the answer. Any other key produces an `unknown mapping` error, which works as a cancel.
+  - This must use `&`, not `%`, otherwise the pushed keys are swallowed by the running command.
+- Multi-statement commands need the multiline `{{ ... }}` block form; inline versions break parsing.
+- `set shellopts '-eu'` and `set ifs "\n"` are set: `$fx` splits on newlines. Use `set -f` in commands that use `$fx` unquoted.
+- `statfmt`/`rulerfmt` are deprecated. Customize the ruler with `rulerfile`, starting from upstream `etc/ruler.default`.
+- `gio trash` refuses on system mounts such as `/tmp` (tmpfs). Use `dX` there.
+- `-command` runs before the config is loaded, so user-defined commands aren't available yet.
 
 ## Testing
 
-- No build step. Validate a change by launching `lf` and running `:source ~/.config/lf/lfrc` (or restart lf).
-- Run `lf -doc` for the docs that match the installed version.
-- Previewer scripts can be tested directly: `~/.config/lf/previewer <file> 80 40 0 0 preview`.
+- `lf -doc` has the docs for the installed version.
+- Scripts can be run directly, e.g. `scripts/previewer <file> 80 40 0 0 preview`.
+- To run lf headlessly and drive it:
+  - Start it under `script` with `-config <repo>/lfrc -log <file> -command '$echo $id > <idfile>'`.
+  - Send commands with `lf -remote "send <id> ..."`, then check the log (`recv:`, `command:`, `error:` lines).
+- **Always send to a specific `<id>`. Never use `lf -remote "send ..."` without one: it broadcasts to all of the user's running lf instances.**
+- `push` from inside a pushed binding queues after the keys that are already pending. Send multi-step key flows as separate `push` calls with short sleeps in between.
+
+## Research: lf references
+
+- [wiki/Ranger](https://github.com/gokcehan/lf/wiki/Ranger): the official transition guide (scope.sh wrapper, rifle opener, trash, `period`, `dircounts`, `scrolloff`, ruler, colors).
+- [wiki/Tips](https://github.com/gokcehan/lf/wiki/Tips): recipes for ranger features:
+  - rename variants `I`/`A`/`c`/`C`, bulk rename
+  - mkdir/touch prompts
+  - adding to the copy/cut buffer, clearing the selection after paste
+  - following symlinks, yanking a path
+  - per-directory `setlocal`
+  - toggling preview, cd on exit
+- [wiki/Previews](https://github.com/gokcehan/lf/wiki/Previews): the previewer args (`$1` path, `$2` width, `$3` height, `$4` x, `$5` y, `$6` mode) and exit codes (0 = lf caches the output; non-zero = lf calls the previewer again, which kitty images need). ctpv/stpv break on newer lf.
+- [wiki/Integrations](https://github.com/gokcehan/lf/wiki/Integrations): zoxide, fzf, ripgrep+fzf, trash-cli/gio, vidir, git, ouch/atool, archivemount.
+- [doc.md](https://github.com/gokcehan/lf/blob/master/doc.md): the full reference. Also on the wiki: [Ruler](https://github.com/gokcehan/lf/wiki/Ruler), [Colors-and-Icons](https://github.com/gokcehan/lf/wiki/Colors-and-Icons).
+- Modern features not used yet:
+  - `visual` mode (`V`)
+  - hooks (`on-cd`, `on-select`, `on-load`, `on-focus-gained`, `pre-cd`, …)
+  - `addcustominfo` (e.g. git status)
+  - `borderstyle`, `mergeindicators`, `rulerfile`
