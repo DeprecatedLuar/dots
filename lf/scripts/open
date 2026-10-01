@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Opens files: text in $EDITOR, anything else detached via $OPENER.
+set -euo pipefail
+
+DEFAULT_OPENER="xdg-open"
+
+opener="${OPENER:-$DEFAULT_OPENER}"
+
+if [ "$#" -eq 0 ]; then
+    echo "usage: open FILE..." >&2
+    exit 1
+fi
+
+case "$(file --mime-type -b -- "$1")" in
+    text/*) exec "${EDITOR:?EDITOR is not set}" "$@" ;;
+    *) for f in "$@"; do setsid "$opener" "$f" >/dev/null 2>&1 & done ;;
+esac

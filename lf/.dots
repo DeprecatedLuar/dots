@@ -1,3 +1,19 @@
 [[entries]]
-  name = "lf"
-  dest = "~/.config/lf"
+  name = "CLAUDE.md"
+  dest = "none"
+
+[[entries]]
+  name = "lfrc"
+  dest = "~/.config/lf/lfrc"
+
+[[entries]]
+  name = "keybinds.lf"
+  dest = "~/.config/lf/keybinds.lf"
+
+[[entries]]
+  name = "cmds.lf"
+  dest = "~/.config/lf/cmds.lf"
+
+[[entries]]
+  name = "scripts"
+  dest = "~/.config/lf/scripts"

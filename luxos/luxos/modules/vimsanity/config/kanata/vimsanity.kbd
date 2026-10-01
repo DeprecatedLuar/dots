@@ -19,9 +19,12 @@
   gopsft (layer-while-held g-ops-shifted)
   vgopsft (layer-while-held visual-g-ops-shifted)
 
-  cap (tap-hold-press $Tt $Ht (tap-dance $Ht (@vimn @escaps)) lmet)
-  pac (tap-hold-press $Tt $Ht (tap-dance $Ht (@def @escaps)) lmet)
-  cap-esc (tap-hold-press $Tt $Ht (tap-dance $Ht (esc @def)) lmet)
+  ;; @cap-hold is provided by the including profile
+  cap (tap-hold-press $Tt $Ht (tap-dance $Ht (@vimn @escaps)) @cap-hold)
+  pac (tap-hold-press $Tt $Ht @def @cap-hold)
+  cap-esc (switch
+    (lctl rctl) @def break
+    () (tap-hold-press $Tt $Ht esc @cap-hold) break)
 
   ctrl-exit (multi lctl @def)
 
@@ -37,9 +40,8 @@
 
   ;; Visual mode caps lock handling (releases vshift, deselects, then switches layer)
   vdef (macro (on-press release-vkey vshift) 10 left 10 (on-press tap-vkey def))
-  vescaps (macro (on-press release-vkey vshift) 10 left 10 (on-press tap-vkey escaps))
-  vmeta (multi (on-press release-vkey vshift) lmet)
-  vcaps (tap-hold-press $Tt $Ht (tap-dance $Ht (@vdef @vescaps)) @vmeta)
+  vmeta (multi (on-press release-vkey vshift) @cap-hold)
+  vcaps (tap-hold-press $Tt $Ht @vdef @vmeta)
 
   fnd (macro C-f 10 (on-press tap-vkey def))
 

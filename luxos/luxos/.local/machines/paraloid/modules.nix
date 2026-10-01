@@ -22,5 +22,6 @@
     ./local/preferences.nix
     ./packages/yappers-of-linux.nix
     ./vimsanity
+    ./services/tailscale.nix
   ];
 }

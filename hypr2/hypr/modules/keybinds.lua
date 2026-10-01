@@ -19,6 +19,7 @@ local hotline     = "hotline"
 --──[Launchers]---------------------------------------------------------------
 
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))
+hl.bind("CTRL+ALT + T",         hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + F",      hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + B",      hl.dsp.exec_cmd(browser))
 hl.bind(mainMod .. "+SHIFT + B", hl.dsp.exec_cmd("brave"))
@@ -33,7 +34,9 @@ hl.bind(mainMod .. " + V",      hl.dsp.exec_cmd(clipboard))
 hl.bind(mainMod .. " + SUPER_L", hl.dsp.exec_cmd("noctalia-toggle-bar notch state"), { release = true })
 
 -- Configured launcher with Hotline Launcher fallback
-hl.bind(mainMod .. " + G", hl.dsp.exec_cmd(launcher .. " || " .. hotline))
+hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(launcher .. " || " .. hotline))
+hl.bind("ALT + F1", hl.dsp.exec_cmd(launcher .. " || " .. hotline))
+hl.bind(mainMod .. " + G", hl.dsp.exec_cmd(hotline))
 hl.bind(mainMod .. "+SHIFT + G", hl.dsp.exec_cmd(hotline .. " launcher"))
 
 --──[Window Management]--------------------------------------------------------

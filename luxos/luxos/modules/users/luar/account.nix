@@ -14,7 +14,6 @@
       kanata
       dstask
       usql
-      lf
       rclone
     ];
     openssh.authorizedKeys.keys = [

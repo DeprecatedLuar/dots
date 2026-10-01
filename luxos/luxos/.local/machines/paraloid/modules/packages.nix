@@ -18,17 +18,18 @@
     qpwgraph
     cool-retro-term
     swayimg
-    zapzap
+    unstable.zapzap
+#   equibop # idk why its broken on wayland so far
+    telegram-desktop
     
     megacmd
     whisper-cpp
     scrcpy
     android-tools
     wf-recorder
-    opencode
-    ollama
 	wlopm
 	swayidle
+	unstable.lf
     
     nwg-wrapper
     quickshell

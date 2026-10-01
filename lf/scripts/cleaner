@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# lf cleaner: clears kitty images drawn by the previewer.
+exec kitten icat --clear --stdin no --transfer-mode memory </dev/null >/dev/tty

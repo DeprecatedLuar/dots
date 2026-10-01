@@ -1,0 +1,62 @@
+cmd z %{{
+    if result="$("$SYSDIR/shared/nav-engine.sh" "$@")"; then
+        lf -remote "send $id cd \"$result\""
+    else
+        lf -remote "send $id echoerr \"z: no match for '$*'\""
+    fi
+}}
+
+cmd open ${{
+    set -f
+    ~/.config/lf/scripts/open $fx
+}}
+
+cmd open-with ${{
+    set -f
+    "$@" $fx
+}}
+
+# Asks for confirmation; the answer key is handled by the <f-50> maps in keybinds.lf
+cmd trash &{{
+    set -f
+    count="$(printf '%s\n' "$fx" | wc -l)"
+    lf -remote "send $id echomsg \"trash $count item(s)? [y/N]\""
+    lf -remote "send $id push <f-50>"
+}}
+
+cmd trash-confirmed %{{
+    set -f
+    gio trash -- $fx
+}}
+
+cmd extract ${{
+    set -f
+    case $f in
+        *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf $f;;
+        *.tar.gz|*.tgz) tar xzvf $f;;
+        *.tar.xz|*.txz) tar xJvf $f;;
+        *.zip) unzip $f;;
+        *.rar) unrar x $f;;
+        *.7z) 7z x $f;;
+    esac
+}}
+
+cmd tar ${{
+    set -f
+    mkdir $1
+    cp -r $fx $1
+    tar czf $1.tar.gz $1
+    rm -rf $1
+}}
+
+cmd zip ${{
+    set -f
+    mkdir $1
+    cp -r $fx $1
+    zip -r $1.zip $1
+    rm -rf $1
+}}
+
+# % runs in status bar — avoids UI flash unlike $
+cmd mkdir %mkdir "$1"
+cmd touch ${{ touch $1 }}

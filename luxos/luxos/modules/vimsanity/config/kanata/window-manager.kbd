@@ -35,18 +35,30 @@
   wm-cap (tap-hold-press $Tt $Ht (layer-switch vim-normal) @meta)
   wm-cap-or-caps (switch
     (lsft rsft) caps break
-    ((not lsft rsft)) @wm-cap break)
+    (lctl rctl) (layer-switch escape) break
+    ((not lsft rsft lctl rctl)) @wm-cap break)
   super-exit (multi lmet (layer-switch default))
   quote-or-meta (tap-hold-press $Tt $Ht ' @meta)
 
+  ;; Caps hold action consumed by vimsanity.kbd
+  cap-hold (multi lmet (layer-while-held meta-layer))
+
   ;; Homerow mods
   a^ a
-  s^ (tap-hold 200 250 s lalt)
-  d^ (tap-hold 200 250 d lsft)
-  f^ (tap-hold 200 250 f lctl)
-  j^ (tap-hold 200 300 j lctl)
-  k^ (tap-hold 200 300 k lsft)
-  l^ (tap-hold 200 300 l lalt)
+  s-hold (tap-hold 200 250 s lalt)
+  d-hold (tap-hold 200 250 d lsft)
+  f-hold (tap-hold 200 250 f lctl)
+  j-hold (tap-hold 200 300 j lctl)
+  k-hold (tap-hold 200 300 k lsft)
+  l-hold (tap-hold 200 300 l lalt)
+
+  ;; One side held physically → the other side's homerow keys type plainly
+  s^ (switch ((input real j) (input real k) (input real l)) s break () @s-hold break)
+  d^ (switch ((input real j) (input real k) (input real l)) d break () @d-hold break)
+  f^ (switch ((input real j) (input real k) (input real l)) f break () @f-hold break)
+  j^ (switch ((input real s) (input real d) (input real f)) j break () @j-hold break)
+  k^ (switch ((input real s) (input real d) (input real f)) k break () @k-hold break)
+  l^ (switch ((input real s) (input real d) (input real f)) l break () @l-hold break)
 
   ;; Meta-layer homerow
   a-meta a

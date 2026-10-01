@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# lf previewer. Args: file width height x y mode
+# Exit 0 lets lf cache the output; non-zero forces a redraw (needed for images).
+set -euo pipefail
+
+file="$1" width="$2" height="$3" x="$4" y="$5"
+
+draw_image() {
+    kitten icat --stdin no --transfer-mode memory \
+        --place "${width}x${height}@${x}x${y}" -- "$file" </dev/null >/dev/tty
+    exit 1
+}
+
+show_text() {
+    exec bat --color=always --style=plain --paging=never \
+        --terminal-width="$width" --line-range=":$height" -- "$file"
+}
+
+case "$(file -Lb --mime-type -- "$file")" in
+    image/*) draw_image ;;
+    text/* | application/json) show_text ;;
+    *) file -Lb -- "$file" ;;
+esac
