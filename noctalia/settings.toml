@@ -139,11 +139,11 @@ widget_order = [
     [lockscreen_widgets.widget."lockscreen-login-box@DP-1"]
     box_height = 196.0
     box_width = 810.0
-    cx = 800.00006103515625
-    cy = 596.6666259765625
+    cx = 960.0001220703125
+    cy = 716.0
     output = "DP-1"
-    placement_height = 900.0
-    placement_width = 1600.0
+    placement_height = 1080.0
+    placement_width = 1920.0
     rotation = 0.0
     type = "login_box"
 
@@ -332,13 +332,16 @@ transition = [ "honeycomb" ]
 transition_duration = 2800
 
     [wallpaper.default]
-    path = "/home/luar/Media/wallpapers/abs2.jpg"
+    path = "/home/luar/Media/wallpapers/evangelion/eva2.jpg"
 
     [wallpaper.last]
-    path = "/home/luar/Media/wallpapers/abs2.jpg"
+    path = "/home/luar/Media/wallpapers/evangelion/eva2.jpg"
+
+    [wallpaper.monitors.DP-1]
+    path = "/home/luar/Media/wallpapers/evangelion/eva2.jpg"
 
     [wallpaper.monitors.eDP-1]
-    path = "/home/luar/Media/wallpapers/abs2.jpg"
+    path = "/home/luar/Media/wallpapers/evangelion/eva2.jpg"
 
 [widget.GPU]
 capsule = true

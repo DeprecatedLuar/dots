@@ -18,5 +18,6 @@
     ./local/preferences.nix
     ./hardware/nvidia.nix
     ./desktop/compositors/cinnamon.nix
+    ./local/networking.nix
   ];
 }
