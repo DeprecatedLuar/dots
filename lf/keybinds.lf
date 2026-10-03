@@ -45,6 +45,7 @@ map <space> :toggle; down
 map v       invert
 map u
 map uv      push :glob-select<space>*<enter>
+map uu      trash-undo
 
 # For the nostalgics: Midnight Commander bindings
 map <f-1> doc

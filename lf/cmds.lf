@@ -24,9 +24,17 @@ cmd trash &{{
     lf -remote "send $id push <f-50>"
 }}
 
+# Each confirmed batch is recorded per lf instance so trash-undo can restore it
 cmd trash-confirmed %{{
     set -f
     gio trash -- $fx
+    dir="$XDG_RUNTIME_DIR/lf-trash-$id"
+    mkdir -p "$dir"
+    printf '%s\n' "$fx" > "$dir/$(date +%s%N)"
+}}
+
+cmd trash-undo %{{
+    ~/.config/lf/scripts/trash-undo "$XDG_RUNTIME_DIR/lf-trash-$id"
 }}
 
 cmd extract ${{

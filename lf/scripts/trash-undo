@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# Restores the newest trashed batch recorded in the given stack dir.
+set -euo pipefail
+
+DATE_ATTR="trash::deletion-date"
+
+stack="$1"
+
+# Newest trash:// URI whose original location is $1
+newest_uri() {
+    local best_uri="" best_date="" uri orig date
+    while IFS=$'\t' read -r uri orig; do
+        [[ "$orig" == "$1" ]] || continue
+        date="$(gio info -a "$DATE_ATTR" "$uri" | sed -n "s/^ *$DATE_ATTR: //p")"
+        if [[ "$date" > "$best_date" ]]; then
+            best_uri="$uri"
+            best_date="$date"
+        fi
+    done < <(gio trash --list)
+    [[ -n "$best_uri" ]] || { echo "not in trash: $1" >&2; return 1; }
+    printf '%s\n' "$best_uri"
+}
+
+batch="$(ls -1 "$stack" 2>/dev/null | sort -n | tail -n 1)"
+[[ -n "$batch" ]] || { echo "nothing to undo" >&2; exit 1; }
+batch="$stack/$batch"
+
+failed=()
+while IFS= read -r path; do
+    if uri="$(newest_uri "$path")" && gio trash --restore "$uri"; then
+        continue
+    fi
+    failed+=("$path")
+done < "$batch"
+
+if (( ${#failed[@]} )); then
+    printf '%s\n' "${failed[@]}" > "$batch"
+    exit 1
+fi
+rm -- "$batch"
