@@ -1,0 +1,9 @@
+[[repos]]
+  name = "dots"
+  owner = "deprecatedluar"
+  url = "https://github.com/deprecatedluar/dots"
+
+[[repos]]
+  name = "krita-config"
+  owner = "deprecatedluar"
+  url = "https://github.com/deprecatedluar/krita-config"
