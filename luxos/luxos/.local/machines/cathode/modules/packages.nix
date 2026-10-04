@@ -6,15 +6,8 @@
     unstable.noctalia
    
     
-#    libreoffice
-    rofi
-    audacity
-    mailspring
-    thunderbird
-    anki
-    pcmanfm-qt
-    netlogo
-    xournalpp
+    rofi   
+    pcmanfm-qt   
     qpwgraph
     cool-retro-term
     swayimg
@@ -24,11 +17,9 @@
     megacmd
     whisper-cpp
     scrcpy
-    android-tools
-    wf-recorder
-    opencode
+    android-tools      
     ollama
-    claude-code
+    unstable.claude-code
 
     nwg-wrapper
     quickshell

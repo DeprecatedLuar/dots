@@ -1,6 +1,10 @@
 hl.config({
     input = {
         follow_mouse = 0,  -- 0 = click-to-focus, 1 = hover-to-focus
+
+        touchpad = {
+            natural_scroll = true,
+        },
     },
 
     misc = {

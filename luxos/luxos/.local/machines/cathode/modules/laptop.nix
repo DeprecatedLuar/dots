@@ -25,8 +25,14 @@
       CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
       CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
       CPU_ENERGY_PERF_POLICY_ON_SAV = "power";
+
+      # "quiet" is ASUS naming; TLP's "low-power" default is rejected here.
+      PLATFORM_PROFILE_ON_AC = "performance";
+      PLATFORM_PROFILE_ON_BAT = "balanced";
+      PLATFORM_PROFILE_ON_SAV = "quiet";
     };
   };
+
 
   environment.systemPackages = [ pkgs.unstable.tlp-pd ];
   systemd.packages = [ pkgs.unstable.tlp-pd ];

@@ -5,7 +5,7 @@ enable_overdrive = true
 sound_volume = 0.099999997764825821
 
 [bar]
-order = [ "default", "toolbar", "info", "state", "notch", "tray" ]
+order = [ "default", "toolbar", "info", "state", "notch", "tray", "sysmon" ]
 
     [bar.default]
     capsule_group = []
@@ -57,6 +57,19 @@ order = [ "default", "toolbar", "info", "state", "notch", "tray" ]
 
         [bar.state.monitor.DP-1]
         enabled = false
+
+    [bar.sysmon]
+    background_opacity = 0.70999998413026333
+    center = [ "cpu", "GPU", "ram", "temp" ]
+    enabled = false
+    end = []
+    layer = "overlay"
+    margin_ends = 850
+    reserve_space = false
+    scale = 0.70000000298023224
+    shadow = false
+    start = []
+    thickness = 10
 
     [bar.toolbar]
     auto_hide = true
@@ -139,7 +152,7 @@ widget_order = [
     [lockscreen_widgets.widget."lockscreen-login-box@DP-1"]
     box_height = 196.0
     box_width = 810.0
-    cx = 960.0001220703125
+    cx = 960.00018310546875
     cy = 716.0
     output = "DP-1"
     placement_height = 1080.0
@@ -231,7 +244,7 @@ widget_order = [
     [lockscreen_widgets.widget.lockscreen-widget-0000000000000002]
     box_height = 592.0
     box_width = 656.0
-    cx = 992.0
+    cx = 992.00006103515625
     cy = 468.0
     output = "eDP-1"
     placement_height = 1080.0
@@ -349,7 +362,7 @@ capsule_opacity = 0.0
 glyph = "chart-dots-2-filled"
 stat = "gpu_usage"
 type = "sysmon"
-visualization = "graph"
+visualization = "none"
 
 [widget.GPU_VRAM]
 stat = "gpu_vram"
@@ -394,6 +407,9 @@ capsule_padding = 15
 capsule_radius = 5
 font_family = "Monocraft"
 font_weight = 400
+
+[widget.cpu]
+visualization = "none"
 
 [widget.cpu_custom]
 scale = 0.85000000000000009

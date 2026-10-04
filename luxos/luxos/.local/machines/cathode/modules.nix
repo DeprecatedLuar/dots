@@ -19,5 +19,7 @@
     ./hardware/nvidia.nix
     ./desktop/compositors/cinnamon.nix
     ./local/networking.nix
+    ./vimsanity
+    ./packages/yappers-of-linux.nix
   ];
 }
