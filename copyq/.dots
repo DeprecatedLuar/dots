@@ -5,7 +5,3 @@
 [[entries]]
   name = "copyq.conf"
   dest = "~/.config/copyq/copyq.conf"
-
-[[entries]]
-  name = "themes"
-  dest = "~/.config/copyq/themes"
