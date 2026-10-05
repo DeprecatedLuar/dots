@@ -1,0 +1,7 @@
+build/
+.cache/
+*.so
+compile_flags.txt
+result/ 
+.vscode/
+compile_commands.json

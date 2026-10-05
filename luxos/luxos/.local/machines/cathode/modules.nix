@@ -21,5 +21,6 @@
     ./local/networking.nix
     ./vimsanity
     ./packages/yappers-of-linux.nix
+    ./services/tailscale.nix
   ];
 }
