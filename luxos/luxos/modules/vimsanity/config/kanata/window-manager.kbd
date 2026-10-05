@@ -1,0 +1,89 @@
+(defcfg
+  process-unmapped-keys yes
+  log-layer-changes yes
+  linux-device-detect-mode keyboard-only
+)
+
+(defoverrides
+  (lctl caps) (caps)
+  (rctl caps) (caps)
+)
+
+(defsrc
+  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft 102d z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lmet lalt           spc            ralt rmet rctl
+)
+
+(defvar
+  Tt 200 ;; tap time
+  Ht 200 ;; hold time
+)
+
+;; ============ FAKE KEYS ============
+(deffakekeys
+  metl (multi lmet (layer-while-held meta-layer))
+  to-default (layer-switch default)
+)
+
+;; ============ ALIASES ============
+(defalias
+  meta (multi (on-release tap-vkey to-default) lmet (layer-while-held meta-layer))
+  wm-cap (tap-hold-press $Tt $Ht (layer-switch vim-normal) @meta)
+  wm-cap-or-caps (switch
+    (lsft rsft) caps break
+    (lctl rctl) (layer-switch escape) break
+    ((not lsft rsft lctl rctl)) @wm-cap break)
+  super-exit (multi lmet (layer-switch default))
+  quote-or-meta (tap-hold-press $Tt $Ht ' @meta)
+
+  ;; Caps hold action consumed by vimsanity.kbd
+  cap-hold (multi lmet (layer-while-held meta-layer))
+
+  ;; Homerow mods
+  a^ a
+  s-hold (tap-hold 200 250 s lalt)
+  d-hold (tap-hold 200 250 d lsft)
+  f-hold (tap-hold 200 250 f lctl)
+  j-hold (tap-hold 200 300 j lctl)
+  k-hold (tap-hold 200 300 k lsft)
+  l-hold (tap-hold 200 300 l lalt)
+
+  ;; One side held physically → the other side's homerow keys type plainly
+  s^ (switch ((input real j) (input real k) (input real l)) s break () @s-hold break)
+  d^ (switch ((input real j) (input real k) (input real l)) d break () @d-hold break)
+  f^ (switch ((input real j) (input real k) (input real l)) f break () @f-hold break)
+  j^ (switch ((input real s) (input real d) (input real f)) j break () @j-hold break)
+  k^ (switch ((input real s) (input real d) (input real f)) k break () @k-hold break)
+  l^ (switch ((input real s) (input real d) (input real f)) l break () @l-hold break)
+
+  ;; Meta-layer homerow
+  a-meta a
+  s-meta (tap-hold 110 110 s lalt)
+  d-meta (tap-hold 110 110 d lsft)
+  f-meta (tap-hold 110 110 f lctl)
+)
+
+;; ============ LAYERS ============
+(deflayer default
+  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  @wm-cap-or-caps @a^  @s^  @d^  @f^  g    h    @j^  @k^  @l^  ;    @quote-or-meta    ret
+  lsft 102d z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl @super-exit lalt           spc            ralt @super-exit rctl
+)
+
+(deflayer meta-layer
+  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  _    @a-meta @s-meta @d-meta @f-meta g left down up right ; ' ret
+  lsft 102d z    x    c    v    b    n    m    ,    .    /    caps
+  lctl _    lalt           spc            ralt _    rctl
+)
+
+(include vimsanity.kbd)

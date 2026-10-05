@@ -1,0 +1,17 @@
+# Boot loader for this computer, written once by luxos from the detected
+# firmware and mounts. luxos never rewrites this file; edit it freely.
+{ ... }:
+
+{
+  boot.loader.grub = {
+    enable = true;
+    configurationLimit = 4;
+    efiSupport = true;
+    device = "nodev";
+    useOSProber = true;
+  };
+  boot.loader.efi = {
+    canTouchEfiVariables = true;
+    efiSysMountPoint = "/boot";
+  };
+}
