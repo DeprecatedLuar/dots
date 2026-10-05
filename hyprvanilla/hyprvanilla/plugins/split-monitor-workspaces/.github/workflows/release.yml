@@ -1,0 +1,76 @@
+name: Build on latest Hyprland release
+
+on:
+  pull_request:
+    branches:
+      - main
+      - release/*
+  push:
+    branches:
+      - main
+      - release/*
+  schedule:
+    # run every night at 2AM (the base docker image is updated at midnight)
+    - cron: '0 2 * * *' 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      # image built from the Dockerfile in the .github/ folder
+      image: zjeffer/hyprland-arch:latest
+    steps:
+    - name: Install dependencies
+      run: |
+        sudo -u user sh -c "paru -Syu --noconfirm hyprland meson ninja cpio hyprwayland-scanner hyprutils cmake glaze"
+
+    - name: Get version from installed Hyprland
+      run: |
+        hash=$(awk -F'"' '/GIT_COMMIT_HASH/ { print $2 }' /usr/include/hyprland/src/version.h)
+        if [ -z "$hash" ]; then
+          echo "Failed to get GIT_COMMIT_HASH from /usr/include/hyprland/src/version.h"
+          exit 1
+        fi
+        echo "GIT_COMMIT_HASH=$hash" >> $GITHUB_ENV
+
+    - name: Checkout Hyprland repository
+      uses: actions/checkout@v6
+      with:
+        repository: hyprwm/Hyprland
+        ref: ${{ env.GIT_COMMIT_HASH }}
+        path: Hyprland
+        submodules: recursive
+    
+    - name: Run `make installheaders` in Hyprland repository
+      run: |
+        cd Hyprland
+        make all && make installheaders
+
+    - name: Checkout current repository and checkout pinned commit
+      uses: actions/checkout@v6
+      with:
+        fetch-depth: 0 # to allow checkout out a specific commit later
+        path: split-monitor-workspaces
+
+    - name: Get pinned commit from hyprpm.toml file
+      run: |
+        cd split-monitor-workspaces
+        commit=$(grep -F "$GIT_COMMIT_HASH" hyprpm.toml | awk -F'"' '{print $4}')
+        if [ -z "$commit" ]; then
+          echo "Failed to get pinned commit from hyprpm.toml with GIT_COMMIT_HASH=$GIT_COMMIT_HASH"
+          exit 1
+        fi
+        echo "PINNED_COMMIT=$commit" >> $GITHUB_ENV
+
+    - name: Checkout pinned commit
+      run: |
+        cd split-monitor-workspaces
+        echo "Checking out pinned commit $PINNED_COMMIT"
+        git config --global --add safe.directory /__w/split-monitor-workspaces/split-monitor-workspaces # fix dubious ownership warning
+        git checkout $PINNED_COMMIT
+
+    - name: Build current repository
+      run: |
+        cd split-monitor-workspaces
+        meson setup build --wipe
+        ninja -C build

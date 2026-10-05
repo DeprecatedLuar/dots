@@ -1,0 +1,33 @@
+name: Build on latest Hyprland git commit
+
+on:
+  pull_request:
+    branches:
+      - main
+      - release/*
+  push:
+    branches:
+      - main
+      - release/*
+  schedule:
+    # run every night at 2AM (the base docker image is updated at midnight)
+    - cron: '0 2 * * *' 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      # image built from the Dockerfile in the .github/ folder
+      image: zjeffer/hyprland-arch:latest
+    steps:
+    - name: Install dependencies
+      run: |
+        sudo -u user sh -c "paru -Syu --noconfirm meson aquamarine-git hyprwire-git hyprland-git hyprutils-git hyprwayland-scanner-git"
+
+    - name: Checkout current repository
+      uses: actions/checkout@v6
+
+    - name: Build current repository
+      run: |
+        meson setup build --wipe
+        ninja -C build
