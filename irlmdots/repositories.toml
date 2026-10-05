@@ -7,3 +7,8 @@
   name = "krita-config"
   owner = "deprecatedluar"
   url = "https://github.com/deprecatedluar/krita-config"
+
+[[repos]]
+  name = "luxos-dots"
+  owner = "deprecatedluar"
+  url = "https://github.com/deprecatedluar/luxos-dots"

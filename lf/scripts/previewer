@@ -3,6 +3,8 @@
 # Exit 0 lets lf cache the output; non-zero forces a redraw (needed for images).
 set -euo pipefail
 
+BINARY_ENCODING="binary"
+
 file="$1" width="$2" height="$3" x="$4" y="$5"
 
 draw_image() {
@@ -18,6 +20,11 @@ show_text() {
 
 case "$(file -Lb --mime-type -- "$file")" in
     image/*) draw_image ;;
-    text/* | application/json) show_text ;;
-    *) file -Lb -- "$file" ;;
 esac
+
+# Encoding rather than mime type: libmagic misreports some text (e.g. Lua as application/javascript)
+if [ "$(file -Lb --mime-encoding -- "$file")" != "$BINARY_ENCODING" ]; then
+    show_text
+fi
+
+file -Lb -- "$file"
