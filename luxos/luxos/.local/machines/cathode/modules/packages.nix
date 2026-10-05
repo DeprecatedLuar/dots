@@ -20,6 +20,7 @@
     android-tools      
     ollama
     unstable.claude-code
+    unstable.hyprmon
 
     nwg-wrapper
     quickshell
