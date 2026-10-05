@@ -1,0 +1,5 @@
+require("hyprland.appearance")
+require("hyprland.autostart")
+require("hyprland.keybinds")
+require("hyprland.layout")
+require("hyprland.misc")

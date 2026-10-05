@@ -1,6 +1,3 @@
--- Converted from hardware.conf
--- Input devices and monitors.
-
 hl.config({
     cursor = {
         no_hardware_cursors = true,
@@ -41,5 +38,4 @@ hl.device({
     output = "DP-1",
 })
 
--- Monitor layout is owned by hyprcyclops; see the require in hyprland.lua and
--- ~/.local/share/hypr/monitors.lua (machine-specific, generated, not in git).
+-- Monitor layout is owned by hyprmon (local/monitors.lua).

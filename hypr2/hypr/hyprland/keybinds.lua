@@ -1,19 +1,14 @@
--- Converted from keybinds.conf
--- NOTE: multi-mod bind strings ("SUPER+SHIFT + key") follow the space-separated
--- mod convention shown in the shipped example (hl.bind(mainMod .. " + Q", ...)).
--- Verify against `hyprctl binds` after reload; adjust separator if Hyprland rejects it.
-
 local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 
--- split-monitor-workspaces: needed below for per-monitor workspace binds.
 local smw = require("plugins")
 
-local terminal    = os.getenv("TERMINAL")
-local fileManager = os.getenv("FILEMANAGER")
-local browser     = os.getenv("BROWSER")
-local imageViewer = os.getenv("IMAGE_VIEWER")
-local clipboard   = os.getenv("CLIPBOARD")
-local launcher    = os.getenv("LAUNCHER")
+-- Expanded by the shell at keypress; an unset variable makes the bind a no-op.
+local terminal    = "$TERMINAL"
+local fileManager = "$FILEMANAGER"
+local browser     = "$BROWSER"
+local imageViewer = "$IMAGE_VIEWER"
+local clipboard   = "$CLIPBOARD"
+local launcher    = "${LAUNCHER:-false}"
 local hotline     = "hotline"
 
 --──[Launchers]---------------------------------------------------------------
@@ -27,13 +22,11 @@ hl.bind(mainMod .. " + E",      hl.dsp.exec_cmd("thunderbird"))
 hl.bind(mainMod .. " + W",      hl.dsp.exec_cmd("zapzap"))
 hl.bind(mainMod .. " + V",      hl.dsp.exec_cmd(clipboard))
 
--- Tap-and-release SUPER alone (disabled; use SUPER + G instead)
+-- Tap-and-release SUPER alone
 -- hl.bind(mainMod .. " + SUPER_L", hl.dsp.exec_cmd(launcher), { release = true })
-
--- Tap-and-release SUPER alone toggles the notch and state bar layers
 hl.bind(mainMod .. " + SUPER_L", hl.dsp.exec_cmd("noctalia-toggle-bar notch state"), { release = true })
 
--- Configured launcher with Hotline Launcher fallback
+-- Falls back to hotline when LAUNCHER is unset or fails
 hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(launcher .. " || " .. hotline))
 hl.bind("ALT + F1", hl.dsp.exec_cmd(launcher .. " || " .. hotline))
 hl.bind(mainMod .. " + G", hl.dsp.exec_cmd(hotline))
@@ -41,66 +34,60 @@ hl.bind(mainMod .. "+SHIFT + G", hl.dsp.exec_cmd(hotline .. " launcher"))
 
 --──[Window Management]--------------------------------------------------------
 
--- Window controls
 hl.bind(mainMod .. " + Q",       hl.dsp.window.close())
 hl.bind(mainMod .. "+SHIFT + E", hl.dsp.exit())
 hl.bind(mainMod .. " + M",       hl.dsp.window.fullscreen({ action = "toggle" }))
--- NOTE: fullscreen_state's arg shape isn't enumerated in the Lua stub (was
--- `fullscreenstate, 0 2` in hyprlang); {internal=,client=} is a guess by analogy
--- with hl.dsp.window.fullscreen({action=...}). Check `hyprctl reload` for errors.
+-- App believes it is fullscreen; the window stays tiled
 hl.bind("F11",                   hl.dsp.window.fullscreen_state({ internal = 0, client = 2 }))
 hl.bind(mainMod .. " + Z",       hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + X",       hl.dsp.exec_cmd("hyprctl -i 0 kill"))
 -- hl.bind(mainMod .. " + P", hl.dsp.window.pseudo()) -- dwindle
 
--- Focus movement
+-- Move focus with mainMod + arrow keys
 hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))
 hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + up",    hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down" }))
 
--- Column navigation (scroll viewport, scrolling layout)
+-- Scroll the viewport by one column
 hl.bind(mainMod .. " + period", hl.dsp.layout("move +col"))
 hl.bind(mainMod .. " + comma",  hl.dsp.layout("move -col"))
 
--- Move windows (left/right taken by column swap below, not window.move)
+-- Up/down move the window; left/right swap whole columns
 hl.bind(mainMod .. "+SHIFT + down", hl.dsp.window.move({ direction = "down" }))
 hl.bind(mainMod .. "+SHIFT + up",   hl.dsp.window.move({ direction = "up" }))
 hl.bind(mainMod .. "+SHIFT + left",  hl.dsp.layout("swapcol l"))
 hl.bind(mainMod .. "+SHIFT + right", hl.dsp.layout("swapcol r"))
 
--- I: pulls the next (right) column's top window into the current column, stacking it
+-- Pull the right column's top window into this column
 hl.bind(mainMod .. " + I", hl.dsp.layout("consume"), { repeating = true })
 
--- U: no native "consume from previous column" message exists, so fake it by
--- hopping left, consuming (which always pulls from the right), then hopping back
+-- Push this window into the left column (consume only pulls from the right)
 hl.bind(mainMod .. " + U", function()
     hl.dispatch(hl.dsp.layout("focus l"))
     hl.dispatch(hl.dsp.layout("consume"))
     hl.dispatch(hl.dsp.layout("focus r"))
 end, { repeating = true })
 
--- O: promote current window into its own column (takes the slot window.move({left}) would have used)
+-- Split this window out into its own column
 hl.bind(mainMod .. " + O", hl.dsp.layout("promote"))
 
 hl.bind(mainMod .. "+ALT + right",  hl.dsp.window.move({ monitor = "+1" }))
 hl.bind(mainMod .. "+ALT + left",   hl.dsp.window.move({ monitor = "-1" }))
 
--- Resize windows (left/right taken by column resize below, not window.resize)
+-- Up/down resize the window height; left/right resize the column width
 hl.bind(mainMod .. "+CTRL + up",   hl.dsp.window.resize({ x = 0, y = 70, relative = true }))
 hl.bind(mainMod .. "+CTRL + down", hl.dsp.window.resize({ x = 0, y = -70, relative = true }))
 hl.bind(mainMod .. "+CTRL + left",  hl.dsp.layout("colresize -0.05"))
 hl.bind(mainMod .. "+CTRL + right", hl.dsp.layout("colresize +0.05"))
 
--- Mouse bindings
+-- Move/resize windows with mainMod + LMB/RMB and dragging
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 --──[Workspaces]----------------------------------------------------------------
 
--- Switch workspaces with mainMod + [0-9], independently per monitor
--- (split-monitor-workspaces: each monitor keeps its own workspace 1-10,
--- instead of Hyprland's default global workspace pool).
+-- Switch workspaces with mainMod + [0-9], per monitor
 -- Move active window to a workspace with mainMod + SHIFT + [0-9]
 for i = 1, smw.get_amount_of_workspaces() do
     local key = i % 10 -- 10 maps to key 0
@@ -108,11 +95,11 @@ for i = 1, smw.get_amount_of_workspaces() do
     hl.bind(mainMod .. "+SHIFT + " .. key,   smw.move_to_workspace_silent(tostring(i)))
 end
 
--- Scroll through workspaces on the focused monitor
+-- Scroll through existing workspaces with mainMod + scroll
 hl.bind(mainMod .. " + mouse_down", smw.cycle_workspaces("+1"))
 hl.bind(mainMod .. " + mouse_up",   smw.cycle_workspaces("-1"))
 
--- Special workspace (scratchpad)
+-- Example special workspace (scratchpad)
 hl.bind(mainMod .. " + space",       hl.dsp.workspace.toggle_special("magic"))
 hl.bind(mainMod .. "+SHIFT + space", hl.dsp.window.move({ workspace = "special:magic" }))
 
@@ -145,25 +132,23 @@ hl.bind("SHIFT + XF86AudioMute", hl.dsp.send_shortcut({ mods = "CTRL SHIFT", key
 
 --──[Mouse Emulation]-------------------------------------------------------
 
--- Coarse pointer jumps
 hl.bind("ALT + H", hl.dsp.exec_cmd("ydotool mousemove -x -200 -y 0"))
 hl.bind("ALT + J", hl.dsp.exec_cmd("ydotool mousemove -x 0 -y 200"))
 hl.bind("ALT + K", hl.dsp.exec_cmd("ydotool mousemove -x 0 -y -200"))
 hl.bind("ALT + L", hl.dsp.exec_cmd("ydotool mousemove -x 200 -y 0"))
 
--- Fine pointer movement (repeats while held)
 hl.bind("ALT+SHIFT + H", hl.dsp.exec_cmd("ydotool mousemove -x -7 -y 0"), { repeating = true })
 hl.bind("ALT+SHIFT + J", hl.dsp.exec_cmd("ydotool mousemove -x 0 -y 5"),  { repeating = true })
 hl.bind("ALT+SHIFT + K", hl.dsp.exec_cmd("ydotool mousemove -x 0 -y -5"), { repeating = true })
 hl.bind("ALT+SHIFT + L", hl.dsp.exec_cmd("ydotool mousemove -x 7 -y 0"),  { repeating = true })
 
--- Clicks
+-- Left / right click
 hl.bind("ALT + F", hl.dsp.exec_cmd("ydotool click 0xC0"))
 hl.bind("ALT + D", hl.dsp.exec_cmd("ydotool click 0xC1"))
 
 --──[Screenshots & Utils]---------------------------------------------------
 
-hl.env("SLURP_ARGS", "-b 00000066 -c 20202033") -- selection overlay style for grimblast/slurp
+hl.env("SLURP_ARGS", "-b 00000066 -c 20202033") -- selection overlay colors
 
 hl.bind("Print",       hl.dsp.exec_cmd("grimblast -f -n copysave area ~/Media/screenshots/latest.png"))
 hl.bind("SHIFT + Print", hl.dsp.exec_cmd("grimblast -f -n -o save area"))

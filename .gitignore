@@ -9,3 +9,6 @@ quickshell/quickshell/noctalia-shell
 
 # Machine-specific state, self-healed as a symlink by config-loader.lua
 hypr-lua/hypr/local
+
+# Generated per machine by hyprmon
+hypr2/hypr/hyprmon.lua

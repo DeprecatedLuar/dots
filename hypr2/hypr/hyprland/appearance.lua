@@ -4,7 +4,7 @@
 local noctalia = require("noctalia").colors
 
 local ACTIVE_BORDER_ANGLE = 45
-local ACTIVE_BORDER_ACCENT = "rgb(88C0D0)" -- Nord frost blue, middle stop (Noctalia has no distinct third hue)
+local ACTIVE_BORDER_ACCENT = "rgb(88C0D0)"
 
 local CURSOR_THEME = "breeze_cursors"
 local CURSOR_SIZE  = "22"
@@ -30,16 +30,13 @@ hl.config({
 
         resize_on_border = true,
         allow_tearing    = false,
-
-        -- layout is set in layout.lua, next to the layout it selects.
     },
 
     decoration = {
         rounding       = 10,
         rounding_power = 2,
 
-        -- Special workspace (scratchpad): light blur plus a subtle dim behind it
-        dim_special = 0.0, -- was 0.08
+        dim_special = 0.0,
 
         active_opacity   = 0.99,
         inactive_opacity = 0.94,

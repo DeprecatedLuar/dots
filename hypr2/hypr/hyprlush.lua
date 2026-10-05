@@ -1,8 +1,11 @@
 local CONFIG_DIR = os.getenv("HOME") .. "/.config/hypr"
+local HYPRMON_FILE = CONFIG_DIR .. "/hyprmon.lua"
+local HYPRMON_MISSING_TEXT = "hyprmon.lua not found: using default monitor layout. Run hyprmon to generate it."
+local HYPRMON_MISSING_TIMEOUT_MS = 10000
 
 package.path = package.path .. ";" .. CONFIG_DIR .. "/?.lua;" .. CONFIG_DIR .. "/?/init.lua"
 
---[[ Self-heal: keep ~/.local/bin symlinks and local/ override stubs in sync ]]
+-- Self-heal: link scripts/bin into ~/.local/bin, point local/ at .local/<hostname>
 
 local SELF_HEAL_SCRIPT = [==[
 SCRIPTS_BIN_DIR="$CONFIG_DIR/scripts/bin"
@@ -40,27 +43,6 @@ ensure_local_symlink() {
 }
 
 ensure_local_symlink || exit 1
-
-# ensure_local_stubs() {
-#     [ -d "$LOCAL_DIR" ] || {
-#         printf 'self-heal: local directory is unavailable: %s\n' "$LOCAL_DIR" >&2
-#         return 1
-#     }
-#
-#     for root_dir in "$CONFIG_DIR"/*; do
-#         [ -d "$root_dir" ] || continue
-#
-#         name="$(basename -- "$root_dir")"
-#         [ "$name" = "local" ] && continue
-#
-#         mkdir -p "$LOCAL_DIR/$name" || {
-#             printf 'self-heal: cannot create local stub: %s\n' "$LOCAL_DIR/$name" >&2
-#             return 1
-#         }
-#     done
-# }
-#
-# ensure_local_stubs || exit 1
 
 chmod +x "$SCRIPTS_BIN_DIR"/* 2>/dev/null || true
 
@@ -105,13 +87,31 @@ local function import_root_modules()
         error("hyprlush: cannot find root module initializers")
     end
 
+    -- Loaded by path: require("hyprland") would resolve to hyprland.lua itself.
+    -- Cached so a later require(module) reuses it.
     for path in handle:lines() do
         local module = path:match("/([^/]+)/init%.lua$")
-        if module then
-            require(module)
+        if module and package.loaded[module] == nil then
+            package.loaded[module] = dofile(path) or true
         end
     end
 end
 
+-- hyprland.lua ends with hyprmon's require("hyprmon"); stand in for it when
+-- this machine has no generated hyprmon.lua.
+local function guard_hyprmon()
+    local file = io.open(HYPRMON_FILE, "r")
+    if file then
+        file:close()
+        return
+    end
+
+    package.preload["hyprmon"] = function()
+        hl.notification.create({ text = HYPRMON_MISSING_TEXT, timeout = HYPRMON_MISSING_TIMEOUT_MS })
+        return true
+    end
+end
+
 run_self_heal()
+guard_hyprmon()
 import_root_modules()
