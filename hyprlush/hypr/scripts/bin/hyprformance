@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+
+# Normal-mode opacity values, kept in sync with decoration{} in hyprland.conf
+NORMAL_ACTIVE_OPACITY=0.98
+NORMAL_INACTIVE_OPACITY=0.92
+
+show_help() {
+    cat <<EOF
+hyprformance - Gaming performance-mode toggle
+
+USAGE:
+    hyprformance [on|off|status]
+    hyprformance -h | --help
+
+    Bare invocation (no argument) is equivalent to 'status'.
+
+DESCRIPTION:
+    Toggles Hyprland's compositor blur and window opacity, the
+    measured dominant costs during fullscreen gaming (see
+    ~/linux-gaming-investigation.md). Applied live via
+    'hyprctl keyword' - no config file is edited, and the change
+    reverts on the next real Hyprland reload.
+
+    on      Disable blur/shadows, force full opacity (performance mode)
+    off     Re-enable blur/shadows, restore normal opacity (normal mode)
+    status  Show current mode
+
+EXAMPLES:
+    hyprformance on
+    hyprformance off
+    hyprformance status
+EOF
+}
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+    show_help
+    exit 0
+fi
+
+if [[ -z "$1" || "$1" == "status" ]]; then
+    blur=$(hyprctl getoption decoration:blur:enabled -j | jq -r '.int')
+    if [[ "$blur" == "0" ]]; then
+        echo "on"
+    else
+        echo "off"
+    fi
+    exit 0
+fi
+
+if [[ "$1" == "on" ]]; then
+    hyprctl keyword decoration:blur:enabled 0 > /dev/null
+    hyprctl keyword decoration:active_opacity 1 > /dev/null
+    hyprctl keyword decoration:inactive_opacity 1 > /dev/null
+    hyprctl keyword decoration:shadow:enabled false > /dev/null
+    echo "performance: on (blur disabled, opacity forced to 1, shadows disabled)"
+    exit 0
+fi
+
+if [[ "$1" == "off" ]]; then
+    hyprctl keyword decoration:blur:enabled 1 > /dev/null
+    hyprctl keyword decoration:active_opacity "$NORMAL_ACTIVE_OPACITY" > /dev/null
+    hyprctl keyword decoration:inactive_opacity "$NORMAL_INACTIVE_OPACITY" > /dev/null
+    hyprctl keyword decoration:shadow:enabled true > /dev/null
+    echo "performance: off (blur enabled, opacity restored, shadows enabled)"
+    exit 0
+fi
+
+echo "Error: Usage: hyprformance <on|off|status>" >&2
+exit 1
