@@ -40,7 +40,7 @@ order = [ "default", "toolbar", "info", "state", "notch", "tray", "sysmon" ]
     thickness = 25
 
         [bar.notch.monitor.DP-1]
-        margin_ends = 750
+        margin_ends = 850
         thickness = 20
 
     [bar.state]
@@ -56,7 +56,6 @@ order = [ "default", "toolbar", "info", "state", "notch", "tray", "sysmon" ]
     thickness = 17
 
         [bar.state.monitor.DP-1]
-        enabled = false
 
     [bar.sysmon]
     background_opacity = 0.70999998413026333
