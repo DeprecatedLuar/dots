@@ -2,7 +2,7 @@
 {
   imports = [
     ./packages/lux-goodies/gaming.nix
-    ./hardware/laptop.nix
+    ./hardware/laptop
     ./hardware/nvidia.nix
     ./hardware/intel.nix
     ./hardware/tablet.nix
@@ -23,5 +23,7 @@
     ./packages/yappers-of-linux.nix
     ./vimsanity
     ./services/tailscale.nix
+    ./desktop/compositors/cinnamon.nix
+    ./desktop/greeters/greetd.nix
   ];
 }
