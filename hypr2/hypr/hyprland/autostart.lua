@@ -3,7 +3,6 @@
 hl.on("hyprland.start", function()
     hl.exec_cmd("hyprsunset")
     hl.exec_cmd("hypridle")
-    hl.exec_cmd("hyprpolkitagent")
     hl.exec_cmd("~/.config/hypr/scripts/clipboard-notify-daemon.sh")
     hl.exec_cmd("hyprland-session-start")
     hl.exec_cmd("mpv ~/.config/hypr/sounds/startup-sound-fast.mp3")

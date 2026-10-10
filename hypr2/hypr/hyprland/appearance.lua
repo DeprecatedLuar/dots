@@ -9,7 +9,6 @@ local ACTIVE_BORDER_ACCENT = "rgb(88C0D0)"
 local CURSOR_THEME = "breeze_cursors"
 local CURSOR_SIZE  = "22"
 
-hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
 hl.env("GTK_THEME", "adw-gtk3-dark")
 hl.env("XCURSOR_THEME", CURSOR_THEME)
 hl.env("HYPRCURSOR_THEME", CURSOR_THEME)

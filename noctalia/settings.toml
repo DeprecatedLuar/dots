@@ -371,7 +371,7 @@ wallpaper_scheme = "soft"
 
     [theme.templates]
     builtin_ids = [ "gtk3", "gtk4", "hyprland", "qt" ]
-    community_ids = [ "claude-code", "discord", "telegram", "vscode", "obs", "zathura", "fcitx5" ]
+    community_ids = [ "claude-code", "brave", "discord", "telegram", "vscode", "steam", "obs", "zathura", "fcitx5" ]
 
 [wallpaper]
 directory = "/home/luar/Media/wallpapers"
@@ -393,7 +393,7 @@ transition_duration = 2800
 [widget.GPU]
 capsule = true
 capsule_opacity = 0.0
-glyph = "chart-dots-2-filled"
+glyph = "hexagon-3d"
 stat = "gpu_usage"
 type = "sysmon"
 visualization = "none"
