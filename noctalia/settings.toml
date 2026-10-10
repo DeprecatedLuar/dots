@@ -45,7 +45,7 @@ order = [ "default", "toolbar", "info", "state", "notch", "tray", "sysmon" ]
 
     [bar.state]
     center = [ "media" ]
-    end = [ "privacy", "cpu_custom", "ram", "temp", "battery" ]
+    end = [ "privacy", "group:g1", "ram", "temp", "battery" ]
     font_family = "CaskaydiaMono NF Light"
     margin_ends = 50
     panel_overlap = 0
@@ -56,6 +56,16 @@ order = [ "default", "toolbar", "info", "state", "notch", "tray", "sysmon" ]
     thickness = 17
 
         [bar.state.monitor.DP-1]
+
+        [[bar.state.capsule_group]]
+        accordion = true
+        accordion_direction = "start"
+        enabled = true
+        fill = "surface_variant"
+        id = "g1"
+        members = [ "cpu_custom", "GPU" ]
+        opacity = 0.0
+        padding = 6.0
 
     [bar.sysmon]
     background_opacity = 0.70999998413026333
@@ -80,7 +90,7 @@ order = [ "default", "toolbar", "info", "state", "notch", "tray", "sysmon" ]
     reserve_space = false
     scale = 1.300000011920929
     show_on_workspace_switch = false
-    start = [ "session", "settings", "spacer_2", "screenshot" ]
+    start = [ "session", "settings", "spacer_2", "screenshot", "launcher" ]
     thickness = 40
 
     [bar.tray]
@@ -136,6 +146,7 @@ blurred_desktop = true
 enabled = true
 schema_version = 2
 widget_order = [
+    "lockscreen-login-box@HDMI-A-2",
     "lockscreen-login-box@HDMI-A-1",
     "lockscreen-login-box@DP-1",
     "lockscreen-login-box@eDP-1",
@@ -187,6 +198,33 @@ widget_order = [
     type = "login_box"
 
         [lockscreen_widgets.widget."lockscreen-login-box@HDMI-A-1".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@HDMI-A-2"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 640.0
+    cy = 477.33334350585938
+    output = "HDMI-A-2"
+    placement_height = 720.0
+    placement_width = 1280.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@HDMI-A-2".settings]
         background_color = "surface_variant"
         background_opacity = 0.88
         background_radius = 12.0
@@ -321,9 +359,6 @@ popup_borders = false
     enabled = true
     size = 50
 
-    [shell.screenshot]
-    save_to_file = false
-
     [shell.session]
     grid = true
 
@@ -434,7 +469,6 @@ show_label = false
 [widget.launcher]
 capsule = true
 capsule_opacity = 0.0
-enabled = false
 scale = 0.85000000000000009
 
 [widget.media]
