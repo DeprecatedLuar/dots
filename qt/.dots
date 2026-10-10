@@ -1,0 +1,11 @@
+[[entries]]
+  name = "qt5ct"
+  dest = "~/.config/qt5ct"
+
+[[entries]]
+  name = "qt6ct"
+  dest = "~/.config/qt6ct"
+
+[[entries]]
+  name = "qtengine"
+  dest = "~/.config/qtengine"
