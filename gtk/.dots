@@ -1,0 +1,7 @@
+[[entries]]
+  name = "gtk-3.0"
+  dest = "~/.config/gtk-3.0"
+
+[[entries]]
+  name = "gtk-4.0"
+  dest = "~/.config/gtk-4.0"
