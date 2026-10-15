@@ -90,7 +90,7 @@ order = [ "default", "toolbar", "info", "state", "notch", "tray", "sysmon" ]
     reserve_space = false
     scale = 1.300000011920929
     show_on_workspace_switch = false
-    start = [ "session", "settings", "spacer_2", "screenshot", "launcher" ]
+    start = [ "session", "spacer_2", "screenshot", "launcher", "clipboard", "settings" ]
     thickness = 40
 
     [bar.tray]
@@ -109,6 +109,24 @@ order = [ "default", "toolbar", "info", "state", "notch", "tray", "sysmon" ]
 [control_center]
 hidden_tabs = [ "audio", "network", "bluetooth" ]
 width = 950
+
+    [control_center.calendar]
+    show_week_numbers = true
+
+    [[control_center.shortcuts]]
+    type = "wifi"
+
+    [[control_center.shortcuts]]
+    type = "bluetooth"
+
+    [[control_center.shortcuts]]
+    type = "nightlight"
+
+    [[control_center.shortcuts]]
+    type = "notification"
+
+    [[control_center.shortcuts]]
+    type = "power_profile"
 
 [desktop_widgets]
 enabled = false
@@ -164,11 +182,11 @@ widget_order = [
     [lockscreen_widgets.widget."lockscreen-login-box@DP-1"]
     box_height = 196.0
     box_width = 810.0
-    cx = 960.000244140625
-    cy = 716.0
+    cx = 640.00018310546875
+    cy = 477.33334350585938
     output = "DP-1"
-    placement_height = 1080.0
-    placement_width = 1920.0
+    placement_height = 720.0
+    placement_width = 1280.0
     rotation = 0.0
     type = "login_box"
 
@@ -245,11 +263,11 @@ widget_order = [
     [lockscreen_widgets.widget."lockscreen-login-box@HDMI-A-2"]
     box_height = 196.0
     box_width = 810.0
-    cx = 640.0
-    cy = 477.33334350585938
+    cx = 960.0
+    cy = 716.0
     output = "HDMI-A-2"
-    placement_height = 720.0
-    placement_width = 1280.0
+    placement_height = 1080.0
+    placement_width = 1920.0
     rotation = 0.0
     type = "login_box"
 
@@ -381,6 +399,7 @@ card_borders = false
 corner_radius_scale = 0.65000000968575478
 input_borders = false
 popup_borders = false
+screen_time_enabled = true
 
     [shell.animation]
     speed = 0.7500000111758709
@@ -486,9 +505,6 @@ enabled = false
 [widget.caffeine]
 capsule = true
 capsule_opacity = 0.0
-
-[widget.clipboard]
-enabled = false
 
 [widget.clock]
 capsule = true

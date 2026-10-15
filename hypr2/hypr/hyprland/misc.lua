@@ -5,5 +5,6 @@ hl.config({
         key_press_enables_dpms    = true,
         mouse_move_enables_dpms   = false,
         animate_manual_resizes    = true,
+        vrr                       = 2,     -- Variable refresh rate on fullscreen windows only
     },
 })
