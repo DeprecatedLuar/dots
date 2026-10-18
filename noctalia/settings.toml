@@ -150,6 +150,7 @@ item_spacing = 5
 launcher_icon = "hexagon"
 magnification_scale = 1.1000000014901161
 main_axis_padding = 0
+position = "left"
 reserve_space = false
 show_dots = true
 
@@ -396,6 +397,7 @@ enabled = [ "nomadcxx/gamer-mode" ]
 avatar_path = "/home/luar/Media/cat/angy.jpeg"
 button_borders = false
 card_borders = false
+clipboard_auto_paste = "off"
 corner_radius_scale = 0.65000000968575478
 input_borders = false
 popup_borders = false
