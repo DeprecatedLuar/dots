@@ -45,7 +45,7 @@ order = [ "default", "toolbar", "info", "state", "notch", "tray", "sysmon" ]
 
     [bar.state]
     center = [ "media" ]
-    end = [ "privacy", "group:g1", "ram", "temp", "battery" ]
+    end = [ "privacy", "weather", "group:g1", "ram", "temp", "battery" ]
     font_family = "CaskaydiaMono NF Light"
     margin_ends = 50
     panel_overlap = 0
@@ -624,6 +624,8 @@ capsule = true
 capsule_opacity = 0.0
 
 [widget.weather]
+color = "outline"
+font_scale = 0.87000000000000011
 max_length = 144
 show_condition = false
 
