@@ -368,9 +368,6 @@ widget_order = [
         image_path = "/home/luar/Media/cat/angury.jpeg"
         opacity = 1.0
 
-[nightlight]
-enabled = true
-
 [notification]
 background_opacity = 0.9499999787658453
 border = false

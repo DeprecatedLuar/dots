@@ -24,7 +24,7 @@ hl.bind(mainMod .. " + V",      hl.dsp.exec_cmd(clipboard))
 
 -- Tap-and-release SUPER alone
 -- hl.bind(mainMod .. " + SUPER_L", hl.dsp.exec_cmd(launcher), { release = true })
-hl.bind(mainMod .. " + SUPER_L", hl.dsp.exec_cmd("noctalia-toggle-bar notch state"), { release = true })
+hl.bind(mainMod .. " + SUPER_L", hl.dsp.exec_cmd("noctalia-toggle-bar notch state tray toolbar "), { release = true })
 
 -- Falls back to hotline when LAUNCHER is unset or fails
 hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(launcher .. " || " .. hotline))
